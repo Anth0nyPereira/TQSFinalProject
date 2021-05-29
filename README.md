@@ -21,6 +21,7 @@ Teste e Qualidade de Software 2020/2021
 
 **QA Engineer** 
 - [Anthony Pereira](https://github.com/Anth0nyPereira) (NMEC: 93016)
+- [Hugo Ferreira](https://github.com/HugoDinisOF) (NMEC: 93093)
 
 **DevOps Master** 
 - [Wei Ye](https://github.com/Wei93442) (NMEC: 93442)
