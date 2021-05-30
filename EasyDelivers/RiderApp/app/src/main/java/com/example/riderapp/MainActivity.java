@@ -6,6 +6,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,6 +19,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
+        }
+        if (true) {
+            // Not signed in, launch the Sign In activity
+            startActivity(new Intent(this, LoginSignUpActivity.class));
+            finish();
+            //displaySingleSelectionDialog();
+            return;
         }
         BottomNavigationView navView = findViewById(R.id.bottom_navigatin_view);
         // Passing each menu ID as a set of Ids because each
