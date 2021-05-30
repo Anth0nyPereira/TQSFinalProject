@@ -43,6 +43,6 @@ Teste e Qualidade de Software 2020/2021
 
 **API Documentation** - 
 
-**Static Analysis** - 
+**Static Analysis** - [SonarCloud](https://sonarcloud.io/organizations/tqsproject/projects)
 
 **CI/CD Environment** - 
