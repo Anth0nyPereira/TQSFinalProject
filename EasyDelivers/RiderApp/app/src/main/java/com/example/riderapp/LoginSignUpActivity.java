@@ -1,15 +1,19 @@
 package com.example.riderapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.riderapp.Fragments.LoginFragment;
 import com.example.riderapp.Fragments.SignUpFragment;
 
 public class LoginSignUpActivity extends AppCompatActivity implements View.OnClickListener{
+
+    private static final String TAG = "LoginSignInActivity";
 
     LoginFragment loginFragment = new LoginFragment();
     SignUpFragment signUpFragment = new SignUpFragment();
@@ -28,12 +32,14 @@ public class LoginSignUpActivity extends AppCompatActivity implements View.OnCli
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (v.getId()) {
             case R.id.buttonSignUp:
-                transaction.replace(R.id.container, signUpFragment);
-                transaction.commit();;
+                Log.w(TAG, "Sign Up");
+                transaction.replace(R.id.content_frame, signUpFragment);
+                transaction.commit();
                 break;
             case R.id.buttonLogin:
-                transaction.replace(R.id.container,loginFragment );
-                transaction.commit();;
+                Log.w(TAG, "Login");
+                transaction.replace(R.id.content_frame,loginFragment );
+                transaction.commit();
                 break;
         }
     }
