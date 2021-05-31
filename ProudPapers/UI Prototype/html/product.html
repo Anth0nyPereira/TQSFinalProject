@@ -1,0 +1,306 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Proud Papers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="/css/main.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/main.js"></script>
+</head>
+
+<body>
+
+    <div class="container header">
+        <div class="row">
+            <div class="col-lg-2 col-md-8">
+                <div class="logo pb-sm-30 pb-xs-30">
+                    <a href="index.html">
+                        <img src="/img/logo.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-8">
+                <div class="search_div" >
+                    <div class="search_box">
+                        <input type="text" placeholder="Enter your search key..." class="input"/>
+                        <button type="button" class="btn sub_btn" title="search"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="popular-saerches">
+                        <span>Most searched :</span>
+                        <a href="#">Java effective</a>
+                        <a href="#">Python effective</a>
+                        <a href="#">C++ effective</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-1 icon">
+                <div class="loveDiv" >
+                    <span class="notification">0</span>
+                    <button type="button" class="btn sub_btn" title="love"><i class="far fa-heart"></i></button>
+                </div>
+            </div>
+
+            <div class="col-sm-1 icon">
+                <div class="cartDiv" >
+                    <span class="notification">0</span>
+                    <button type="button" class="btn sub_btn" title="cart">
+                        <i class="fas fa-cart-plus"></i>
+                        <span>|</span><span> &euro;80 </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="breadcrumb-area">
+        <div class="container">
+            <div class="breadcrumb-content">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active">Single Product</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="content-wraper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-md-6">
+                        <div class="product-details-left">
+                            <div class="product-details-images slider-navigation-1">
+                                <div class="product-image-left">
+                                    <a class="popup-img venobox vbox-item" href="#" data-gall="myGallery">
+                                        <img src="/img/book1.png" alt="product image">
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="details-tab">
+                                <div class="tabs">
+                                    <ul class="breadcrumb-content">
+                                        <li><span class="active descr"  onclick="descr()"><span>Description</span></span></li>
+                                        <li><span class="rev" onclick="reviews()"><span>Reviews</span></span></li>
+                                     </ul>     
+                                </div>
+                                <div class="tabs-content">
+                                    <div id="descr">
+                                        The best is yet to come! Give your walls a voice with a framed poster. This aesthethic, optimistic poster will look great in your desk or in an open-space office. Painted wooden frame with passe-partout for more depth.
+                                    </div>
+                                    <div id="rev" hidden>
+                                        my review
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7 col-md-6">
+                        <div class="product-details-view-content pt-60">
+                            <div class="product-info">
+                                <h2>Today is a good day Framed poster</h2>
+                                <span class="product-details-ref">Reference: demo_15</span>
+                                <div class="rating-box rr">
+                                    <ul class="rating rating-with-review-item">
+                                        <li><i class="far fa-star"></i></li>
+                                        <li><i class="far fa-star"></i></li>
+                                        <li><i class="far fa-star"></i></li>
+                                        <li class="no-star"><i class="far fa-star"></i></li>
+                                        <li class="no-star"><i class="far fa-star"></i></li>
+                                        <li class="review-item"><i class="fas fa-pen"> Read Review</i></li>
+                                        <li class="review-item"><i class="fas fa-pen"> Write Review</i></li>
+                                    </ul>
+                                </div>
+                                <div class="price-box pt-20">
+                                    <span class="new-price new-price-2">$57.98</span>
+                                </div>
+                                <div class="product-desc">
+                                    <p>
+                                        <span>100% cotton double printed dress. Black and white striped top and orange high waisted skater skirt bottom. Lorem ipsum dolor sit amet, consectetur adipisicing elit. quibusdam corporis, earum facilis et nostrum dolorum accusamus similique eveniet quia pariatur.
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="single-add-to-cart">
+                                    <form action="#" class="cart-quantity">
+                                        <div class="quantity">
+                                            <label>Quantity</label>
+                                            <div class="cart-plus-minus">
+                                                <input class="cart-plus-minus-box" value="1" type="text">
+                                                <div class="dec qtybutton" onclick="dec()"><i class="fa fa-angle-down"></i></div>
+                                                <div class="inc qtybutton" onclick="inc()"><i class="fa fa-angle-up"></i></div>
+                                            </div>
+                                        </div>
+                                        <button class="add-to-cart" type="submit">Add to cart</button>
+                                    </form>
+                                </div>
+                                <div class="product-additional-info pt-25">
+                                    <a class="wishlist-btn" href="#"><i class="far fa-heart"></i>Add to wishlist</a>
+                                    <div class="product-social-sharing pt-25">
+                                        <ul>
+                                            <li class="facebook"><a href="#"><i class="fab fa-facebook-f"></i>Facebook</a></li>
+                                            <li class="twitter"><a href="#"><i class="fab fa-twitter"></i>Twitter</a></li>
+                                            <li class="google-plus"><a href="#"><i class="fab fa-google-plus-g"></i>Google +</a></li>
+                                            <li class="instagram"><a href="#"><i class="fab fa-instagram"></i>Instagram</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="block-reassurance">
+                                    <ul>
+                                        <li>
+                                            <div class="reassurance-item">
+                                                <div class="reassurance-icon">
+                                                    <i class="fas fa-check-square"></i>
+                                                </div>
+                                                <p>Security policy (edit with Customer reassurance module)</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="reassurance-item">
+                                                <div class="reassurance-icon">
+                                                    <i class="fa fa-truck"></i>
+                                                </div>
+                                                <p>Delivery policy (edit with Customer reassurance module)</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="reassurance-item">
+                                                <div class="reassurance-icon">
+                                                    <i class="fas fa-exchange-alt"></i>
+                                                </div>
+                                                <p> Return policy (edit with Customer reassurance module)</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-static-middle">
+                <div class="container">
+                    <div class="footer-logo-wrap pt-50 pb-35">
+                        <div class="row">
+                            <!-- Begin Footer Logo Area -->
+                            <div class="col-lg-4 col-md-6">
+                                <div class="footer-logo">
+                                    <img src="/img/logo.png" alt="Footer Logo">
+                                    <p class="info">
+                                        Tqs final project
+                                    </p>
+                                </div>
+                                <ul class="des">
+                                    <li>
+                                        <span>Address: </span>
+                                        6688Princess Road, London, Greater London BAS 23JK, UK
+                                    </li>
+                                    <li>
+                                        <span>Phone: </span>
+                                        <a href="#">(+123) 123 321 345</a>
+                                    </li>
+                                    <li>
+                                        <span>Email: </span>
+                                        <a href="#">info@yourdomain.com</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Footer Logo Area End Here -->
+                            <!-- Begin Footer Block Area -->
+                            <div class="col-lg-2 col-md-3 col-sm-6">
+                                <div class="footer-block">
+                                    <h3 class="footer-block-title">Product</h3>
+                                    <ul>
+                                        <li><a href="#">Prices drop</a></li>
+                                        <li><a href="#">New products</a></li>
+                                        <li><a href="#">Best sales</a></li>
+                                        <li><a href="#">Contact us</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Footer Block Area End Here -->
+                            <!-- Begin Footer Block Area -->
+                            <div class="col-lg-2 col-md-3 col-sm-6">
+                                <div class="footer-block">
+                                    <h3 class="footer-block-title">Our company</h3>
+                                    <ul>
+                                        <li><a href="#">Delivery</a></li>
+                                        <li><a href="#">Legal Notice</a></li>
+                                        <li><a href="#">About us</a></li>
+                                        <li><a href="#">Contact us</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Footer Block Area End Here -->
+                            <!-- Begin Footer Block Area -->
+                            <div class="col-lg-4">
+                                <div class="footer-block">
+                                    <h3 class="footer-block-title">Follow Us</h3>
+                                    <ul class="social-link">
+                                        <li class="twitter">
+                                            <a href="https://twitter.com/" data-toggle="tooltip" target="_blank" title="Twitter">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li class="rss">
+                                            <a href="https://rss.com/" data-toggle="tooltip" target="_blank" title="RSS">
+                                                <i class="fa fa-rss"></i>
+                                            </a>
+                                        </li>
+                                        <li class="google-plus">
+                                            <a href="https://www.plus.google.com/discover" data-toggle="tooltip" target="_blank" title="Google Plus">
+                                                <i class="fab fa-google-plus-g"></i>
+                                            </a>
+                                        </li>
+                                        <li class="facebook">
+                                            <a href="https://www.facebook.com/" data-toggle="tooltip" target="_blank" title="Facebook">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </a>
+                                        </li>
+                                        <li class="youtube">
+                                            <a href="https://www.youtube.com/" data-toggle="tooltip" target="_blank" title="Youtube">
+                                                <i class="fab fa-youtube"></i>
+                                            </a>
+                                        </li>
+                                        <li class="instagram">
+                                            <a href="https://www.instagram.com/" data-toggle="tooltip" target="_blank" title="Instagram">
+                                                <i class="fab fa-instagram"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- Begin Footer Newsletter Area -->
+                                <div class="footer-newsletter">
+                                    <h4>Sign up to newsletter</h4>
+                                    <form action="#" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="footer-subscribe-form validate" target="_blank" novalidate>
+                                       <div id="mc_embed_signup_scroll">
+                                          <div id="mc-form" class="mc-form subscribe-form form-group" >
+                                            <input id="mc-email" type="email" autocomplete="off" placeholder="Enter your email" />
+                                            <button  class="btn" id="mc-submit">Subscribe</button>
+                                          </div>
+                                       </div>
+                                    </form>
+                                </div>
+                                <!-- Footer Newsletter Area End Here -->
+                            </div>
+                            <!-- Footer Block Area End Here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
