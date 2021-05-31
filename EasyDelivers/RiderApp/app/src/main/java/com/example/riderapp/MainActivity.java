@@ -6,7 +6,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.homeFragment, R.id.encomendasFragment, R.id.profileFragment)
+                R.id.settingsFragment, R.id.encomendasFragment, R.id.profileFragment)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);

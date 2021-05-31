@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/settingsFragment">
 
     <fragment
         android:id="@+id/profileFragment"
@@ -20,9 +20,9 @@
             app:destination="@id/encomandaInfoFragment" />
     </fragment>
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/encomendaMapaFragment"
         android:name="com.example.riderapp.Fragments.EncomendaMapaFragment"
-        android:label="fragment_home"
+        android:label="fragment_encomenda_mapa"
         tools:layout="@layout/fragment_encomenda_mapa" />
     <activity
         android:id="@+id/loginSignUpActivity"
@@ -44,4 +44,9 @@
         android:name="com.example.riderapp.Fragments.EncomandaInfoFragment"
         android:label="fragment_encomanda_info"
         tools:layout="@layout/fragment_encomanda_info" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.riderapp.Fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
