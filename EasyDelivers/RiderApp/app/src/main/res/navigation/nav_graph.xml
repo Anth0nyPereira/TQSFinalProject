@@ -21,9 +21,9 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.riderapp.Fragments.HomeFragment"
+        android:name="com.example.riderapp.Fragments.EncomendaMapaFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_encomenda_mapa" />
     <activity
         android:id="@+id/loginSignUpActivity"
         android:name="com.example.riderapp.LoginSignUpActivity"

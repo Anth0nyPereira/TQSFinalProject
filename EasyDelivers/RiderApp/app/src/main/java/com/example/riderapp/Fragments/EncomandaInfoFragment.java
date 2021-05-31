@@ -1,5 +1,6 @@
 package com.example.riderapp.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,7 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.example.riderapp.Activities.EncomendaMapaActivity;
 import com.example.riderapp.R;
 import com.google.android.gms.maps.GoogleMap;
 
@@ -64,6 +67,21 @@ public class EncomandaInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_encomanda_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_encomanda_info, container, false);
+        Button buttonStartEncomenda = view.findViewById(R.id.buttonStartEncomenda);
+        buttonStartEncomenda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeToEncomendaMapaActivity();
+            }
+        });
+        return view;
     }
+
+    //
+    public void changeToEncomendaMapaActivity(){
+        Intent intent = new Intent(getActivity(), EncomendaMapaActivity.class);
+        startActivity(intent);
+    }
+
 }

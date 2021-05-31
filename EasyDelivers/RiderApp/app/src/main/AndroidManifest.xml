@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.riderapp">
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -11,8 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RiderApp">
         <activity
+            android:name=".Activities.EncomendaMapaActivity"
+            android:label="@string/title_activity_encomenda_mapa"
+            android:theme="@style/Theme.RiderApp.NoActionBar"></activity>
+        <activity
             android:name=".ui.login.aaLoginActivity"
-            android:label="@string/title_activity_aa_login"></activity>
+            android:label="@string/title_activity_aa_login" />
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.SignUpActivity" />
         <activity android:name=".MainActivity" />
@@ -23,6 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA83_EXa_8_yVq2i_t0OwCmuehtIuq-Yrs" />
