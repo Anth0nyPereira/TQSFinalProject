@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.riderapp.R;
+import com.google.android.gms.maps.GoogleMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +17,8 @@ import com.example.riderapp.R;
  * create an instance of this fragment.
  */
 public class EncomandaInfoFragment extends Fragment {
+
+    private GoogleMap mMap;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

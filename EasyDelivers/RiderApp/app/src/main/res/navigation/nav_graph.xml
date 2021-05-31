@@ -14,7 +14,11 @@
         android:id="@+id/encomendasFragment"
         android:name="com.example.riderapp.Fragments.EncomendasFragment"
         android:label="fragment_encomendas"
-        tools:layout="@layout/fragment_encomendas" />
+        tools:layout="@layout/fragment_encomendas" >
+        <action
+            android:id="@+id/action_encomendasFragment_to_encomandaInfoFragment"
+            app:destination="@id/encomandaInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.riderapp.Fragments.HomeFragment"
@@ -35,4 +39,9 @@
         android:name="com.example.riderapp.Fragments.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" />
+    <fragment
+        android:id="@+id/encomandaInfoFragment"
+        android:name="com.example.riderapp.Fragments.EncomandaInfoFragment"
+        android:label="fragment_encomanda_info"
+        tools:layout="@layout/fragment_encomanda_info" />
 </navigation>

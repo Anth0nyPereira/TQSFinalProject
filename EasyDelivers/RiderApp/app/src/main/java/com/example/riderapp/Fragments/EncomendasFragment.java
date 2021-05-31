@@ -3,6 +3,7 @@ package com.example.riderapp.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -94,6 +95,7 @@ public class EncomendasFragment extends Fragment {
         encomendasAdapter.setOnItemClickListener(new ClickListener<Encomenda>(){
             @Override
             public void onClick(View view, Encomenda data, int position) {
+                Navigation.findNavController(getActivity().findViewById(R.id.nav_fragment)).navigate(R.id.action_encomendasFragment_to_encomandaInfoFragment);
                 Toast.makeText(getContext(),"Position = "+position+"\n Item = "+data.getName(),Toast.LENGTH_SHORT).show();
                 Log.w("EncomendasFragment", "Position = "+position+"\n Item = "+data.getName());
             }
