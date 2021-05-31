@@ -35,8 +35,9 @@ public class EncomendasAdapter extends RecyclerView.Adapter<EncomendasAdapter.My
     public void onBindViewHolder(EncomendasAdapter.MyViewHolder holder, final int position) {
         final Encomenda item = itemsList.get(position);
         holder.name.setText(item.getName());
-        holder.price.setText(String.valueOf(item.getPrice()));
-        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+        holder.start.setText(item.getStart());
+        holder.destination.setText(item.getDestination());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickListener.onClick(v,item,position);
@@ -53,14 +54,13 @@ public class EncomendasAdapter extends RecyclerView.Adapter<EncomendasAdapter.My
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView name,price;
-        private LinearLayout itemLayout;
+        public TextView name,start,destination;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.tvName);
-            price = itemView.findViewById(R.id.tvPrice);
-            itemLayout =  itemView.findViewById(R.id.itemLayout);
+            name = itemView.findViewById(R.id.nomeencomenda);
+            start = itemView.findViewById(R.id.start);
+            destination = itemView.findViewById(R.id.destination);
         }
     }
     public void setOnItemClickListener(ClickListener clickListener) {

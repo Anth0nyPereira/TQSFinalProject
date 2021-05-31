@@ -106,7 +106,7 @@ public class EncomendasFragment extends Fragment {
     }
     private void prepareItems(){
         for(int i = 0; i < 50; i++) {
-            Encomenda items = new Encomenda("Item"+i,20+i);
+            Encomenda items = new Encomenda("Encomenda"+i,"Destination"+i, "Start"+i+12);
             itemsList.add(items);
         }
         encomendasAdapter.notifyDataSetChanged();

@@ -1,31 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/itemLayout"
-    android:focusable="true"
-    android:clickable="true"
-    android:background="#C3C3C3"
-    android:layout_margin="10dp">
-
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="2dp"
+    android:layout_margin="5dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/material_on_surface_stroke"
+    >
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/tvName"
-        tools:text="@tools:sample/full_names"
-        android:padding="5dp"
-        android:textStyle="bold"
-        android:textColor="#121212"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        tools:text="@tools:sample/full_names"
-        android:padding="5dp"
-        android:textColor="#121212"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/tvPrice" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/destination"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="148dp"
+            android:layout_marginTop="8dp"
+            android:text="Subtitle goes here"
+            app:layout_constraintStart_toStartOf="@+id/nomeencomenda"
+            app:layout_constraintTop_toBottomOf="@+id/nomeencomenda" />
+
+        <TextView
+            android:id="@+id/nomeencomenda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Title goes hesaasre"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Start"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            app:layout_constraintStart_toStartOf="@+id/nomeencomenda"
+            app:layout_constraintTop_toBottomOf="@+id/nomeencomenda" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
