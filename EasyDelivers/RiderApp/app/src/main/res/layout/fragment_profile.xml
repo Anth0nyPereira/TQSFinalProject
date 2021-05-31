@@ -86,7 +86,7 @@
             android:clickable="true"
             android:elevation="4dp"
             android:padding="20dp"
-            android:text="Earnings this Mouth:" />
+            android:text="Earnings this Month:" />
 
         <TextView
             android:id="@+id/textviewDetails2"
