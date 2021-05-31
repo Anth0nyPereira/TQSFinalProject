@@ -12,7 +12,7 @@ import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
+    boolean t=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,13 +20,15 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-        if (true) {
+
+        /*if (t) {
             // Not signed in, launch the Sign In activity
             startActivity(new Intent(this, LoginSignUpActivity.class));
             finish();
+            t=false;
             //displaySingleSelectionDialog();
             return;
-        }
+        }*/
         BottomNavigationView navView = findViewById(R.id.bottom_navigatin_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

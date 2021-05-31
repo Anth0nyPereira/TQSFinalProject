@@ -29,12 +29,12 @@ public class LoginSignUpActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.buttonSignUp:
                 Log.w(TAG, "Sign Up");
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, SignUpActivity.class));
                 finish();
                 break;
             case R.id.buttonLogin:
                 Log.w(TAG, "Login");
-                startActivity(new Intent(this, SignUpActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 break;
         }
