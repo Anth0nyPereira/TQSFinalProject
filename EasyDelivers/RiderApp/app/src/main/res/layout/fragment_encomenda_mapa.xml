@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.EncomendaMapaFragment">
+
+    <fragment
+        android:id="@+id/home_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/home_constraint_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".MapsActivity" />
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:id="@+id/home_constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/textviewEncomendaMapa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:padding="20dp"
+                android:text="Deliver:"
+                app:layout_constraintEnd_toStartOf="@+id/buttonStateEncomenda"
+                app:layout_constraintStart_toEndOf="@+id/buttonStateEncomenda"
+                tools:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteY="155dp" />
+
+            <TextView
+                android:id="@+id/textviewDistanceMapa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:padding="20dp"
+                android:text="Remaining Distance:"
+                app:layout_constraintTop_toBottomOf="@+id/textviewEarning"
+                tools:layout_editor_absoluteX="5dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/textviewStartMapa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:padding="20dp"
+                android:text="Start:"
+                app:layout_constraintEnd_toStartOf="@+id/buttonStateEncomenda"
+                app:layout_constraintStart_toEndOf="@+id/buttonStateEncomenda"
+                tools:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteY="155dp" />
+
+            <TextView
+                android:id="@+id/textviewDestinationMapa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:padding="20dp"
+                android:text="Destination:"
+                app:layout_constraintTop_toBottomOf="@+id/textviewEarning"
+                tools:layout_editor_absoluteX="5dp" />
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/textviewEarningMapa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="2"
+            android:clickable="true"
+            android:elevation="4dp"
+            android:padding="20dp"
+            android:text="Earning:"
+            app:layout_constraintTop_toBottomOf="@+id/textviewEncomenda"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <Button
+            android:id="@+id/buttonStateEncomenda"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:text="Delivery State"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

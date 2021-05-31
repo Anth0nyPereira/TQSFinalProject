@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/encomendasFragment">
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.riderapp.Fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/encomendasFragment"
+        android:name="com.example.riderapp.Fragments.EncomendasFragment"
+        android:label="fragment_encomendas"
+        tools:layout="@layout/fragment_encomendas" >
+        <action
+            android:id="@+id/action_encomendasFragment_to_encomandaInfoFragment"
+            app:destination="@id/encomandaInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/encomendaMapaFragment"
+        android:name="com.example.riderapp.Fragments.EncomendaMapaFragment"
+        android:label="fragment_encomenda_mapa"
+        tools:layout="@layout/fragment_encomenda_mapa" />
+    <activity
+        android:id="@+id/loginSignUpActivity"
+        android:name="com.example.riderapp.LoginSignUpActivity"
+        android:label="activity_login_sign_up"
+        tools:layout="@layout/activity_login_sign_up" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.riderapp.Fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.riderapp.Fragments.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" />
+    <fragment
+        android:id="@+id/encomandaInfoFragment"
+        android:name="com.example.riderapp.Fragments.EncomandaInfoFragment"
+        android:label="fragment_encomanda_info"
+        tools:layout="@layout/fragment_encomanda_info" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.riderapp.Fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>
