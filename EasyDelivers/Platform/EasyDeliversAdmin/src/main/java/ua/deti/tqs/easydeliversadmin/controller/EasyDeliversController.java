@@ -9,7 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EasyDeliversController {
 
     @GetMapping("/")
-    public String index(){
+    public String login(){
+        return "login";
+    }
+
+    @GetMapping("/signup")
+    public String signup(){
+        return "signup";
+    }
+
+    @GetMapping("/dashboard")
+    public String dash(){
         return "dashboard";
     }
 
@@ -18,29 +28,15 @@ public class EasyDeliversController {
         return "user";
     }
 
-    @GetMapping("/tables")
+    @GetMapping("/employees")
     public String tables(){
-        return "tables";
+        return "employees";
     }
 
-    @GetMapping("/typography")
-    public String typ(){
-        return "typography";
+    @GetMapping("/deliveries")
+    public String deliveries(){
+        return "deliveries";
     }
 
-    @GetMapping("/icons")
-    public String icons(){
-        return "icons";
-    }
-
-    @GetMapping("/map")
-    public String map(){
-        return "maps";
-    }
-
-    @GetMapping("/notifications")
-    public String notif(){
-        return "notifications";
-    }
 
 }
