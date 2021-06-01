@@ -9,11 +9,14 @@
 <div id="login-box">
     <div class="left">
         <h1>Login</h1>
+        <form th:action="@{/dashboard}" method="post">
+            <input type="text" name="email" placeholder="E-mail" />
+            <input type="password" name="password" placeholder="Password" />
 
-        <input type="text" name="email" placeholder="E-mail" />
-        <input type="password" name="password" placeholder="Password" />
-
-        <input type="submit" name="signup_submit" value="Login" />
+            <input type="submit" name="signup_submit" value="Login" />
+            <br/>
+            <a th:href="@{/signup}"><small>Don't have an account yet? Sign up.</small></a>
+        </form>
     </div>
 
     <div class="right">
@@ -25,7 +28,6 @@
     </div>
     <div class="or">OR</div>
 
-    <a th:href="@{/signup}">Don't have an account yet? Sign up.</a>
 </div>
 </body>
 </html>
