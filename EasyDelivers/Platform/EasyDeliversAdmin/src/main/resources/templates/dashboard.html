@@ -28,6 +28,116 @@ The above copyright notice and this permission notice shall be included in all c
   <link th:href="@{/css/material-dashboard.css}" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link th:href="@{/demo/demo.css}" rel="stylesheet" />
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChartAverageKms);
+
+    google.charts.setOnLoadCallback(drawChartNumberDeliveries);
+
+    google.charts.setOnLoadCallback(drawChartAverageTime);
+
+    function drawChartAverageTime() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('date', 'Day');
+      data.addColumn('number', 'Average Time in mins');
+      data.addRows([
+        [ new Date(2021, 3, 13), 30],
+        [ new Date(2021, 3, 14), 23],
+        [ new Date(2021, 3, 15), 12],
+        [ new Date(2021, 3, 16), 25],
+        [ new Date(2021, 3, 17), 13],
+        [ new Date(2021, 3, 18), 10 ],
+        [ new Date(2021, 3, 19), 20 ],
+        [ new Date(2021, 3, 20), 17 ],
+        [ new Date(2021, 3, 21), 34 ],
+        [ new Date(2021, 3, 22), 28 ],
+        [ new Date(2021, 3, 23), 13 ],
+        [ new Date(2021, 3, 24), 14 ],
+        [ new Date(2021, 3, 25), 17 ]
+      ]);
+
+      var options = {
+        title: 'Average Time in Minutes',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        width :1000,
+        height:500,
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('settings'));
+
+      chart.draw(data, options);
+    }
+
+    function drawChartNumberDeliveries() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('date', 'Day');
+      data.addColumn('number', 'Number of Deliveries');
+      data.addRows([
+        [ new Date(2021, 3, 13), 30],
+        [ new Date(2021, 3, 14), 50],
+        [ new Date(2021, 3, 15), 45],
+        [ new Date(2021, 3, 16), 56],
+        [ new Date(2021, 3, 17), 70],
+        [ new Date(2021, 3, 18), 65 ],
+        [ new Date(2021, 3, 19), 45 ],
+        [ new Date(2021, 3, 20), 57 ],
+        [ new Date(2021, 3, 21), 80 ],
+        [ new Date(2021, 3, 22), 67 ],
+        [ new Date(2021, 3, 23), 77 ],
+        [ new Date(2021, 3, 24), 80 ],
+        [ new Date(2021, 3, 25), 85 ]
+      ]);
+
+      var options = {
+        title: 'Number of Deliveries Made By Day',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        width :1000,
+        height:700,
+        hAxis: {title: "Day" , direction:-1, slantedText:true, slantedTextAngle:90 },
+      };
+
+      var chart = new google.visualization.ColumnChart(document.getElementById('messages'));
+
+      chart.draw(data, options);
+    }
+
+    function drawChartAverageKms() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('date', 'Day');
+      data.addColumn('number', 'Average Distance Covered in Kms');
+      data.addRows([
+        [ new Date(2021, 3, 13), 30],
+        [ new Date(2021, 3, 14), 23],
+        [ new Date(2021, 3, 15), 12],
+        [ new Date(2021, 3, 16), 25],
+        [ new Date(2021, 3, 17), 13],
+        [ new Date(2021, 3, 18), 10 ],
+        [ new Date(2021, 3, 19), 20 ],
+        [ new Date(2021, 3, 20), 17 ],
+        [ new Date(2021, 3, 21), 34 ],
+        [ new Date(2021, 3, 22), 28 ],
+        [ new Date(2021, 3, 23), 13 ],
+        [ new Date(2021, 3, 24), 14 ],
+        [ new Date(2021, 3, 25), 17 ]
+      ]);
+
+      var options = {
+        title: 'Average Distance Covered in Kms',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        width :1000,
+        height:500,
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('profile'));
+
+      chart.draw(data, options);
+    }
+  </script>
+
 </head>
 
 <body class="">
@@ -225,217 +335,13 @@ The above copyright notice and this permission notice shall be included in all c
                     </div>
                   </div>
                 </div>
-                <div class="card-body">
+                <div style="height: 40vw;" class="card-body">
                   <div class="tab-content">
-                    <div class="tab-pane active" id="profile">
-                      <table class="table">
-                        <tbody>
-                          <tr>
-                            <td>
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input class="form-check-input" type="checkbox" value="" checked>
-                                  <span class="form-check-sign">
-                                    <span class="check"></span>
-                                  </span>
-                                </label>
-                              </div>
-                            </td>
-                            <td>Sign contract for "What are conference organizers afraid of?"</td>
-                            <td class="td-actions text-right">
-                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button>
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input class="form-check-input" type="checkbox" value="">
-                                  <span class="form-check-sign">
-                                    <span class="check"></span>
-                                  </span>
-                                </label>
-                              </div>
-                            </td>
-                            <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                            <td class="td-actions text-right">
-                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button>
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input class="form-check-input" type="checkbox" value="">
-                                  <span class="form-check-sign">
-                                    <span class="check"></span>
-                                  </span>
-                                </label>
-                              </div>
-                            </td>
-                            <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                            </td>
-                            <td class="td-actions text-right">
-                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button>
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input class="form-check-input" type="checkbox" value="" checked>
-                                  <span class="form-check-sign">
-                                    <span class="check"></span>
-                                  </span>
-                                </label>
-                              </div>
-                            </td>
-                            <td>Create 4 Invisible User Experiences you Never Knew About</td>
-                            <td class="td-actions text-right">
-                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button>
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div style="width: 54vw;" class="tab-pane active" id="profile">
                     </div>
-                    <div class="tab-pane" id="messages">
-                      <table class="table">
-                        <tbody>
-                          <tr>
-                            <td>
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input class="form-check-input" type="checkbox" value="" checked>
-                                  <span class="form-check-sign">
-                                    <span class="check"></span>
-                                  </span>
-                                </label>
-                              </div>
-                            </td>
-                            <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                            </td>
-                            <td class="td-actions text-right">
-                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button>
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input class="form-check-input" type="checkbox" value="">
-                                  <span class="form-check-sign">
-                                    <span class="check"></span>
-                                  </span>
-                                </label>
-                              </div>
-                            </td>
-                            <td>Sign contract for "What are conference organizers afraid of?"</td>
-                            <td class="td-actions text-right">
-                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button>
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div style="width: 54vw;" class="tab-pane" id="messages">
                     </div>
-                    <div class="tab-pane" id="settings">
-                      <table class="table">
-                        <tbody>
-                          <tr>
-                            <td>
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input class="form-check-input" type="checkbox" value="">
-                                  <span class="form-check-sign">
-                                    <span class="check"></span>
-                                  </span>
-                                </label>
-                              </div>
-                            </td>
-                            <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                            <td class="td-actions text-right">
-                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button>
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input class="form-check-input" type="checkbox" value="" checked>
-                                  <span class="form-check-sign">
-                                    <span class="check"></span>
-                                  </span>
-                                </label>
-                              </div>
-                            </td>
-                            <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                            </td>
-                            <td class="td-actions text-right">
-                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button>
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input class="form-check-input" type="checkbox" value="" checked>
-                                  <span class="form-check-sign">
-                                    <span class="check"></span>
-                                  </span>
-                                </label>
-                              </div>
-                            </td>
-                            <td>Sign contract for "What are conference organizers afraid of?"</td>
-                            <td class="td-actions text-right">
-                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button>
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div style="width: 54vw;" class="tab-pane" id="settings">
                     </div>
                   </div>
                 </div>
@@ -499,7 +405,6 @@ The above copyright notice and this permission notice shall be included in all c
 
     </div>
   </div>
-
   <!--   Core JS Files   -->
   <script th:src="@{/js/core/jquery.min.js}"></script>
   <script th:src="@{/js/core/popper.min.js}"></script>
