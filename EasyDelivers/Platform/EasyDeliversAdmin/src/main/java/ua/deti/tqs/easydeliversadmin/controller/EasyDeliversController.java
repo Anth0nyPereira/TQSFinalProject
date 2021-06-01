@@ -45,5 +45,10 @@ public class EasyDeliversController {
         return "deliveries";
     }
 
+    @GetMapping("/employee")
+    public String singular(){
+        return "riderDashboard";
+    }
+
 
 }
