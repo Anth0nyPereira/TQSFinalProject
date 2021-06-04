@@ -42,7 +42,12 @@ public class EasyDeliversRestController {
     }
     @PostMapping("/delivery")
     public String newDelivery(@RequestBody Map<String, Object> request){
-        return "";
+        int store = (Integer) request.get("store");
+        String client_telephone = (String) request.get("client_telephone");
+        String start = (String) request.get("start");
+        String destination = (String) request.get("destination");
+
+        return service.createDelivery(store, client_telephone, start, destination);
     }
 
 
