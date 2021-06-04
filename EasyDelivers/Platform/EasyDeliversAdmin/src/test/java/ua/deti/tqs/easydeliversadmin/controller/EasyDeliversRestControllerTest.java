@@ -2,6 +2,7 @@ package ua.deti.tqs.easydeliversadmin.controller;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -47,6 +48,7 @@ class EasyDeliversRestControllerTest {
     }
 
     @Test
+    @DisplayName("Tests a successful login with a rider")
     void successfulLoginTest() throws Exception {
         when(service.authenticateRider("hugo@email.com","12345"))
                 .thenReturn(true);
@@ -65,6 +67,24 @@ class EasyDeliversRestControllerTest {
                 .authenticateRider("hugo@email.com","12345");
 
         verify(service,times(1))
+                .getRider("hugo@email.com");
+    }
+
+    @Test
+    @DisplayName("Tests an invalid login with a rider")
+    void invalidLoginTest() throws Exception {
+        when(service.authenticateRider("hugo@email.com","12345"))
+                .thenReturn(false);
+
+        mvc.perform(MockMvcRequestBuilders.post("/api/rider/login")
+                .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(loginRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").doesNotExist());
+
+        verify(service,times(1))
+                .authenticateRider("hugo@email.com","12345");
+
+        verify(service,times(0))
                 .getRider("hugo@email.com");
     }
 }
