@@ -32,6 +32,7 @@ class EasyDeliversRestControllerTest {
     EasyDeliversService service;
 
     Map<String, Object> loginRequest;
+    Map<String, Object> signUpRequest;
 
     Rider rider;
 
@@ -40,6 +41,14 @@ class EasyDeliversRestControllerTest {
         loginRequest = new HashMap<>();
         loginRequest.put("email","hugo@email.com");
         loginRequest.put("password","12345");
+
+        signUpRequest = new HashMap<>();
+        signUpRequest.put("email","hugo@email.com");
+        signUpRequest.put("password","12345");
+        signUpRequest.put("name","hugo");
+        signUpRequest.put("telephone","930921312");
+        signUpRequest.put("transportation","car");
+
         rider = new Rider("hugo","hugo@email.com", "12345", "930921312","car");
     }
 
@@ -87,4 +96,41 @@ class EasyDeliversRestControllerTest {
         verify(service,times(0))
                 .getRider("hugo@email.com");
     }
+
+    @Test
+    @DisplayName("Tests a successful sign up from a rider")
+    void successfulSignUpTest() throws Exception {
+        when(service.createRider("hugo","hugo@email.com", "12345", "930921312","car"))
+                .thenReturn(rider);
+
+        mvc.perform(MockMvcRequestBuilders.post("/api/rider/account")
+                .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(signUpRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("name").value("hugo"))
+                .andExpect(jsonPath("email").value("hugo@email.com"))
+                .andExpect(jsonPath("password").value("12345"))
+                .andExpect(jsonPath("telephone").value("930921312"))
+                .andExpect(jsonPath("transportation").value("car"));
+
+        verify(service,times(1))
+                .createRider("hugo","hugo@email.com", "12345", "930921312","car");
+    }
+
+    @Test
+    @DisplayName("Tests an invalid sign up from a rider")
+    void invalidSignUpTest() throws Exception {
+        when(service.createRider("hugo","hugo@email.com", "12345", "930921312","car"))
+                .thenReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders.post("/api/rider/account")
+                .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(signUpRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").doesNotExist());
+
+        verify(service,times(1))
+                .createRider("hugo","hugo@email.com", "12345", "930921312","car");
+    }
+
+
+
 }
