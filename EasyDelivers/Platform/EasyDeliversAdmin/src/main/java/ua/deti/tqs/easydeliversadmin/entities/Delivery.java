@@ -6,24 +6,37 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name = "delivery")
 public class Delivery {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     @Column(name="store")
     @NotBlank
     private int store;
+
     @Column(name="rider_fee")
     @NotBlank
     private int rider_fee;
+
     @Column(name="state")
     @NotBlank
     private String state;
+
     @Column(name="client_telephone")
     @NotBlank
     private String client_telephone;
+
     @Column(name="start")
     @NotBlank
     private String start;
+
+    @Column(name="destination")
+    @NotBlank
+    private String destination;
+
+    @Column(name="rider")
+    private int rider;
 
     public Delivery(@NotBlank int store, @NotBlank int rider_fee, @NotBlank String state, @NotBlank String client_telephone, @NotBlank String start, @NotBlank String destination) {
         this.store = store;
@@ -98,9 +111,4 @@ public class Delivery {
         this.rider = rider;
     }
 
-    @Column(name="destination")
-    @NotBlank
-    private String destination;
-    @Column(name="rider")
-    private int rider;
 }

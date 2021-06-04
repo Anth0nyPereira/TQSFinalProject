@@ -33,6 +33,7 @@ class EasyDeliversRestControllerTest {
 
     Map<String, Object> loginRequest;
     Map<String, Object> signUpRequest;
+    Map<String, Object> newDeliveryRequest;
 
     Rider rider;
 
@@ -50,6 +51,13 @@ class EasyDeliversRestControllerTest {
         signUpRequest.put("transportation","car");
 
         rider = new Rider("hugo","hugo@email.com", "12345", "930921312","car");
+
+        newDeliveryRequest = new HashMap<>();
+        newDeliveryRequest.put("store",1);
+        newDeliveryRequest.put("client_telephone","9393920");
+        newDeliveryRequest.put("start","DETI Aveiro");
+        newDeliveryRequest.put("destination","Bairro de Santiago Aveiro");
+
     }
 
     @AfterEach
@@ -129,6 +137,36 @@ class EasyDeliversRestControllerTest {
 
         verify(service,times(1))
                 .createRider("hugo","hugo@email.com", "12345", "930921312","car");
+    }
+
+    @Test
+    @DisplayName("Tests receiving a new successful delivery")
+    void successfulReceiveNewDeliveryTest() throws Exception {
+        when(service.createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro"))
+                .thenReturn("Delivery accepted");
+
+        mvc.perform(MockMvcRequestBuilders.post("/api/delivery")
+                .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(newDeliveryRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("Delivery accepted"));
+
+        verify(service,times(1))
+                .createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro");
+    }
+
+    @Test
+    @DisplayName("Tests receiving a new invalid delivery")
+    void invalidReceiveNewDeliveryTest() throws Exception {
+        when(service.createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro"))
+                .thenReturn("Delivery refused");
+
+        mvc.perform(MockMvcRequestBuilders.post("/api/delivery")
+                .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(newDeliveryRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("Delivery refused"));
+
+        verify(service,times(1))
+                .createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro");
     }
 
 

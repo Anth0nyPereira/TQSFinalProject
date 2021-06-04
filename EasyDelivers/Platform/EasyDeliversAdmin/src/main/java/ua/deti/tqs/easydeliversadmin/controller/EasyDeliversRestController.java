@@ -4,6 +4,7 @@ package ua.deti.tqs.easydeliversadmin.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.entities.Rider;
 import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
 
@@ -40,8 +41,8 @@ public class EasyDeliversRestController {
         return service.createRider(name, email, password, telephone, transportation);
     }
     @PostMapping("/delivery")
-    public void newDelivery(){
-
+    public String newDelivery(@RequestBody Map<String, Object> request){
+        return "";
     }
 
 
