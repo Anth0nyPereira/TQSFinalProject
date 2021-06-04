@@ -31,7 +31,13 @@ public class EasyDeliversRestController {
     }
     @PostMapping("/rider/account")
     public Rider createAccount(@RequestBody Map<String, Object> request){
-        return null;
+        String name = (String) request.get("name");
+        String email = (String) request.get("email");
+        String password = (String) request.get("password");
+        String telephone = (String) request.get("telephone");
+        String transportation = (String) request.get("transportation");
+
+        return service.createRider(name, email, password, telephone, transportation);
     }
     @PostMapping("/delivery")
     public void newDelivery(){
