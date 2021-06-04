@@ -1,6 +1,8 @@
 package ua.deti.tqs.easydeliversadmin.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Rider")
@@ -8,11 +10,23 @@ public class Rider {
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         private int id;
+        @Column(name="name")
+        @NotBlank
         private String name;
+        @Column(name="email")
+        @Email
         private String email;
+        @Column(name="password")
+        @NotBlank
         private String password;
+        @Column(name="telephone")
+        @NotBlank
         private String telephone;
-        private int deleviry_radius;
+        @Column(name="delivery_radius")
+        @NotBlank
+        private int delivery_radius;
+        @Column(name="transportation")
+        @NotBlank
         private String transportation;
 
         public Rider(String name, String email, String password, String telephone, String transportation) {
@@ -21,7 +35,7 @@ public class Rider {
                 this.password = password;
                 this.telephone = telephone;
                 this.transportation = transportation;
-                this.deleviry_radius = 50;
+                this.delivery_radius = 50;
         }
 
         public int getId() {
@@ -64,12 +78,12 @@ public class Rider {
                 this.telephone = telephone;
         }
 
-        public int getDeleviry_radius() {
-                return deleviry_radius;
+        public int getDelivery_radius() {
+                return delivery_radius;
         }
 
-        public void setDeleviry_radius(int deleviry_radius) {
-                this.deleviry_radius = deleviry_radius;
+        public void setDelivery_radius(int delivery_radius) {
+                this.delivery_radius = delivery_radius;
         }
 
         public String getTransportation() {
