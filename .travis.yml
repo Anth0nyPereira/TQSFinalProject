@@ -14,7 +14,8 @@ matrix:
   include: 
     - env: EasyDeliversAdmin
       before_script:
-      - cd EasyDelivers/Platform/EasyDeliversAdmin  
+      - cd EasyDelivers/Platform/EasyDeliversAdmin
+      - chmod +x mvnw  
       script:
       - ./mvnw clean install
       - ./mvnw test
@@ -22,6 +23,7 @@ matrix:
     - env: ProudPapers
       before_script:
       - cd ProudPapers/app
+      - chmod +x mvnw
       script:
       - ./mvnw clean install
       - ./mvnw test
