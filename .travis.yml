@@ -21,7 +21,7 @@ matrix:
 
     - env: ProudPapers
       before_script:
-      - cd Proudpapers/app
+      - cd ProudPapers/app
       script:
       - ./mvnw clean install
       - ./mvnw test
