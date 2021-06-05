@@ -1,0 +1,27 @@
+arch: amd64
+
+language: java
+
+jdk: 
+  - oraclejdk16
+
+cache:
+  directories:
+  - $HOME/.m2
+
+matrix:
+  fast_finish: true
+  include: 
+    - env: EasyDeliversAdmin
+      before_script:
+      - cd EasyDelivers/Platform/EasyDeliversAdmin  
+      script:
+      - ./mvnw clean install
+      - ./mvnw test
+
+    - env: ProudPapers
+      before_script:
+      - cd Proudpapers/app
+      script:
+      - ./mvnw clean install
+      - ./mvnw test
