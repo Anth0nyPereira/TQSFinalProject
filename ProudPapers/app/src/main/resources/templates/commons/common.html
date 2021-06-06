@@ -1,0 +1,176 @@
+<!DOCTYPE>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navbar">
+        <div class="container-fluid">
+            <a class="app-name" href="/">ProudPapers</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                </div>
+                <div class="nav" th:if="${#session != null && #session.getAttribute('userName') != null}">
+                    <span class="hello">Hello! </span>
+                    <div class="username btn btn-primary">[[${#session.getAttribute('userName')}]]</div>
+                </div>
+                <div class="nav loveDiv" th:if="${#session != null && #session.getAttribute('userName') != null}" >
+                    <span class="notification">0</span>
+                    <button type="button" class="btn sub_btn" title="love"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="nav cartDiv" th:if="${#session != null && #session.getAttribute('userName') != null}">
+                    <span class="notification">2</span>
+                    <button type="button" class="btn sub_btn" title="cart">
+                        <i class="fas fa-cart-plus"></i>
+                        <span>|</span><span> € 80 </span>
+                    </button>
+                </div>
+                <div class="nav" th:if="${#session == null}">
+                    <a type="button" class="btn btn-primary" href="/login">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container header" th:fragment="header">
+        <div class="row">
+            <div class="col-lg-2 col-md-8">
+                <div class="logo pb-sm-30 pb-xs-30">
+                    <a href="index.html">
+                        <img src="/img/logo.png" alt=""/>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-8">
+                <div class="search_div" >
+                    <div class="search_box">
+                        <input type="text" placeholder="Enter your search key..." class="input"/>
+                        <button type="button" class="btn sub_btn" title="search"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="popular-searches">
+                        <span>Most searched :</span>
+                        <a href="#">Java effective</a>
+                        <a href="#">Python effective</a>
+                        <a href="#">C++ effective</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer" th:fragment="footer">
+        <div class="footer-static-middle">
+            <div class="container">
+                <div class="footer-logo-wrap pt-50 pb-35">
+                    <div class="row">
+                        <!-- Begin Footer Logo Area -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="footer-logo">
+                                <img src="/img/logo.png" alt="Footer Logo"/>
+                                <p class="info">
+                                    Tqs final project
+                                </p>
+                            </div>
+                            <ul class="des">
+                                <li>
+                                    <span>Address: </span>
+                                    6688Princess Road, London, Greater London BAS 23JK, UK
+                                </li>
+                                <li>
+                                    <span>Phone: </span>
+                                    <a href="#">(+123) 123 321 345</a>
+                                </li>
+                                <li>
+                                    <span>Email: </span>
+                                    <a href="#">info@yourdomain.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Footer Logo Area End Here -->
+                        <!-- Begin Footer Block Area -->
+                        <div class="col-lg-2 col-md-3 col-sm-6">
+                            <div class="footer-block">
+                                <h3 class="footer-block-title">Product</h3>
+                                <ul>
+                                    <li><a href="#">Prices drop</a></li>
+                                    <li><a href="#">New products</a></li>
+                                    <li><a href="#">Best sales</a></li>
+                                    <li><a href="#">Contact us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Footer Block Area End Here -->
+                        <!-- Begin Footer Block Area -->
+                        <div class="col-lg-2 col-md-3 col-sm-6">
+                            <div class="footer-block">
+                                <h3 class="footer-block-title">Our company</h3>
+                                <ul>
+                                    <li><a href="#">Delivery</a></li>
+                                    <li><a href="#">Legal Notice</a></li>
+                                    <li><a href="#">About us</a></li>
+                                    <li><a href="#">Contact us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Footer Block Area End Here -->
+                        <!-- Begin Footer Block Area -->
+                        <div class="col-lg-4">
+                            <div class="footer-block">
+                                <h3 class="footer-block-title">Follow Us</h3>
+                                <ul class="social-link">
+                                    <li class="twitter">
+                                        <a href="https://twitter.com/" data-toggle="tooltip" target="_blank" title="Twitter">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li class="rss">
+                                        <a href="https://rss.com/" data-toggle="tooltip" target="_blank" title="RSS">
+                                            <i class="fa fa-rss"></i>
+                                        </a>
+                                    </li>
+                                    <li class="google-plus">
+                                        <a href="https://www.plus.google.com/discover" data-toggle="tooltip" target="_blank" title="Google Plus">
+                                            <i class="fab fa-google-plus-g"></i>
+                                        </a>
+                                    </li>
+                                    <li class="facebook">
+                                        <a href="https://www.facebook.com/" data-toggle="tooltip" target="_blank" title="Facebook">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                    </li>
+                                    <li class="youtube">
+                                        <a href="https://www.youtube.com/" data-toggle="tooltip" target="_blank" title="Youtube">
+                                            <i class="fab fa-youtube"></i>
+                                        </a>
+                                    </li>
+                                    <li class="instagram">
+                                        <a href="https://www.instagram.com/" data-toggle="tooltip" target="_blank" title="Instagram">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Begin Footer Newsletter Area -->
+                            <div class="footer-newsletter">
+                                <h4>Sign up to newsletter</h4>
+                                <form action="#" method="post" id="mc-embedded-subscribe-form" class="footer-subscribe-form validate">
+                                    <div id="mc_embed_signup_scroll">
+                                        <div id="mc-form" class="mc-form subscribe-form form-group" >
+                                            <input id="mc-email" type="email" autocomplete="off" placeholder="Enter your email" />
+                                            <button  class="btn" id="mc-submit">Subscribe</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Footer Newsletter Area End Here -->
+                        </div>
+                        <!-- Footer Block Area End Here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
