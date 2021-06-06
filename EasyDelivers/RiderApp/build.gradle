@@ -42,8 +42,3 @@ sonarqube {
     property 'sonar.projectKey', 'tqsproject_TQSFinalProject_EasyDelivers_RiderApp'
   }
 }
-
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
