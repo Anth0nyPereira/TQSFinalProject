@@ -17,6 +17,7 @@ public class EasyDeliversRestController {
 
     @Autowired
     EasyDeliversService service;
+    
 
     @PostMapping(value = "/rider/login", consumes = "application/json", produces = "application/json")
     public Rider login(@RequestBody Map<String, Object> request){
