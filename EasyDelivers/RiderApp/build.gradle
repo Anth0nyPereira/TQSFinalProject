@@ -29,11 +29,6 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
-
 jacocoTestReport {
   reports {
     xml.enabled true
@@ -46,4 +41,9 @@ sonarqube {
     property 'sonar.organization', 'tqsproject'
     property 'sonar.projectKey', 'tqsproject_TQSFinalProject_EasyDelivers_RiderApp'
   }
+}
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
