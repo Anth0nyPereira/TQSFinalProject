@@ -8,7 +8,9 @@ import tqs.proudpapers.entity.ClientDTO;
  * @date 2021/6/4 12:41
  */
 public interface ClientService {
-    void saveClient(ClientDTO clientDTO);
+    Client saveClient(ClientDTO clientDTO);
 
-    ClientDTO getClient(String email, String password);
+    ClientDTO getClientByEmailAndPass(String email, String password);
+
+    ClientDTO getClientByEmail(String email);
 }

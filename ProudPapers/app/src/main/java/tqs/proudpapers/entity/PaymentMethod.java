@@ -24,7 +24,7 @@ public class PaymentMethod implements Serializable {
     private String cardNumber;
 
     @Column(name = "card_expiration_month")
-    private Integer cardExpirationMonth;
+    private String cardExpirationMonth;
 
     @Column(name = "cvc")
     private String cvc;

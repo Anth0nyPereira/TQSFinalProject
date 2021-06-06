@@ -1,21 +1,18 @@
 package tqs.proudpapers.controller;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.entity.ClientDTO;
 import tqs.proudpapers.entity.PaymentMethod;
-import tqs.proudpapers.repository.ClientRepository;
 import tqs.proudpapers.service.ClientService;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -23,7 +20,7 @@ import javax.servlet.http.HttpSession;
  * @date 2021/6/4 11:21
  */
 @Controller
-public class ProudPapersController {
+public class ClientController {
     @Autowired
     ClientService clientService;
 
@@ -35,9 +32,15 @@ public class ProudPapersController {
     @PostMapping("/signup")
     public String signUp(ClientDTO clientDTO, PaymentMethod paymentMethod, Model model){
         clientDTO.setPaymentMethod(paymentMethod);
-        clientService.saveClient(clientDTO);
-        model.addAttribute("email", clientDTO.getEmail());
-        return "login";
+        Client client = clientService.saveClient(clientDTO);
+
+        if(client != null){
+            model.addAttribute("email", client.getEmail());
+            return "login";
+        }
+
+        model.addAttribute("emailDuplicated", true);
+        return "signUp";
     }
 
     @GetMapping("/login")
@@ -49,8 +52,11 @@ public class ProudPapersController {
     public String login(String email, String password,
                         Model model,
                         HttpSession session){
-        ClientDTO client = clientService.getClient(email, password);
-        if(client == null) return "login";
+        ClientDTO client = clientService.getClientByEmailAndPass(email, password);
+        if(client == null){
+            model.addAttribute("failed", true);
+            return "login";
+        }
 
         model.addAttribute("client", client);
         session.setAttribute("userEmail", email);

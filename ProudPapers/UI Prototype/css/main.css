@@ -1,3 +1,23 @@
+.nav{
+    margin-left: 20px;
+}
+
+.nav .hello{
+    position: relative;
+    top: 8px;
+    right: 10px;
+}
+
+.app-name{
+    text-decoration: none;
+    font-size: 20px;
+    color: rgb(43, 43, 43);
+}
+
+.app-name:hover{
+    color: rgb(43, 43, 43);
+}
+
 .header{
     position: relative;
     top: 30px;
@@ -5,9 +25,9 @@
 
 .search_div .search_box{
 	position: relative;
-	width: 80%;
+	width: 100%;
 	height: 50px;
-    float: right;
+    left: 50px;
 }
 
 .search_div .search_box .input{
@@ -135,9 +155,9 @@
     position: absolute;
     background-color: rgb(212, 85, 0);
     border-radius: 50%;
-    padding: 3px 9px;
+    padding: 0px 6px;
 	z-index: 2;
-    top: -20%;
+    top: -5%;
 }
 
 .loveDiv .btn{
@@ -146,8 +166,8 @@
     border-color: rgb(225, 225, 225);
 	z-index: 1;
 	cursor: pointer;
-    font-size: 18px;
-    padding: 7px 10px;
+    font-size: 16px;
+    padding: 5px 8px;
     left: 10%;
     margin: 0;
 }
@@ -161,9 +181,7 @@
     background-color: red;
 	z-index: 1;
 	cursor: pointer;
-    font-size: 18px;
-    padding: 7px 10px;
-    margin: 0;
+    font-size: 15px;
     width: 100px;
 }
 
@@ -176,24 +194,24 @@
     margin-right: 10px;
 }
 
-.popular-saerches{
+.popular-searches{
     position: absolute;
     bottom: 10px;
-    left: 360px;
+    left: 280px;
 }
 
-.popular-saerches span{
+.popular-searches span{
     font-size: 14px;
 }
 
-.popular-saerches a{
+.popular-searches a{
     font-size: 15px;
     margin-left: 5px;
     text-decoration: none;
     color: rgb(187,187,187);
 }
 
-.popular-saerches a:hover{
+.popular-searches a:hover{
     text-decoration: underline;
 }
 
@@ -1198,4 +1216,10 @@
 
 .signup a{
     text-decoration: none;
+}
+
+.invalid-feedback{
+    display: block;
+    font-size: 1px;
+    z-index: 99;
 }

@@ -1,16 +1,44 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title></title>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navbar">
+        <div class="container-fluid">
+            <a class="app-name" href="/">ProudPapers</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                </div>
+                <div class="nav" th:if="${#session != null && #session.getAttribute('userName') != null}">
+                    <span class="hello">Hello! </span>
+                    <div class="username btn btn-primary">[[${#session.getAttribute('userName')}]]</div>
+                </div>
+                <div class="nav loveDiv" th:if="${#session != null && #session.getAttribute('userName') != null}" >
+                    <span class="notification">0</span>
+                    <button type="button" class="btn sub_btn" title="love"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="nav cartDiv" th:if="${#session != null && #session.getAttribute('userName') != null}">
+                    <span class="notification">2</span>
+                    <button type="button" class="btn sub_btn" title="cart">
+                        <i class="fas fa-cart-plus"></i>
+                        <span>|</span><span> € 80 </span>
+                    </button>
+                </div>
+                <div class="nav" th:if="${#session == null}">
+                    <a type="button" class="btn btn-primary" href="/login">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <div class="container header" th:fragment="header">
         <div class="row">
             <div class="col-lg-2 col-md-8">
                 <div class="logo pb-sm-30 pb-xs-30">
                     <a href="index.html">
-                        <img src="/img/logo.png" alt="">
+                        <img src="/img/logo.png" alt=""/>
                     </a>
                 </div>
             </div>
@@ -21,36 +49,12 @@
                         <input type="text" placeholder="Enter your search key..." class="input"/>
                         <button type="button" class="btn sub_btn" title="search"><i class="fas fa-search"></i></button>
                     </div>
-                    <div class="popular-saerches">
+                    <div class="popular-searches">
                         <span>Most searched :</span>
                         <a href="#">Java effective</a>
                         <a href="#">Python effective</a>
                         <a href="#">C++ effective</a>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-sm-1 icon">
-                <div class="loveDiv" >
-                    <span class="notification">0</span>
-                    <button type="button" class="btn sub_btn" title="love"><i class="far fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="col-sm-1 icon">
-                <div class="cartDiv" >
-                    <span class="notification">2</span>
-                    <button type="button" class="btn sub_btn" title="cart">
-                        <i class="fas fa-cart-plus"></i>
-                        <span>|</span><span> &euro;80 </span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="col-sm-1 icon">
-                <div class="loginDiv">
-                    <a th:if="${#session == null}" type="button" class="btn btn-primary" href="/login">Login</a>
-                    <span th:if="${#session != null && #session.getAttribute('userName') != null}">[[${session.get('userName')}]] </span>
                 </div>
             </div>
         </div>
@@ -64,7 +68,7 @@
                         <!-- Begin Footer Logo Area -->
                         <div class="col-lg-4 col-md-6">
                             <div class="footer-logo">
-                                <img src="/img/logo.png" alt="Footer Logo">
+                                <img src="/img/logo.png" alt="Footer Logo"/>
                                 <p class="info">
                                     Tqs final project
                                 </p>
@@ -151,7 +155,7 @@
                             <!-- Begin Footer Newsletter Area -->
                             <div class="footer-newsletter">
                                 <h4>Sign up to newsletter</h4>
-                                <form action="#" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="footer-subscribe-form validate" target="_blank" novalidate>
+                                <form action="#" method="post" id="mc-embedded-subscribe-form" class="footer-subscribe-form validate">
                                     <div id="mc_embed_signup_scroll">
                                         <div id="mc-form" class="mc-form subscribe-form form-group" >
                                             <input id="mc-email" type="email" autocomplete="off" placeholder="Enter your email" />

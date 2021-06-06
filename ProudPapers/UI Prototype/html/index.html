@@ -15,6 +15,34 @@
 
 <body>
 
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="app-name" href="index.html">ProudPapers</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                </div>
+                <div class="nav">
+                    <span class="hello">Hello! </span>
+                    <div class="btn btn-primary">Login</div>
+                </div>
+                <div class="nav loveDiv" >
+                    <span class="notification">0</span>
+                    <button type="button" class="btn sub_btn" title="love"><i class="far fa-heart"></i></button>
+                </div> 
+                <div class="nav cartDiv" >
+                    <span class="notification">2</span>
+                    <button type="button" class="btn sub_btn" title="cart">
+                        <i class="fas fa-cart-plus"></i>
+                        <span>|</span><span> &euro;80 </span>
+                    </button>
+                </div>
+                <div class="nav" hidden>
+                    <a type="button" class="btn btn-primary" href="login.html">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
     <div class="container header">
         <div class="row">
             <div class="col-lg-2 col-md-8">
@@ -31,35 +59,12 @@
                         <input type="text" placeholder="Enter your search key..." class="input"/>
                         <button type="button" class="btn sub_btn" title="search"><i class="fas fa-search"></i></button>
                     </div>
-                    <div class="popular-saerches">
+                    <div class="popular-searches">
                         <span>Most searched :</span>
                         <a href="#">Java effective</a>
                         <a href="#">Python effective</a>
                         <a href="#">C++ effective</a>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-sm-1 icon">
-                <div class="loveDiv" >
-                    <span class="notification">0</span>
-                    <button type="button" class="btn sub_btn" title="love"><i class="far fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="col-sm-1 icon">
-                <div class="cartDiv" >
-                    <span class="notification">2</span>
-                    <button type="button" class="btn sub_btn" title="cart">
-                        <i class="fas fa-cart-plus"></i>
-                        <span>|</span><span> &euro;80 </span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="col-sm-1 icon">
-                <div class="loginDiv">
-                    <a type="button" class="btn btn-primary" href="login.html">Login</a>
                 </div>
             </div>
         </div>

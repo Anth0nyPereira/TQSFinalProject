@@ -32,6 +32,6 @@ public class Product implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "img")
+    @Transient
     private String img;
 }

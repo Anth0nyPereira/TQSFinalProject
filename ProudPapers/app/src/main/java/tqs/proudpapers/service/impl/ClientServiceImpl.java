@@ -24,27 +24,51 @@ public class ClientServiceImpl implements ClientService {
     private PaymentMethodRepository paymentMethodRepository;
 
     @Override
-    public void saveClient(ClientDTO clientDTO) {
+    public Client saveClient(ClientDTO clientDTO) {
         Client client = new Client();
         BeanUtils.copyProperties(clientDTO, client);
 
-        PaymentMethod saved = paymentMethodRepository.save(clientDTO.getPaymentMethod());
+        if (client.getPaymentMethodId() != null){
+            PaymentMethod saved = paymentMethodRepository.save(clientDTO.getPaymentMethod());
+            client.setPaymentMethodId(saved.getId());
+        }
 
-        client.setPaymentMethodId(saved.getId());
-        client.setAddress(clientDTO.getZip() + ", " + clientDTO.getCity());
-        clientRepository.save(client);
+        client.setAddress(clientDTO.getZip() + "," + clientDTO.getCity());
+
+        try {
+            return clientRepository.save(client);
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override
-    public ClientDTO getClient(String email, String password) {
-        Client client = clientRepository.getByEmailAndPassword(email, password);
+    public ClientDTO getClientByEmailAndPass(String email, String password) {
+        Client client = clientRepository.getClientByEmailAndPassword(email, password);
+
+        return getClientDTO(client);
+    }
+
+    @Override
+    public ClientDTO getClientByEmail(String email) {
+        return getClientDTO(clientRepository.getClientByEmail(email));
+    }
+
+
+    private ClientDTO getClientDTO(Client client) {
         if (client == null) return null;
 
         ClientDTO dto = new ClientDTO();
         BeanUtils.copyProperties(client, dto);
 
-        PaymentMethod paymentMethod = paymentMethodRepository.getById(client.getPaymentMethodId());
-        dto.setPaymentMethod(paymentMethod);
+        if (client.getPaymentMethodId() != null){
+            PaymentMethod paymentMethod = paymentMethodRepository.getById(client.getPaymentMethodId());
+            dto.setPaymentMethod(paymentMethod);
+        }
+
+        String[] split = client.getAddress().split(",");
+        dto.setZip(split[0].trim());
+        dto.setCity(split[1].trim());
         return dto;
     }
 
