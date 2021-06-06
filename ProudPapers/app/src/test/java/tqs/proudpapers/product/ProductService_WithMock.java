@@ -14,6 +14,7 @@ import tqs.proudpapers.entity.Product;
 import tqs.proudpapers.repository.ClientRepository;
 import tqs.proudpapers.repository.ProductRepository;
 import tqs.proudpapers.service.impl.ClientServiceImpl;
+import tqs.proudpapers.service.impl.ProductServiceImpl;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -47,7 +48,6 @@ public class ProductService_WithMock {
         atmamun.setDescription("The Path To Achieving The Blis Of The Himalayan Swamis. And The Freedom Of A Living God");
         atmamun.setPrice(15.99);
         atmamun.setQuantity(13);
-        atmamun.setImg("/img/Atmamun.jpg");
         atmamun.setId(1);
     }
 

@@ -1221,3 +1221,12 @@
 .invalid-feedback span{
     font-size: 30px;
 }
+
+.product-price{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.product-form{
+    cursor: pointer;
+}

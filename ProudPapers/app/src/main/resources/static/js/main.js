@@ -8,12 +8,16 @@ function hiddenBtn() {
 
 function inc(){
    var curr =  $(".cart-plus-minus-box").val()
+    var newV = parseInt(curr) + 1;
+    newV = Math.min(newV, 0)
    $(".cart-plus-minus-box").val(parseInt(curr) + 1)
 }
 
 function dec(){
     var curr =  $(".cart-plus-minus-box").val()
-    $(".cart-plus-minus-box").val(parseInt(curr) - 1)
+    var newV = parseInt(curr) - 1;
+    newV = Math.max(newV, parseInt($('#quantity').val()));
+    $(".cart-plus-minus-box").val(newV)
 }
 
 function descr(){

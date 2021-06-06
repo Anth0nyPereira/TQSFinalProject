@@ -64,45 +64,5 @@
         <button type="submit" class="submit-btn btn btn-primary">Create</button>
     </form>
 </div>
-<script>
-    $('.submit-btn').click(function (){
-        var body = {}
-        body.name = $('#name').val();
-        body.email = $('#email').val();
-        body.password = $('#password').val();
-        body.zip = $('#zip').val();
-        body.city = $('#city').val();
-        body.telephone = $('#telephone').val();
-        body.paymentMethod = {}
-        body.paymentMethod.cardNumber = $('#cardNumber').val();
-        body.paymentMethod.cardExpirationMonth = $('#cardExpirationMonth').val();
-        body.paymentMethod.cvc = $('#cvc').val();
-       /* $.ajax({
-            type : "POST",
-            headers : {
-                "content-Type":"application/json;charset=UTF-8"
-            },
-            uri: "/signup",
-            data:JSON.stringify(body),
-            success: function (data){
-                console.log(data)
-                Response.Clear();
-                Response.Write(data);
-                Response.End();
-            },
-            error: function (){
-                alert("error")
-            }
-        })*/
-     /*   var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("post", "/signup", false);
-        //设置请求头
-        xmlhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
-        //发送请求
-        xmlhttp.send(JSON.stringify(body));*/
-
-        return true
-    })
-</script>
 </body>
 </html>
