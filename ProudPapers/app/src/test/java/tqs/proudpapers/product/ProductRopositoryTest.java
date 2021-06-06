@@ -1,7 +1,6 @@
 package tqs.proudpapers.product;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -31,27 +30,25 @@ public class ProductRopositoryTest {
     @Autowired
     private ProductRepository repository;
 
-    private static Product atmamun;
+    private Product atmamun;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         atmamun = new Product();
         atmamun.setName("Atmamun");
         atmamun.setDescription("The Path To Achieving The Blis Of The Himalayan Swamis. And The Freedom Of A Living God");
         atmamun.setPrice(15.99);
         atmamun.setQuantity(13);
-        atmamun.setImg("/img/Atmamun.jpg");
-        atmamun.setId(1);
+        entityManager.persistAndFlush(atmamun);
     }
 
     @Test
     public void whenAtmamun_thenReturnAtmamun() {
-        entityManager.persistAndFlush(atmamun);
         List<Product> products = repository.getProductByNameContains(atmamun.getName());
 
         assertEquals(1, products.size());
         assertEquals("Atmamun", products.get(0).getName());
-        assertEquals(1, products.get(0).getId());
+        assertEquals(atmamun.getId(), products.get(0).getId());
     }
 
     @Test
@@ -59,7 +56,7 @@ public class ProductRopositoryTest {
         Product product = repository.getProductById(atmamun.getId());
 
         assertEquals("Atmamun", product.getName());
-        assertEquals(1, product.getId());
+        assertEquals(atmamun.getId(), product.getId());
     }
 
     @Test

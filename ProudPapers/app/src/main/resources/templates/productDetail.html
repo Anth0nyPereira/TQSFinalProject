@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
@@ -29,7 +29,8 @@
     </div>
 
     <div class="main">
-        <div class="content-wraper">
+        <h3 class="no-products" th:if="${product == null}">No product found!</h3>
+        <div class="content-wraper" th:if="${product != null}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-5 col-md-6">
@@ -37,7 +38,7 @@
                             <div class="product-details-images slider-navigation-1">
                                 <div class="product-image-left">
                                     <a class="popup-img venobox vbox-item" href="#" data-gall="myGallery">
-                                        <img th:src="${'/img' + product.img + '.jpg'}" alt="product image"/>
+                                        <img id="product-img" th:src="${'/img/' + product.name + '.jpg'}" alt="product image"/>
                                     </a>
                                 </div>
                             </div>
@@ -50,10 +51,8 @@
                                      </ul>     
                                 </div>
                                 <div class="tabs-content">
-                                    <div id="descr">
-                                        The best is yet to come! Give your walls a voice with a framed poster. This aesthethic, optimistic poster will look great in your desk or in an open-space office. Painted wooden frame with passe-partout for more depth.
-                                    </div>
-                                    <div id="rev" hidden>
+                                    <div id="descr" th:text="${product.description}"></div>
+                                    <div id="rev" hidden="hidden">
                                         my review
                                     </div>
                                 </div>
@@ -65,7 +64,7 @@
                     <div class="col-lg-7 col-md-6">
                         <div class="product-details-view-content pt-60">
                             <div class="product-info">
-                                <h2 th:text="${product.name}"></h2>
+                                <h2 id="product-name" th:text="${product.name}"></h2>
                                 <span class="product-details-ref">Reference: demo_15</span>
                                 <div class="rating-box rr">
                                     <ul class="rating rating-with-review-item">
@@ -79,7 +78,7 @@
                                     </ul>
                                 </div>
                                 <div class="price-box pt-20">
-                                    <span id="price" class="new-price new-price-2">$[[${product.price}]]</span>
+                                    <span id="product-price" class="new-price new-price-2" th:text="${product.getPrice()}"></span>
                                 </div>
                                 <div class="single-add-to-cart">
                                     <form action="#" class="cart-quantity">
@@ -87,6 +86,7 @@
                                             <label>Quantity</label>
                                             <div class="cart-plus-minus">
                                                 <input class="cart-plus-minus-box" value="1" type="text"/>
+                                                <input type="hidden" id="quantity" th:value="${product.quantity}"/>
                                                 <div class="dec qtybutton" onclick="dec()"><i class="fa fa-angle-down"></i></div>
                                                 <div class="inc qtybutton" onclick="inc()"><i class="fa fa-angle-up"></i></div>
                                             </div>
@@ -141,8 +141,8 @@
             </div>
         </div>
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div th:if="${product != null}" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div th:if="${product != null}" class="modal-dialog">
             <div class="modal-content modal-address">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Shipping Address</h5>
@@ -152,7 +152,7 @@
                     <div class="row">
                         <div class="col-lg-5 col-md-6">
                             <div class="product-details-left">
-                                <img class="product-image" th:src="${'/img' + product.img + '.jpg'}" style="width: 400px;"/>
+                                <img class="product-image" th:src="${'/img/' + product.name + '.jpg'}" style="width: 400px;"/>
                                 <div class="descr" th:text="${product.description}">
                                 </div>
                             </div>
@@ -214,6 +214,10 @@
         <div th:replace="commons/common::footer"></div>
 
     </div>
-
+<script>
+    $('.search_box').submit(function (){
+        $('.search_box').attr("action", "/search/" + $('.search-input').val())
+    })
+</script>
 </body>
 </html>

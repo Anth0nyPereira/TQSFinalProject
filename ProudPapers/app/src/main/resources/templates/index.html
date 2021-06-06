@@ -602,6 +602,10 @@
 
         <div th:replace="commons/common::footer"></div>
     </div>
-
+<script>
+    $('.search_box').submit(function (){
+        $('.search_box').attr("action", "/search/" + $('.search-input').val())
+    })
+</script>
 </body>
 </html>

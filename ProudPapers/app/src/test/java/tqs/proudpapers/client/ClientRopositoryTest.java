@@ -1,5 +1,6 @@
 package tqs.proudpapers.client;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -22,16 +23,21 @@ public class ClientRopositoryTest {
     @Autowired
     private ClientRepository repository;
 
-    @Test
-    public void whenFindAlexByEmail_thenReturnAlex() {
-        Client alex = new Client();
+    private Client alex;
+
+    @BeforeEach
+    void setUp(){
+        alex = new Client();
         alex.setEmail("alex@ua.pt");
         alex.setName("alex");
         alex.setPassword("alexS3cr3t");
         alex.setAddress("2222-222, aveiro");
         alex.setTelephone("1234567891011");
         entityManager.persistAndFlush(alex); //ensure data is persisted at this point
+    }
 
+    @Test
+    public void whenFindAlexByEmail_thenReturnAlex() {
         Client found = repository.getClientByEmail(alex.getEmail());
         assertEquals(alex, found);
     }
@@ -44,19 +50,18 @@ public class ClientRopositoryTest {
 
     @Test
     public void givenAlexEmailAndPassword_thenReturnAlex() {
+         Client found = repository.getClientByEmailAndPassword("alex@ua.pt", "alexS3cr3t");
 
-        Client alex = repository.getClientByEmailAndPassword("alex@ua.pt", "alexS3cr3t");
-
-        assertEquals("alex@ua.pt", alex.getEmail());
-        assertEquals("alexS3cr3t", alex.getPassword());
+        assertEquals("alex@ua.pt", found.getEmail());
+        assertEquals("alexS3cr3t", found.getPassword());
     }
 
     @Test
     public void givenAlexEmailAndInvalidPassword_thenReturnNull() {
 
-        Client alex = repository.getClientByEmailAndPassword("alex@ua.pt", "abcd");
+        Client found = repository.getClientByEmailAndPassword("alex@ua.pt", "abcd");
 
-        assertNull(alex);
+        assertNull(found);
     }
 
 
