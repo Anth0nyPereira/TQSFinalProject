@@ -18,7 +18,7 @@ jobs:
         run: cd EasyDelivers/RiderApp; chmod +x gradlew
 
       - name: Analyze with SonarCloud Riders App
-        run: cd EasyDelivers/RiderApp; ./gradlew build jacocoTestReport sonarqube --info
+        run: cd EasyDelivers/RiderApp; ./gradlew test jacocoTestReport sonarqube --info
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.RIDERAPP }}    
