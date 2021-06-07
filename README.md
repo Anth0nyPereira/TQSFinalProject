@@ -13,14 +13,14 @@
 
 
 # TQSFinalProject
-Teste e Qualidade de Software 2020/2021
+*Teste e Qualidade de Software 2020/2021*
 <br>
 
 ## Project Abstract
 
 ### Title: 
-Easy Delivers \
-ProudPapers
+***Easy Delivers*** \
+***ProudPapers***
 
 ### Description:
 **Easy Delivers** is a generic order delivery system that consists of two components: the mobile application, used by riders, that is, order deliverers, where they will be notified of pending orders made to the system, order’s details such as the destination location, among other informations; and also the web interface, used by Easy Delivers managers to monitor the work carried out by their employees (that is, the riders). This second component will allow checking the performance index of each of the riders, making it easier to maintain quality control in the delivery service, namely through the delivery of orders in perfect condition and in a short time, thus allowing the Easy Delivers to become a national reference in order shipment.
@@ -49,7 +49,6 @@ ProudPapers
 - [Hugo Ferreira](https://github.com/HugoDinisOF) (NMEC: 93093)
 - [João Soares](https://github.com/JoaoTS20) (NMEC: 93078)
 - [Wei Ye](https://github.com/Wei93442) (NMEC: 93442)
-
 <br>
 
 ## Project Bookmarks
