@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 07/06/2021 15:34:57
+ Date: 07/06/2021 17:02:09
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE `cart`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `client`(`client`) USING BTREE,
   CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+);
 
 -- ----------------------------
 -- Table structure for cart_products
@@ -41,7 +41,7 @@ CREATE TABLE `cart_products`  (
   INDEX `product`(`product`) USING BTREE,
   CONSTRAINT `cart_products_ibfk_1` FOREIGN KEY (`cart`) REFERENCES `cart` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `cart_products_ibfk_2` FOREIGN KEY (`product`) REFERENCES `product` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+);
 
 -- ----------------------------
 -- Table structure for client
@@ -49,17 +49,17 @@ CREATE TABLE `cart_products`  (
 DROP TABLE IF EXISTS `client`;
 CREATE TABLE `client`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `telephone` char(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `telephone` char(11) NOT NULL,
   `payment_method` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `email`(`email`) USING BTREE,
   INDEX `payment_method`(`payment_method`) USING BTREE,
   CONSTRAINT `client_ibfk_1` FOREIGN KEY (`payment_method`) REFERENCES `payment_method` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+);
 
 -- ----------------------------
 -- Table structure for delivery
@@ -68,12 +68,12 @@ DROP TABLE IF EXISTS `delivery`;
 CREATE TABLE `delivery`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `total_price` decimal(10, 2) NOT NULL,
-  `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `state` varchar(255) NOT NULL,
   `client` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `client`(`client`) USING BTREE,
   CONSTRAINT `delivery_ibfk_1` FOREIGN KEY (`client`) REFERENCES `client` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+);
 
 -- ----------------------------
 -- Table structure for payment_method
@@ -81,11 +81,11 @@ CREATE TABLE `delivery`  (
 DROP TABLE IF EXISTS `payment_method`;
 CREATE TABLE `payment_method`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `card_number` char(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `card_expiration_month` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `cvc` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `card_number` char(16) NOT NULL,
+  `card_expiration_month` varchar(2) NOT NULL,
+  `cvc` char(3) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+);
 
 -- ----------------------------
 -- Table structure for product
@@ -93,13 +93,13 @@ CREATE TABLE `payment_method`  (
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `price` decimal(10, 2) NOT NULL,
   `quantity` int NOT NULL DEFAULT 1,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `description` text NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+);
 
 -- ----------------------------
 -- Table structure for products_of_delivery
@@ -113,7 +113,7 @@ CREATE TABLE `products_of_delivery`  (
   INDEX `delivery`(`delivery`) USING BTREE,
   CONSTRAINT `products_of_delivery_ibfk_1` FOREIGN KEY (`product`) REFERENCES `product` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `products_of_delivery_ibfk_2` FOREIGN KEY (`delivery`) REFERENCES `delivery` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+);
 
 -- ----------------------------
 -- Table structure for state
@@ -121,12 +121,12 @@ CREATE TABLE `products_of_delivery`  (
 DROP TABLE IF EXISTS `state`;
 CREATE TABLE `state`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `description` varchar(255) NOT NULL,
   `delivery` int NOT NULL,
   `timestamp` datetime NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `delivery`(`delivery`) USING BTREE,
   CONSTRAINT `state_ibfk_1` FOREIGN KEY (`delivery`) REFERENCES `delivery` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+);
 
 SET FOREIGN_KEY_CHECKS = 1;
