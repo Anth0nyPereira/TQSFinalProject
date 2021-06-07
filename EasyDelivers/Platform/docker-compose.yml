@@ -2,6 +2,8 @@ version: "3.3"
 services:
     mysql-container:
         image: mysql
+        cap_add:
+            - SYS_NICE 
         tty: true
         ports:
             - 3306:3306

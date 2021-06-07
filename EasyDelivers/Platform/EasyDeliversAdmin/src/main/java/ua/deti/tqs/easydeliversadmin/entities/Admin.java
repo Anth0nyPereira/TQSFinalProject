@@ -85,4 +85,8 @@ public class Admin {
         this.position = position;
         this.description = description;
     }
+
+    public Admin() {
+
+    }
 }
