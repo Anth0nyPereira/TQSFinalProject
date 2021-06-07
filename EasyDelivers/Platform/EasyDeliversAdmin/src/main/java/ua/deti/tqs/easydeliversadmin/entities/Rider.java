@@ -10,9 +10,11 @@ public class Rider {
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         private int id;
-        @Column(name="name")
+        @Column(name="first_name")
         @NotBlank
-        private String name;
+        private String firstname;
+        @Column(name="last_name")
+        private String lastname;
         @Column(name="email")
         @Email
         private String email;
@@ -29,8 +31,9 @@ public class Rider {
         @NotBlank
         private String transportation;
 
-        public Rider(String name, String email, String password, String telephone, String transportation) {
-                this.name = name;
+        public Rider(String firstname, String lastname, String email, String password, String telephone, String transportation) {
+                this.firstname = firstname;
+                this.lastname = lastname;
                 this.email = email;
                 this.password = password;
                 this.telephone = telephone;
@@ -46,12 +49,20 @@ public class Rider {
                 this.id = id;
         }
 
-        public String getName() {
-                return name;
+        public String getFirstname() {
+                return firstname;
         }
 
-        public void setName(String name) {
-                this.name = name;
+        public void setFirstname(String firstname) {
+                this.firstname = firstname;
+        }
+
+        public String getLastname() {
+                return lastname;
+        }
+
+        public void setLastname(String lastname) {
+                this.lastname = lastname;
         }
 
         public String getEmail() {

@@ -16,7 +16,7 @@ public class EasyDeliversService {
         return null;
     }
 
-    public Rider createRider(String name, String email, String password, String telephone, String transportation) {
+    public Rider createRider(String firstname, String lastname, String email, String password, String telephone, String transportation) {
         return null;
     }
 
