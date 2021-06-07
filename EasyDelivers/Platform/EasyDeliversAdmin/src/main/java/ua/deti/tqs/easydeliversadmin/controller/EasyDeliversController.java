@@ -14,14 +14,9 @@ import java.util.Random;
 @RequestMapping("/")
 public class EasyDeliversController {
 
-    @GetMapping("/")
+    @GetMapping("/login")
     public String login(){
         return "login";
-    }
-
-    @GetMapping("/signup")
-    public String signup(){
-        return "signup";
     }
 
     @PostMapping("/dashboard")
