@@ -11,14 +11,14 @@ public class PasswordEncryptionTest {
     private PasswordEncryption encryptor;
 
     @Test
-    public void whenGivenPlainText_ThenCheckItsEncryption() {
+    public void whenGivenPlainText_ThenCheckItsEncryption() throws Exception {
         String plainText = "HelloWorld!";
         String expectedPasswd = "a653423925f386225953e7f9dcd961074ba7498ce45ea64400c8c332";
         assertEquals(encryptor.encrypt(plainText), expectedPasswd);
     }
 
     @Test
-    public void whenGivenTwoEqualPlainTexts_ThenCheckIfHashIsTheSame() {
+    public void whenGivenTwoEqualPlainTexts_ThenCheckIfHashIsTheSame() throws Exception {
         String plainText1 = "HelloWorld!";
         String plainText2 = "HelloWorld!";
 
@@ -26,9 +26,9 @@ public class PasswordEncryptionTest {
     }
 
     @Test
-    public void whenGivenTwoDifferentPlainTexts_ThenCheckIfHashIsNotTheSame() {
+    public void whenGivenTwoDifferentPlainTexts_ThenCheckIfHashIsNotTheSame() throws Exception {
         String plainText1 = "HelloWorld!";
         String plainText2 = "HelloWorld;";
-        assertThat(encryptor.encrypt(plainText1).isNotEquals(encryptor.encrypt(plainText2));
+        assertThat(encryptor.encrypt(plainText1)).isNotEqualTo(plainText2);
     }
 }
