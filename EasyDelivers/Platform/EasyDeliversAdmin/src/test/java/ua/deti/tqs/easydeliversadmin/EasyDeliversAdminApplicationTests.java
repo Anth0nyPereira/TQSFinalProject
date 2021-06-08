@@ -1,13 +1,15 @@
-package tqs.proudpapers;
+package ua.deti.tqs.easydeliversadmin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProudPapersApplicationTests {
+class EasyDeliversAdminApplicationTests {
 
+    /*
     @Test
     void contextLoads() {
     }
+    */
 
 }
