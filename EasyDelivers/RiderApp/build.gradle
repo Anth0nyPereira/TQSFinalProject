@@ -34,6 +34,9 @@ jacocoTestReport {
     xml.enabled true
   }
 }
+test {
+    useJUnitPlatform()
+}
 
 sonarqube {
   properties {
