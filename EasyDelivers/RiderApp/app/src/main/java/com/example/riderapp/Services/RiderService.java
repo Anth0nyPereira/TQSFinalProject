@@ -21,11 +21,11 @@ public class RiderService {
     }
 
     public User login(String email, String password){
-        return null;
+        return api_connection.api_login(email,password);
     }
 
     public User signUp(String first_name, String last_name, String email, String password, String telefone, String transportation){
-        return null;
+        return api_connection.api_signUp(first_name,last_name,email,password, telefone, transportation);
     }
 
 
