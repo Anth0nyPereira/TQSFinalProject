@@ -1,23 +1,3 @@
-.nav{
-    margin-left: 20px;
-}
-
-.nav .hello{
-    position: relative;
-    top: 8px;
-    right: 10px;
-}
-
-.app-name{
-    text-decoration: none;
-    font-size: 20px;
-    color: rgb(43, 43, 43);
-}
-
-.app-name:hover{
-    color: rgb(43, 43, 43);
-}
-
 .header{
     position: relative;
     top: 30px;
@@ -25,9 +5,9 @@
 
 .search_div .search_box{
 	position: relative;
-	width: 100%;
+	width: 80%;
 	height: 50px;
-    left: 50px;
+    float: right;
 }
 
 .search_div .search_box .input{
@@ -155,9 +135,9 @@
     position: absolute;
     background-color: rgb(212, 85, 0);
     border-radius: 50%;
-    padding: 0px 6px;
+    padding: 3px 9px;
 	z-index: 2;
-    top: -5%;
+    top: -20%;
 }
 
 .loveDiv .btn{
@@ -166,8 +146,8 @@
     border-color: rgb(225, 225, 225);
 	z-index: 1;
 	cursor: pointer;
-    font-size: 16px;
-    padding: 5px 8px;
+    font-size: 18px;
+    padding: 7px 10px;
     left: 10%;
     margin: 0;
 }
@@ -181,7 +161,9 @@
     background-color: red;
 	z-index: 1;
 	cursor: pointer;
-    font-size: 15px;
+    font-size: 18px;
+    padding: 7px 10px;
+    margin: 0;
     width: 100px;
 }
 
@@ -194,24 +176,24 @@
     margin-right: 10px;
 }
 
-.popular-searches{
+.popular-saerches{
     position: absolute;
     bottom: 10px;
-    left: 280px;
+    left: 360px;
 }
 
-.popular-searches span{
+.popular-saerches span{
     font-size: 14px;
 }
 
-.popular-searches a{
+.popular-saerches a{
     font-size: 15px;
     margin-left: 5px;
     text-decoration: none;
     color: rgb(187,187,187);
 }
 
-.popular-searches a:hover{
+.popular-saerches a:hover{
     text-decoration: underline;
 }
 
@@ -1192,34 +1174,4 @@
 .modal-body .descr{
     color: #7a7a7a;
     margin-left: 50px;
-}
-
-.login-container{
-    position: relative;
-    width: 50%;
-    left: 25%;
-    top: 50px;
-    border-radius: 15px;
-    padding: 20px;
-    border: 1px solid rgb(218, 220, 224);
-    margin-bottom: 20px;
-}
-
-.login-container div{
-    margin-bottom: 10px;
-}
-
-.login-container button{
-    position: relative;
-    left: 80%;
-}
-
-.signup a{
-    text-decoration: none;
-}
-
-.invalid-feedback{
-    display: block;
-    font-size: 1px;
-    z-index: 99;
 }
