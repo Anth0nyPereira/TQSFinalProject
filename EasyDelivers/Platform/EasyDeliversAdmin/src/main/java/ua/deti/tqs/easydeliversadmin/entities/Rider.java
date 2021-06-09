@@ -26,7 +26,6 @@ public class Rider {
         @NotBlank
         private String telephone;
         @Column(name="delivery_radius")
-        @NotBlank
         private int delivery_radius;
         @Column(name="transportation")
         @NotBlank
