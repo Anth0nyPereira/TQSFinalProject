@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Proud Papers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="/css/main.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/main.js"></script>
+</head>
+
+<body>
+    <div th:replace="commons/common::header"></div>
+      
+      <div class="container-fluid account-info">
+        <div class="row">
+            <div th:replace="commons/common::menu"></div>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">My Info</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button hidden type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            <button hidden type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                        </div>
+                        <button hidden type="button" class="btn btn-sm btn-outline-secondary">
+                            Edit
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-content">
+                    <div class="mb-3 row" th:if="${myinfo}">
+                        <label for="email" class="col-sm-2 col-form-label">User Email:</label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly="readonly" class="form-control" id="email" value="example@ex.com"/>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row" th:if="${myinfo}">
+                        <label for="username" class="col-sm-2 col-form-label">User Name:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="username" value="Username"/>
+                        </div>
+                    </div>
+                
+
+                    <div class="mb-3 row" th:if="${myinfo || address}">
+                        <label for="zip" class="col-sm-2 col-form-label">Zip/Postal code:</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="zip" rows="3" name="zip" value="12345-1234">
+                        </div>
+                    </div>
+                    <div class="mb-3 row" th:if="${myinfo || address}">
+                        <label for="city" class="col-sm-2 col-form-label">City:</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="city" rows="3" name="city" value="Aveiro">
+                        </div>
+                    </div>
+                    <div class="mb-3 row" th:if="${myinfo || contact}">
+                        <label for="telephone" class="col-sm-2 col-form-label">Telephone:</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="telephone" rows="3" name="telephone" value="12345678999" maxlength="11">
+                        </div>
+                    </div>
+                    <div class="mb-3 row" th:if="${myinfo || payment}">
+                        <label for="cardNumber" class="col-sm-2 col-form-label">Card Number:</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="cardNumber" rows="3" name="cardNumber" value="1234 5678 8765 4321" maxlength="16">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row" th:if="${myinfo || payment}">
+                        <label for="cardExpirationMonth" class="col-sm-2 col-form-label">Card Expiration Month:</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="cardExpirationMonth" rows="3" name="cardExpirationMonth" value="06" maxlength="2">
+                        </div>
+                    </div>
+                    <div class="mb-3 row" th:if="${myinfo || payment}">
+                        <label for="cvc" class="col-sm-2 col-form-label">CVC:</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="cvc" rows="3" name="cvc" value="123" maxlength="3">
+                        </div>
+                    </div>
+
+                    <div class="cart" th:if="${cart}">
+                        <div class="row mb-3">
+                            <div class="col-md-10">
+                                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                                    <div class="col-auto d-none d-lg-block">
+                                        <img class="bd-placeholder-img" width="200" height="150" src="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                    </div>
+                                    <div class="col p-4 d-flex flex-column position-static">
+                                        <h5 class="mb-0">Featured post</h5>
+                                        <div class="mb-1 text-muted">€ 15.2   <span>    1x </span></div>
+                                        <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="deliveries" th:if="${deliveries}">
+                        <div class="row mb-3">
+                            <div class="col-md-10">
+                                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                                    <div class="col-auto d-none d-lg-block">
+                                        <img class="bd-placeholder-img" width="200" height="150" src="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                    </div>
+                                    <div class="col p-4 d-flex flex-column position-static">
+                                        <h5 class="mb-0">Featured post</h5>
+                                        <div class="mb-1 text-muted">€ 15.2   <span>    1x </span></div>
+                                        <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+
+          </main>
+        </div>
+      </div>
+<script>
+    $('.search_box').submit(function (){
+        $('.search_box').attr("action", "/search/" + $('.search-input').val())
+    })
+</script>
+</body>
+</html>

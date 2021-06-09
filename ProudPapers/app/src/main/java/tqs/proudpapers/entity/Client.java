@@ -46,5 +46,4 @@ public class Client implements Serializable {
     @Column(name="payment_method")
     private Integer paymentMethodId;
 
-
 }
