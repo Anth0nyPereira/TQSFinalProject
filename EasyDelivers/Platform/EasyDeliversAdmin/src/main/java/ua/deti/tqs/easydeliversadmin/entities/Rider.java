@@ -3,6 +3,7 @@ package ua.deti.tqs.easydeliversadmin.entities;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Rider")
@@ -39,6 +40,10 @@ public class Rider {
                 this.telephone = telephone;
                 this.transportation = transportation;
                 this.delivery_radius = 50;
+        }
+
+        public Rider() {
+
         }
 
         public int getId() {
@@ -103,5 +108,18 @@ public class Rider {
 
         public void setTransportation(String transportation) {
                 this.transportation = transportation;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Rider rider = (Rider) o;
+                return delivery_radius == rider.delivery_radius && Objects.equals(firstname, rider.firstname) && Objects.equals(lastname, rider.lastname) && Objects.equals(email, rider.email) && Objects.equals(password, rider.password) && Objects.equals(telephone, rider.telephone) && Objects.equals(transportation, rider.transportation);
+        }
+
+        @Override
+        public int hashCode() {
+                return Objects.hash(firstname, lastname, email, password, telephone, delivery_radius, transportation);
         }
 }
