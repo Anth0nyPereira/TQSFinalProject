@@ -2,10 +2,10 @@ package ua.deti.tqs.easydeliversadmin.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.deti.tqs.easydeliversadmin.entities.Rider;
 import ua.deti.tqs.easydeliversadmin.repository.RiderRepository;
 
-import javax.transaction.Transactional;
 
 @Service
 @Transactional
