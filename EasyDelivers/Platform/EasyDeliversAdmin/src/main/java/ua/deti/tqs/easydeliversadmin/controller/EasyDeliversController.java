@@ -66,7 +66,7 @@ public class EasyDeliversController {
     public String account(){
         log.info(session);
         if(!session.equals(""))
-            return "account";
+            return "user";
         else
             return "login";
     }
