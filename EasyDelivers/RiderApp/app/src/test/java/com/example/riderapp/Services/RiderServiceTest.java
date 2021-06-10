@@ -2,8 +2,10 @@ package com.example.riderapp.Services;
 
 
 import com.example.riderapp.Classes.User;
+import com.example.riderapp.Connections.API_Client;
 import com.example.riderapp.Connections.API_Connection;
 
+import org.apiguardian.api.API;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +22,6 @@ import static org.mockito.Mockito.when;
 
 class RiderServiceTest {
 
-
     API_Connection api_connection;
 
     RiderService riderService;
@@ -29,10 +30,10 @@ class RiderServiceTest {
 
     @BeforeEach
     void setUp() {
-        api_connection = mock(API_Connection.class);
+        api_connection=mock(API_Connection.class);
         user = new User("user","name","rider@email.com", "pass1234", "930921312","car");
-        riderService = new RiderService();
-        riderService.setApi_connection(api_connection);
+        riderService = new RiderService(api_connection);
+
     }
 
     @AfterEach
