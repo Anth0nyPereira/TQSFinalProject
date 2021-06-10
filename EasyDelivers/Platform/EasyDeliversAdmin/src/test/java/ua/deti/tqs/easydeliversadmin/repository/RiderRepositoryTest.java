@@ -1,12 +1,10 @@
 package ua.deti.tqs.easydeliversadmin.repository;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
@@ -20,11 +18,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Testcontainers
-@DataJpaTest
+@SpringBootTest
 class RiderRepositoryTest {
-
-    @Autowired
-    private TestEntityManager entityManager;
 
     @Autowired
     private RiderRepository riderRepository;
@@ -45,20 +40,35 @@ class RiderRepositoryTest {
         registry.add("spring.datasource.username", container::getUsername);
     }
 
+    Rider rider;
 
     @BeforeEach
     void setUp() {
+        rider = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
     }
 
     @AfterEach
     void tearDown() {
+        riderRepository.deleteAll();
     }
+
+    @Test
+    @DisplayName("Tests invalid Find Rider By Email")
+    void whenInvalidFindRiderByEmail_thenReturnRider(){
+        rider = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
+
+        Rider fromDB = riderRepository.findRiderByEmail("hugo@email.com");
+
+        assertThat(fromDB).isNull();
+    }
+
+
 
     @Test
     @DisplayName("Tests a valid Find Rider By Email")
     void whenValidFindRiderByEmail_thenReturnRider(){
-        Rider rider = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
-        entityManager.persistAndFlush(rider);
+        riderRepository.save(rider);
+
         Rider fromDB = riderRepository.findRiderByEmail("hugo@email.com");
         assertThat(fromDB).isNotNull();
         assertEquals(fromDB.getEmail(),rider.getEmail());
