@@ -1,7 +1,6 @@
 package ua.deti.tqs.easydeliversadmin.controller;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.deti.tqs.easydeliversadmin.entities.Admin;
+import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
+import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 
-import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -20,61 +20,96 @@ import java.util.logging.Logger;
 public class EasyDeliversController {
     private static final Logger log = Logger.getLogger(EasyDeliversController.class.getName());
 
-    @GetMapping("/login")
-    public String login(){
+    private String session = "";
+
+    @Autowired
+    EasyDeliversService service;
+
+    @GetMapping("/logout")
+    public String logout(){
+        session = "";
         return "login";
     }
 
-   /* @PostMapping("/login")
-    public String postLogin(Model model, HttpSession session){
-        log.info("postLogin()");
-
-        // read principal out of security context and set it to session
-        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        Admin loggedInUser = ((Admin) authentication.getPrincipal());
-
-        session.setAttribute("userEmail", loggedInUser.getEmail());
-        return "redirect:/wallPage";
-    }*/
+    @GetMapping("login")
+    public String login(){
+        log.warning("LOGIN");
+        return "login";
+    }
 
     @PostMapping("/dashboard")
-    public String dash(@RequestParam(value = "email", defaultValue = "")String email, @RequestParam(value = "password", defaultValue = "")String password){
-        return "dashboard";
+    public String login(@RequestParam(value = "email", defaultValue = "ola")String email, @RequestParam(value = "password", defaultValue = "ola")String password) throws EasyDeliversService.AdminNotFoundException, Exception {
+        log.warning("LOGS");
+        Admin admin = service.getAdminByEmail(email);
+        log.info("Email: " + email);
+        log.info("Pass: " + password);
+        log.info(admin.getFirst_name());
+        PasswordEncryption encryptor = new PasswordEncryption();
+        if (admin.getPassword().equals(encryptor.encrypt(password))) {
+            session = email;
+            return "dashboard";
+        } else{
+            return "login";
+        }
     }
 
     @GetMapping("/dashboard")
     public String dash(){
-        return "dashboard";
+        log.info(session);
+        if(!session.equals(""))
+            return "dashboard";
+        else
+            return "login";
     }
 
     @GetMapping("/account")
     public String account(){
-        return "user";
+        log.info(session);
+        if(!session.equals(""))
+            return "account";
+        else
+            return "login";
     }
 
     @GetMapping("/employees")
     public String tables(){
-        return "employees";
+        log.info(session);
+        if(!session.equals(""))
+            return "employees";
+        else
+            return "login";
     }
 
     @GetMapping("/deliveries")
     public String deliveries(){
-        return "deliveries";
+        log.info(session);
+        if(!session.equals(""))
+            return "deliveries";
+        else
+            return "login";
     }
 
     @GetMapping("/employee")
     public String singular(@RequestParam(value="id") int id, Model model){
-        Random randomNumb = new Random();
-        int kms = randomNumb.nextInt(40);
-        int deliveries = randomNumb.nextInt(40);
-        int time = randomNumb.nextInt(40);
-        DecimalFormat df = new DecimalFormat("#.#");
-        double score = 5 * randomNumb.nextDouble();
-        model.addAttribute("kms", kms);
-        model.addAttribute("deliveries", deliveries);
-        model.addAttribute("time", time);
-        model.addAttribute("score", df.format(score));
-        return "riderDashboard";
+        log.info(session);
+        if(!session.equals("")){
+            Random randomNumb = new Random();
+            int kms = randomNumb.nextInt(40);
+            int deliveries = randomNumb.nextInt(40);
+            int time = randomNumb.nextInt(40);
+            DecimalFormat df = new DecimalFormat("#.#");
+            double score = 5 * randomNumb.nextDouble();
+            model.addAttribute("kms", kms);
+            model.addAttribute("deliveries", deliveries);
+            model.addAttribute("time", time);
+            model.addAttribute("score", df.format(score));
+            return "riderDashboard";
+        }
+        else{
+            return "login";
+        }
+
+
     }
 
 

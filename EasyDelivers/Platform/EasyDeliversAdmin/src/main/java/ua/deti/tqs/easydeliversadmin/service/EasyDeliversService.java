@@ -45,7 +45,7 @@ public class EasyDeliversService {
     }
 
 
-    private class AdminNotFoundException extends Throwable {
+    public class AdminNotFoundException extends Throwable {
         public AdminNotFoundException(String s) {
             final Logger log = LoggerFactory.getLogger(EasyDeliversService.class);
             log.info(s);

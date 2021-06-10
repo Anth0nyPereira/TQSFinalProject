@@ -11,7 +11,6 @@ Coded by Creative Tim
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" th:href="@{/img/apple-icon.png}">
@@ -225,7 +224,7 @@ The above copyright notice and this permission notice shall be included in all c
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
                   <a class="dropdown-item" th:href="@{/account}">Profile</a>
-                  <a class="dropdown-item" href="#">Log out</a>
+                  <a class="dropdown-item" th:href="@{/logout}">Log out</a>
                 </div>
               </li>
             </ul>
