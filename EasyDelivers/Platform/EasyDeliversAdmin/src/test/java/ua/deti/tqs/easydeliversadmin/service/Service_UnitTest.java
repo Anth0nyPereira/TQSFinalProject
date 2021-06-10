@@ -38,7 +38,7 @@ public class Service_UnitTest {
     }
 
     @Test
-    public void whenValidName_thenEmployeeShouldBeFound() throws EasyDeliversService.AdminNotFoundException {
+    public void whenValidEmail_thenAdminShouldBeFound() throws EasyDeliversService.AdminNotFoundException {
         String email = "alex@deti.com";
         Admin found = service.getAdminByEmail(email);
 
@@ -46,7 +46,7 @@ public class Service_UnitTest {
     }
 
     @Test
-    public void whenInValidName_thenEmployeeShouldNotBeFound() {
+    public void whenInValidEmail_thenAdminShouldNotBeFound() {
         assertThrows(EasyDeliversService.AdminNotFoundException.class, () -> service.getAdminByEmail("wrong_email"));
 
         verifyFindByEmailIsCalledOnce("wrong_email");
