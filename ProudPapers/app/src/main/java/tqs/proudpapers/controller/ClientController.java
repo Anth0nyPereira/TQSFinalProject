@@ -3,10 +3,7 @@ package tqs.proudpapers.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.entity.ClientDTO;
 import tqs.proudpapers.entity.PaymentMethod;
@@ -61,6 +58,24 @@ public class ClientController {
         session.setAttribute("userEmail", email);
         session.setAttribute("userName", client.getName());
         return "index";
+    }
+
+
+    @GetMapping("/account/{id}/{page}")
+    public String accountInfo(@PathVariable("id") Integer id,
+                              @PathVariable("page") String page,
+                              Model model){
+        String[] pages = {"myinfo", "address", "contact", "payment", "cart", "deliveries"};
+
+        for (String s : pages) {
+            if (s.equals(page)){
+                model.addAttribute(s, true);
+            }else{
+                model.addAttribute(s, false);
+            }
+        }
+
+        return "account";
     }
 
 }
