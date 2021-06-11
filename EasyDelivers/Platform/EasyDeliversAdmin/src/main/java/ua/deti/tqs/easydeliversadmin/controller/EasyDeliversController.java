@@ -31,7 +31,7 @@ public class EasyDeliversController {
         return "login";
     }
 
-    @GetMapping("login")
+    @GetMapping("/login")
     public String login(){
         log.warning("LOGIN");
         return "login";
