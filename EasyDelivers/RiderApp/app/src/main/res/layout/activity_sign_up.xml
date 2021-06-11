@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextUsername1"
+        android:id="@+id/editTextTextEmail1"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginBottom="25dp"
@@ -38,7 +38,7 @@
         android:layout_height="186dp"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextUsername1"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTextEmail1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

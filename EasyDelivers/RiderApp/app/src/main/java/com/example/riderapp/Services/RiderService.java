@@ -1,14 +1,8 @@
 package com.example.riderapp.Services;
 
 import com.example.riderapp.Classes.User;
-import com.example.riderapp.Connections.API_Client;
 import com.example.riderapp.Connections.API_Connection;
-import com.google.android.gms.common.api.Api;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RiderService {
 

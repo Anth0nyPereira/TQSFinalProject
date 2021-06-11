@@ -1,14 +1,24 @@
 package com.example.riderapp.Classes;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
 
+    @SerializedName("id")
     private int id;
+    @SerializedName("firstname")
     private String firstname;
+    @SerializedName("lastname")
     private String lastname;
+    @SerializedName("email")
     private String email;
+    @SerializedName("password")
     private String password;
+    @SerializedName("telephone")
     private String telephone;
+    @SerializedName("delivery_radius")
     private int delivery_radius;
+    @SerializedName("transportation")
     private String transportation;
 
     public User(String firstname, String lastname, String email, String password, String telephone, String transportation) {
