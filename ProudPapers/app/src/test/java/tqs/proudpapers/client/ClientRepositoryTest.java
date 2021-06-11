@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.repository.ClientRepository;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @date 2021/6/5 21:15
  */
 @DataJpaTest
-public class ClientRopositoryTest {
+public class ClientRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;

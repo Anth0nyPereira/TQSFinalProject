@@ -88,7 +88,7 @@
                         </div>
                     </div>
 
-                    <div class="cart" th:if="${cart}">
+                    <div class="cart" th:if="${cart}" th:each="product:${cartDto.products}">
                         <div class="row mb-3">
                             <div class="col-md-10">
                                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -96,16 +96,16 @@
                                         <img class="bd-placeholder-img" width="200" height="150" src="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
                                     </div>
                                     <div class="col p-4 d-flex flex-column position-static">
-                                        <h5 class="mb-0">Featured post</h5>
-                                        <div class="mb-1 text-muted">€ 15.2   <span>    1x </span></div>
-                                        <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                                        <h5 class="mb-0 cart-product-name" th:text="${product.name}"></h5>
+                                        <div class="mb-1 text-muted cart-product-price">€ [[{product.price}]]</div>
+                                        <p class="card-text mb-auto cart-product-desc" th:text="${product.description}"></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="deliveries" th:if="${deliveries}">
+                    <div class="deliveries" th:if="${deliveries}" th:each="delivery:${deliveries}">
                         <div class="row mb-3">
                             <div class="col-md-10">
                                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">

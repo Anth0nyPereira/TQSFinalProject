@@ -1,14 +1,14 @@
 package tqs.proudpapers.client;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
+import org.mockito.internal.verification.VerificationModeFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import tqs.proudpapers.controller.ClientController;
+import tqs.proudpapers.ProudPapersApplication;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.entity.ClientDTO;
 import tqs.proudpapers.entity.PaymentMethod;
@@ -17,27 +17,29 @@ import tqs.proudpapers.service.ClientService;
 
 import java.util.Arrays;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author wy
- * @date 2021/6/5 22:17
+ * @date 2021/6/11 12:33
  */
-@WebMvcTest(ClientController.class)
-public class ClientControllerTest_WithMock {
-
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProudPapersApplication.class)
+@AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class ClientController_IT {
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
+    @Autowired
     private ClientService clientService;
 
-    @MockBean
+    @Autowired
     private CartService cartService;
 
-    private static ClientDTO alexDTO;
+    private ClientDTO alexDTO;
     private Client alex;
 
     @BeforeEach
@@ -49,7 +51,6 @@ public class ClientControllerTest_WithMock {
         alexDTO.setZip("2222-222");
         alexDTO.setCity("aveiro");
         alexDTO.setTelephone("1234567891011");
-        alexDTO.setId(11);
 
         PaymentMethod paymentMethod = new PaymentMethod();
         paymentMethod.setCardNumber("1234567891234567");
@@ -63,33 +64,35 @@ public class ClientControllerTest_WithMock {
         alex.setAddress(alexDTO.getZip() + "," + alexDTO.getCity());
     }
 
+    @Order(1)
     @Test
     public void signUpWithAlex_thenLoginPageWithAlexEmail() throws Exception {
-
-        Mockito.when(clientService.saveClient(alexDTO)).thenReturn(alex);
-
         mvc.perform(post("/signup")
-                    .param("name", alexDTO.getName())
-                    .param("email", alexDTO.getEmail())
-                    .param("password", alexDTO.getPassword())
-                    .param("city", alexDTO.getCity())
-                    .param("zip", alexDTO.getZip())
-                    .param("telephone", alexDTO.getTelephone())
-                    .param("cardNumber", "1234567891234567")
-                    .param("cardExpirationMonth", "11")
-                    .param("cvc", "123"))
+                .param("name", alexDTO.getName())
+                .param("email", alexDTO.getEmail())
+                .param("password", alexDTO.getPassword())
+                .param("city", alexDTO.getCity())
+                .param("zip", alexDTO.getZip())
+                .param("telephone", alexDTO.getTelephone())
+                .param("cardNumber", "1234567891234567")
+                .param("cardExpirationMonth", "11")
+                .param("cvc", "123"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"))
                 .andExpect(xpath("//input[@id='email']").string(alex.getEmail()));
+
+        ClientDTO result = clientService.getClientByEmail(alex.getEmail());
+        assertEquals(result.getEmail(), alex.getEmail());
+        assertEquals(result.getName(), alex.getName());
+        assertEquals(result.getTelephone(), alex.getTelephone());
     }
 
+    @Order(2)
     @Test
     public void signUpWithUsedEmail_thenSignUpPageWithErrorMessage() throws Exception {
         ClientDTO copyed = new ClientDTO();
         BeanUtils.copyProperties(alexDTO, copyed);
-        copyed.setEmail("used@ua.pt");
-
-        Mockito.when(clientService.saveClient(copyed)).thenReturn(null);
+        copyed.setEmail(alexDTO.getEmail());  // this email is already used by alex
 
         mvc.perform(post("/signup")
                 .param("name", copyed.getName())
@@ -100,71 +103,85 @@ public class ClientControllerTest_WithMock {
                 .param("telephone", copyed.getTelephone())
                 .param("cardNumber", "1234567891234567")
                 .param("cardExpirationMonth", "11")
-                .param("cvc", "123")).andExpect(status().isOk())
+                .param("cvc", "123"))
+                .andExpect(status().isOk())
                 .andExpect(view().name("signUp"))
                 .andExpect(xpath("//h5[@id='error-msg']").exists());
-  }
 
+    }
 
+    @Order(3)
+    @Test
+    public void getCartWithoutLogin_thenLoginPage() throws Exception {
+        mvc.perform(get("/{clientId}/cart",1))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"));
+
+        Mockito.verify(cartService, VerificationModeFactory.times(0)).getProductsByCartID(1);
+    }
+
+    @Order(4)
     @Test
     public void loginWithAlex_thenIndexPageContainsUsernameAndButtons() throws Exception {
-        Mockito.when(clientService.getClientByEmailAndPass(alexDTO.getEmail(), alexDTO.getPassword())).thenReturn(alexDTO);
-
         mvc.perform(post("/login")
-                    .param("email", alex.getEmail())
-                    .param("password", alex.getPassword()))
+                .param("email", alex.getEmail())
+                .param("password", alex.getPassword()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
                 .andExpect(xpath("//div[contains(@class, 'username')]").string(alex.getName()))
                 .andExpect(xpath("//div[contains(@class, 'loveDiv')]").exists())
                 .andExpect(xpath("//div[contains(@class, 'cartDiv')]").exists());
+
+        Mockito.verify(clientService, VerificationModeFactory.times(1)).getClientByEmailAndPass(alex.getEmail(), alex.getPassword());
     }
 
+    @Order(5)
     @Test
     public void loginWithIncorrectPassword_thenLoginPageWithErrorMessage() throws Exception {
-        Mockito.when(clientService.getClientByEmailAndPass(alexDTO.getEmail(), "invalid")).thenReturn(null);
-
         mvc.perform(post("/login",alexDTO.getEmail(), "invalid"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"))
                 .andExpect(xpath("//h5[@id='error-msg']").exists());
+
+        Mockito.verify(clientService, VerificationModeFactory.times(1)).getClientByEmailAndPass(alex.getEmail(), alex.getPassword());
     }
 
+    @Order(6)
     @Test
-    public void getProductsInTheCart_thenReturnProducts() throws Exception {
+    public void addProductToCart_thenSizeOne() throws Exception {
         Product b1 = new Product();
+        b1.setId(111);
         b1.setName("Book A");
         b1.setPrice(10.0);
-        b1.setDescription("Test Book");
+        b1.setQuantity(99);
+        b1.setDescription("Test");
 
-        int clientId = 1;
+        mvc.perform(get("/add_to_cart")
+                    .param("product", b1.getId() + ""))
+                .andExpect(status().isOk());
 
-        CartDTO cart = new CartDTO();
-        cart.setClientId(clientId);
-        cart.setProducts(Arrays.asList(b1));
+        CartDTO cartDTO = cartService.getCartByClientID(alex.getId());
+        assertEquals(1, cartDTO.getProducts().size());
+        assertEquals(b1, cartDTO.getProducts().get(0));
+     }
 
-        Mockito.when(cartService.getCart(alex.getId())).thenReturn(cart);
+    @Order(7)
+    @Test
+    public void getProductsInTheCart_thenReturnProducts() throws Exception {
+        CartDTO cartDTO = cartService.getCartByClientID(alex.getId());
+        Product p = cartDTO.getProducts().get(0);
 
         mvc.perform(get("/cart"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("account"))
-                .andExpect(xpath("//h5[contains(@class, 'cart-product-name']").string(b1.getName()))
-                .andExpect(xpath("//div[contains(@class, 'cart-product-price')]").string("€ " + b1.getPrice()))
-                .andExpect(xpath("//p[contains(@class, 'cart-product-desc')]").string(b1.getDescription()));
+                .andExpect(xpath("//h5[contains(@class, 'cart-product-name']").string(p.getName()))
+                .andExpect(xpath("//div[contains(@class, 'cart-product-price')]").string("€ " + p.getPrice()))
+                .andExpect(xpath("//p[contains(@class, 'cart-product-desc')]").string(p.getDescription()));
     }
 
+    @Order(8)
     @Test
     public void buyProductsInTheCart_thenCartEmpty() throws Exception {
-        Product b1 = new Product();
-        b1.setName("Book A");
-        b1.setPrice(10.0);
-        b1.setName("Test Book");
-
-        CartDTO cart = new CartDTO();
-        cart.setProducts(Arrays.asList(b1));
-
-        Mockito.when(cartService.buyAllProdutsInTheCart(alex.getId())).thenReturn(null);
-
         mvc.perform(post("/purchase")
                 .param("name", alexDTO.getName())
                 .param("email", alexDTO.getEmail())
@@ -180,5 +197,8 @@ public class ClientControllerTest_WithMock {
                 .andExpect(xpath("//h5[contains(@class, 'cart-product-name']").doesNotExist())
                 .andExpect(xpath("//div[contains(@class, 'cart-product-price')]").doesNotExist())
                 .andExpect(xpath("//p[contains(@class, 'cart-product-desc')]").doesNotExist());
+
+        CartDTO cartDTO = cartService.getCartByClientID(alex.getId());
+        assertEquals(0, cartDTO.getProducts().size());
     }
 }

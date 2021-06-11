@@ -6,20 +6,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.verification.VerificationModeFactory;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.entity.ClientDTO;
 import tqs.proudpapers.repository.ClientRepository;
 import tqs.proudpapers.service.impl.ClientServiceImpl;
 
-import java.util.Arrays;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.ArgumentMatchers.any;
 
 /**
  * @author wy
@@ -34,25 +28,22 @@ public class ClientService_WithMock {
     @InjectMocks
     private ClientServiceImpl service;
 
+    private Client alex;
 
     @BeforeEach
     public void setUp() {
-        Client alex = new Client();
+        alex = new Client();
         alex.setEmail("alex@ua.pt");
         alex.setName("alex");
         alex.setPassword("alexS3cr3t");
         alex.setAddress("2222-222, aveiro");
         alex.setTelephone("1234567891011");
-
-        Mockito.when(repository.getClientByEmail(alex.getEmail())).thenReturn(alex);
-        Mockito.when(repository.getClientByEmail("invalid")).thenReturn(null);
-        Mockito.when(repository.getClientByEmailAndPassword(alex.getEmail(), alex.getPassword())).thenReturn(alex);
-        Mockito.when(repository.getClientByEmailAndPassword(alex.getEmail(), "invalid")).thenReturn(null);
-        Mockito.when(repository.getClientByEmailAndPassword("invalid", "invalid")).thenReturn(null);
     }
 
     @Test
     public void whenValidEmail_thenReturnAlex() {
+        Mockito.when(repository.getClientByEmail(alex.getEmail())).thenReturn(alex);
+
         String email = "alex@ua.pt";
         ClientDTO alex = service.getClientByEmail(email);
 
@@ -63,6 +54,8 @@ public class ClientService_WithMock {
 
     @Test
     public void whenInValidEmail_thenReturnNull() {
+        Mockito.when(repository.getClientByEmail("invalid")).thenReturn(null);
+
         Client found = repository.getClientByEmail("invalid");
 
         assertNull(found);
@@ -70,6 +63,8 @@ public class ClientService_WithMock {
 
     @Test
     public void whenAlexEmailAndPassword_thenReturnAlex() {
+        Mockito.when(repository.getClientByEmailAndPassword(alex.getEmail(), alex.getPassword())).thenReturn(alex);
+
         ClientDTO alex = service.getClientByEmailAndPass("alex@ua.pt", "alexS3cr3t");
 
         assertEquals("alex@ua.pt", alex.getEmail());
@@ -79,6 +74,8 @@ public class ClientService_WithMock {
 
     @Test
     public void whenAlexEmailAndInvalidPassword_thenReturnNull() {
+        Mockito.when(repository.getClientByEmailAndPassword(alex.getEmail(), "invalid")).thenReturn(null);
+
         ClientDTO found = service.getClientByEmailAndPass("alex@ua.pt", "invalid");
 
         assertNull(found);
@@ -86,7 +83,10 @@ public class ClientService_WithMock {
 
     @Test
     public void whenInvalidEmailAndAnyPassword_thenReturnNull() {
+        Mockito.when(repository.getClientByEmailAndPassword("invalid", "invalid")).thenReturn(null);
+
         ClientDTO found  = service.getClientByEmailAndPass("invalid", "invalid");
+
         assertNull(found);
     }
 
