@@ -5,7 +5,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class API_Client {
+public class API_Service {
 
     private static API_Connection api_connection = null;
 
@@ -15,7 +15,7 @@ public class API_Client {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
        api_connection = new Retrofit.Builder()
-                .baseUrl("192.168.1.70:8080")
+                .baseUrl("http://192.168.1.70:8080")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

@@ -94,4 +94,18 @@ public class User {
     public void setTransportation(String transportation) {
         this.transportation = transportation;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", delivery_radius=" + delivery_radius +
+                ", transportation='" + transportation + '\'' +
+                '}';
+    }
 }

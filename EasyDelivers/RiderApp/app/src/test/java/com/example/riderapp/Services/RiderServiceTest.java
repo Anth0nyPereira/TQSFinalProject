@@ -1,27 +1,14 @@
 package com.example.riderapp.Services;
 
 
-import com.example.riderapp.Classes.User;
-import com.example.riderapp.Connections.API_Client;
-import com.example.riderapp.Connections.API_Connection;
-
-import org.apiguardian.api.API;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 
 class RiderServiceTest {
-
+/***
     API_Connection api_connection;
 
     RiderService riderService;
@@ -94,5 +81,5 @@ class RiderServiceTest {
                 .api_signUp("user","name","rider@email.com", "pass1234", "930921312","car");
 
     }
-
+***/
 }
