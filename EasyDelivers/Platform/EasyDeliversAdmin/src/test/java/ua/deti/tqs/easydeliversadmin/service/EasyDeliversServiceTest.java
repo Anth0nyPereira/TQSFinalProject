@@ -9,9 +9,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.entities.Rider;
+import ua.deti.tqs.easydeliversadmin.repository.DeliveryRepository;
 import ua.deti.tqs.easydeliversadmin.repository.RiderRepository;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -23,22 +29,38 @@ class EasyDeliversServiceTest {
     @Mock(lenient = true)
     private RiderRepository riderRepository;
 
+    @Mock(lenient = true)
+    private DeliveryRepository deliveryRepository;
+
     @InjectMocks
     private EasyDeliversService easyDeliversService;
 
     Rider rider1;
     Rider invalid;
     Rider newRider;
+    Delivery del1;
+    Delivery del2;
+    Delivery del3;
+    List<Delivery> allDeliversAwaitingProcessing;
+
     @BeforeEach
     void setUp() {
         rider1 = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
         invalid = new Rider("firstname","lastname","email","password","telephone","transportation");
         newRider = new Rider("firstname","lastname","notfake@email.com","password","telephone","transportation");
+
+        del1= new Delivery(1,2,"awaiting_processing","919292112","DETI","Bairro de Santiago");
+        del2= new Delivery(2,4,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu");
+        del3= new Delivery(3,4,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
+
+        allDeliversAwaitingProcessing = Arrays.asList(del1, del2, del3);
+
         Mockito.when(riderRepository.findRiderByEmail("hugo@email.com")).thenReturn(rider1);
         Mockito.when(riderRepository.findRiderByEmail("no@email.com")).thenReturn(null);
         Mockito.when(riderRepository.findRiderByEmail("notfake@email.com")).thenReturn(null);
         Mockito.when(riderRepository.save(eq(newRider))).thenReturn(newRider);
         Mockito.when(riderRepository.save(eq(invalid))).thenReturn(null);
+        Mockito.when(deliveryRepository.findDeliveriesByState("awaiting_processing")).thenReturn(allDeliversAwaitingProcessing);
 
     }
 
@@ -125,6 +147,14 @@ class EasyDeliversServiceTest {
         assertNull(x);
         verify(riderRepository,times(1))
                 .save(eq(invalid));
+    }
+
+    @Test
+    @DisplayName("Tests request all available Deliveries")
+    public void whenGetAllAvailableDeliveries() {
+        List<Delivery> dels = deliveryRepository.findDeliveriesByState("awaiting_processing");
+        assertThat(dels).hasSize(3).extracting(Delivery::getStart).contains(del1.getStart(), del1.getStart(), del3.getStart());
+        Mockito.verify(deliveryRepository,times(1)).findDeliveriesByState("awaiting_processing");
     }
 
 

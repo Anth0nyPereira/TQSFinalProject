@@ -8,6 +8,6 @@ import ua.deti.tqs.easydeliversadmin.entities.Rider;
 import java.util.List;
 
 @Repository
-public interface RiderRepository extends JpaRepository<Rider,Integer> {
-    Rider findRiderByEmail(String email);
+public interface DeliveryRepository extends JpaRepository<Delivery,Integer> {
+    List<Delivery> findDeliveriesByState (String State);
 }

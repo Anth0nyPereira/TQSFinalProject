@@ -10,13 +10,18 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.entities.Rider;
 import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
 import ua.deti.tqs.easydeliversadmin.utils.JsonUtil;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -170,6 +175,23 @@ class EasyDeliversRestControllerTest {
 
         verify(service,times(1))
                 .createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro");
+    }
+
+    @Test
+    @DisplayName("Tests request all available Deliveries")
+    void getAllAvailableDeliveriesTest() throws Exception{
+        Delivery del1= new Delivery(1,2,"awaiting_processing","919292112","DETI","Bairro de Santiago");
+        Delivery del2= new Delivery(2,4,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu");
+        Delivery del3= new Delivery(3,4,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
+        List<Delivery> allDeliversAwaitingProcessing = Arrays.asList(del1, del2, del3);
+
+        when(service.getAvailableDeliveries()).thenReturn(allDeliversAwaitingProcessing);
+
+        mvc.perform(MockMvcRequestBuilders.get("/api/rider/deliveries").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[0].store", is(del1.getStore())))
+                .andExpect(jsonPath("$[1].start", is(del2.getStart())))
+                .andExpect(jsonPath("$[2].destination", is(del3.getDestination())));
+        verify(service, times(1)).getAvailableDeliveries();
     }
 
 

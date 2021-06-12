@@ -8,6 +8,7 @@ import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.entities.Rider;
 import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -42,15 +43,21 @@ public class EasyDeliversRestController {
 
         return service.createRider(firstname, lastname, email, password, telephone, transportation);
     }
+
+    @GetMapping("/rider/deliveries")
+    public List<Delivery> getAvailableDeliveriesRider(){
+        return service.getAvailableDeliveries();
+    }
+
     @PostMapping("/delivery")
     public String newDelivery(@RequestBody Map<String, Object> request){
         int store = (Integer) request.get("store");
         String client_telephone = (String) request.get("client_telephone");
         String start = (String) request.get("start");
         String destination = (String) request.get("destination");
-
         return service.createDelivery(store, client_telephone, start, destination);
     }
+
 
 
 }

@@ -1,14 +1,15 @@
 package ua.deti.tqs.easydeliversadmin.service;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.entities.Rider;
+import ua.deti.tqs.easydeliversadmin.repository.DeliveryRepository;
 import ua.deti.tqs.easydeliversadmin.repository.RiderRepository;
 
-import java.sql.SQLException;
+
+import java.util.List;
 
 
 @Service
@@ -18,6 +19,8 @@ public class EasyDeliversService {
     @Autowired
     RiderRepository riderRepository;
 
+    @Autowired
+    DeliveryRepository deliveryRepository;
     public boolean authenticateRider(String email, String password) {
         // Hash Password to consider
         Rider x = riderRepository.findRiderByEmail(email);
@@ -39,5 +42,9 @@ public class EasyDeliversService {
 
     public String createDelivery(int store, String client_telephone, String start, String destination) {
         return "Delivery accepted";
+    }
+
+    public List<Delivery> getAvailableDeliveries(){
+        return deliveryRepository.findDeliveriesByState("awaiting_processing ");
     }
 }
