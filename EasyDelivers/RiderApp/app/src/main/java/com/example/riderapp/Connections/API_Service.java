@@ -15,7 +15,7 @@ public class API_Service {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
        api_connection = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.70:8080")
+                .baseUrl("http://192.168.1.69:8080")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

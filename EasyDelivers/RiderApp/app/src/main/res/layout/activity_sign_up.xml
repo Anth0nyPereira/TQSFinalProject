@@ -49,6 +49,7 @@
         android:layout_height="50dp"
         android:layout_marginBottom="15dp"
         android:ems="10"
+        android:maxLength="11"
         android:hint="Phone Number"
         android:inputType="phone"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword1"
