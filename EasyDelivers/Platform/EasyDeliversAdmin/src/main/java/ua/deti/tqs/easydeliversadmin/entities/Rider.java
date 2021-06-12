@@ -3,6 +3,7 @@ package ua.deti.tqs.easydeliversadmin.entities;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Rider")
@@ -10,9 +11,11 @@ public class Rider {
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         private int id;
-        @Column(name="name")
+        @Column(name="first_name")
         @NotBlank
-        private String name;
+        private String firstname;
+        @Column(name="last_name")
+        private String lastname;
         @Column(name="email")
         @Email
         private String email;
@@ -23,19 +26,23 @@ public class Rider {
         @NotBlank
         private String telephone;
         @Column(name="delivery_radius")
-        @NotBlank
         private int delivery_radius;
         @Column(name="transportation")
         @NotBlank
         private String transportation;
 
-        public Rider(String name, String email, String password, String telephone, String transportation) {
-                this.name = name;
+        public Rider(String firstname, String lastname, String email, String password, String telephone, String transportation) {
+                this.firstname = firstname;
+                this.lastname = lastname;
                 this.email = email;
                 this.password = password;
                 this.telephone = telephone;
                 this.transportation = transportation;
                 this.delivery_radius = 50;
+        }
+
+        public Rider() {
+
         }
 
         public int getId() {
@@ -46,12 +53,20 @@ public class Rider {
                 this.id = id;
         }
 
-        public String getName() {
-                return name;
+        public String getFirstname() {
+                return firstname;
         }
 
-        public void setName(String name) {
-                this.name = name;
+        public void setFirstname(String firstname) {
+                this.firstname = firstname;
+        }
+
+        public String getLastname() {
+                return lastname;
+        }
+
+        public void setLastname(String lastname) {
+                this.lastname = lastname;
         }
 
         public String getEmail() {
@@ -92,5 +107,18 @@ public class Rider {
 
         public void setTransportation(String transportation) {
                 this.transportation = transportation;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Rider rider = (Rider) o;
+                return delivery_radius == rider.delivery_radius && Objects.equals(firstname, rider.firstname) && Objects.equals(lastname, rider.lastname) && Objects.equals(email, rider.email) && Objects.equals(password, rider.password) && Objects.equals(telephone, rider.telephone) && Objects.equals(transportation, rider.transportation);
+        }
+
+        @Override
+        public int hashCode() {
+                return Objects.hash(firstname, lastname, email, password, telephone, delivery_radius, transportation);
         }
 }

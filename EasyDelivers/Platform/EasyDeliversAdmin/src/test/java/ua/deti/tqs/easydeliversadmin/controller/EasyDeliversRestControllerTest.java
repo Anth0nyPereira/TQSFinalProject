@@ -46,11 +46,12 @@ class EasyDeliversRestControllerTest {
         signUpRequest = new HashMap<>();
         signUpRequest.put("email","hugo@email.com");
         signUpRequest.put("password","12345");
-        signUpRequest.put("name","hugo");
+        signUpRequest.put("firstname","hugo");
+        signUpRequest.put("lastname","ferreira");
         signUpRequest.put("telephone","930921312");
         signUpRequest.put("transportation","car");
 
-        rider = new Rider("hugo","hugo@email.com", "12345", "930921312","car");
+        rider = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
 
         newDeliveryRequest = new HashMap<>();
         newDeliveryRequest.put("store",1);
@@ -74,7 +75,8 @@ class EasyDeliversRestControllerTest {
         mvc.perform(MockMvcRequestBuilders.post("/api/rider/login")
                 .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(loginRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value("hugo"))
+                .andExpect(jsonPath("firstname").value("hugo"))
+                .andExpect(jsonPath("lastname").value("ferreira"))
                 .andExpect(jsonPath("email").value("hugo@email.com"))
                 .andExpect(jsonPath("password").value("12345"))
                 .andExpect(jsonPath("telephone").value("930921312"))
@@ -108,26 +110,27 @@ class EasyDeliversRestControllerTest {
     @Test
     @DisplayName("Tests a successful sign up from a rider")
     void successfulSignUpTest() throws Exception {
-        when(service.createRider("hugo","hugo@email.com", "12345", "930921312","car"))
+        when(service.createRider("hugo","ferreira","hugo@email.com", "12345", "930921312","car"))
                 .thenReturn(rider);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/rider/account")
                 .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(signUpRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value("hugo"))
+                .andExpect(jsonPath("firstname").value("hugo"))
+                .andExpect(jsonPath("lastname").value("ferreira"))
                 .andExpect(jsonPath("email").value("hugo@email.com"))
                 .andExpect(jsonPath("password").value("12345"))
                 .andExpect(jsonPath("telephone").value("930921312"))
                 .andExpect(jsonPath("transportation").value("car"));
 
         verify(service,times(1))
-                .createRider("hugo","hugo@email.com", "12345", "930921312","car");
+                .createRider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
     }
 
     @Test
     @DisplayName("Tests an invalid sign up from a rider")
     void invalidSignUpTest() throws Exception {
-        when(service.createRider("hugo","hugo@email.com", "12345", "930921312","car"))
+        when(service.createRider("hugo","ferreira","hugo@email.com", "12345", "930921312","car"))
                 .thenReturn(null);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/rider/account")
@@ -136,7 +139,7 @@ class EasyDeliversRestControllerTest {
                 .andExpect(jsonPath("$").doesNotExist());
 
         verify(service,times(1))
-                .createRider("hugo","hugo@email.com", "12345", "930921312","car");
+                .createRider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
     }
 
     @Test
