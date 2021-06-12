@@ -44,12 +44,11 @@ CREATE TABLE `delivery`  (
   `client_telephone` char(11) NOT NULL,
   `start` varchar(255) NOT NULL,
   `destination` varchar(255) NOT NULL,
-  `rider` int NOT NULL,
+  `rider` int DEFAULT -1,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `rider`(`rider`) USING BTREE,
   INDEX `store`(`store`) USING BTREE,
   CONSTRAINT `delivery_ibfk_1` FOREIGN KEY (`store`) REFERENCES `store` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `rider` FOREIGN KEY (`rider`) REFERENCES `rider` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
 -- ----------------------------
