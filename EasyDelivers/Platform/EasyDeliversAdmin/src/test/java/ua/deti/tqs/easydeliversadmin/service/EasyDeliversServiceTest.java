@@ -28,13 +28,16 @@ class EasyDeliversServiceTest {
 
     Rider rider1;
     Rider invalid;
+    Rider newRider;
     @BeforeEach
     void setUp() {
         rider1 = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
         invalid = new Rider("firstname","lastname","email","password","telephone","transportation");
+        newRider = new Rider("firstname","lastname","notfake@email.com","password","telephone","transportation");
         Mockito.when(riderRepository.findRiderByEmail("hugo@email.com")).thenReturn(rider1);
         Mockito.when(riderRepository.findRiderByEmail("no@email.com")).thenReturn(null);
-        Mockito.when(riderRepository.save(eq(rider1))).thenReturn(rider1);
+        Mockito.when(riderRepository.findRiderByEmail("notfake@email.com")).thenReturn(null);
+        Mockito.when(riderRepository.save(eq(newRider))).thenReturn(newRider);
         Mockito.when(riderRepository.save(eq(invalid))).thenReturn(null);
 
     }
@@ -101,15 +104,16 @@ class EasyDeliversServiceTest {
     @Test
     @DisplayName("Tests a valid create rider")
     void whenValidCreateRider(){
-        Rider x = easyDeliversService.createRider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
-        assertEquals(rider1.getEmail(),x.getEmail());
-        assertEquals(rider1.getFirstname(),x.getFirstname());
-        assertEquals(rider1.getLastname(),x.getLastname());
-        assertEquals(rider1.getPassword(),x.getPassword());
-        assertEquals(rider1.getTelephone(),x.getTelephone());
-        assertEquals(rider1.getTransportation(),x.getTransportation());
+        Rider x = easyDeliversService.createRider("firstname","lastname","notfake@email.com","password","telephone","transportation");        assertEquals(newRider.getEmail(),x.getEmail());
+        assertEquals(newRider.getFirstname(),x.getFirstname());
+        assertEquals(newRider.getLastname(),x.getLastname());
+        assertEquals(newRider.getPassword(),x.getPassword());
+        assertEquals(newRider.getTelephone(),x.getTelephone());
+        assertEquals(newRider.getTransportation(),x.getTransportation());
         verify(riderRepository,times(1))
-                .save(eq(rider1));
+                .save(eq(newRider));
+        verify(riderRepository,times(1))
+                .findRiderByEmail(newRider.getEmail());
 
 
     }
@@ -118,9 +122,11 @@ class EasyDeliversServiceTest {
     @DisplayName("Tests a invalid create rider")
     void whenInvalidCreateRider(){
         Rider x = easyDeliversService.createRider("firstname","lastname","email","password","telephone","transportation");
-        assertEquals(null,x);
+        assertNull(x);
         verify(riderRepository,times(1))
                 .save(eq(invalid));
     }
+
+
 
 }

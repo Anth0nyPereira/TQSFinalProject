@@ -69,16 +69,6 @@ public class SignUpActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                 }
-                else{
-                    emailText.getText().clear();
-                    passwordText.getText().clear();
-                    telephoneText.getText().clear();
-                    firstNameText.getText().clear();
-                    lastNameText.getText().clear();
-                    transportationText.getText().clear();
-                    Toast.makeText(getApplicationContext(),"Invalid Sign Up",Toast.LENGTH_SHORT).show();
-                    Log.w("LoginProcess", "Invalid Login");
-                }
             }
 
             @Override
@@ -90,6 +80,8 @@ public class SignUpActivity extends AppCompatActivity {
                 firstNameText.getText().clear();
                 lastNameText.getText().clear();
                 transportationText.getText().clear();
+                Toast.makeText(getApplicationContext(),"Invalid Sign Up",Toast.LENGTH_SHORT).show();
+                Log.w("LoginProcess", "Invalid Login");
             }
         });
 
