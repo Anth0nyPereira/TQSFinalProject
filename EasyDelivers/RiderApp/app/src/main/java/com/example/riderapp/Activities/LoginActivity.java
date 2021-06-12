@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -17,10 +16,8 @@ import com.example.riderapp.Connections.API_Connection;
 import com.example.riderapp.Connections.API_Service;
 import com.example.riderapp.MainActivity;
 import com.example.riderapp.R;
-import com.example.riderapp.Services.RiderService;
 import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;

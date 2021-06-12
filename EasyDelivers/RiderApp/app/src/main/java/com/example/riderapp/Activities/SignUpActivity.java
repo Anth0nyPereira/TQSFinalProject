@@ -58,11 +58,11 @@ public class SignUpActivity extends AppCompatActivity {
                 if(logged!=null){
                     SharedPreferences sharedPreferences = getSharedPreferences("UserData",MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("FirstName", logged.getFirstname());
-                    editor.putString("LastName", logged.getLastname());
                     editor.putString("Email", logged.getEmail());
                     editor.putString("Telephone", logged.getTelephone());
                     editor.putString("Transportation", logged.getTransportation());
+                    editor.putString("FirstName", logged.getFirstname());
+                    editor.putString("LastName", logged.getLastname());
                     editor.putInt("Delivery_radius", logged.getDelivery_radius());
                     editor.apply();
                     Log.w("SignProcessProcess", "Sucess:"+ logged.toString());
