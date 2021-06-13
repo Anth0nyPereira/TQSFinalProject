@@ -29,10 +29,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Testcontainers
 @SpringBootTest
 class DeliveryRepositoryTest {
-
+    /*
     @Autowired
     private TestRestTemplate restTemplate;
-
+    */
     @Autowired
     private DeliveryRepository deliveryRepository;
 
@@ -66,7 +66,8 @@ class DeliveryRepositoryTest {
     @AfterEach
     void tearDown() {
     }
-
+    /*
+    Leaving this code here because it might be useful
     @Test
     @DisplayName("Given Deliveries awaiting_processing return status 200")
     void givenDeliveriesWhenGetDeliveriesStatus_thenReturn200(){
@@ -80,7 +81,7 @@ class DeliveryRepositoryTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).extracting(Delivery::getStore).containsExactly(1, 2, 3);
     }
-
+    */
     @Test
     @DisplayName("Tests a valid Find Rider By Email")
     void whenValidFindRiderByEmail_thenReturnRider(){

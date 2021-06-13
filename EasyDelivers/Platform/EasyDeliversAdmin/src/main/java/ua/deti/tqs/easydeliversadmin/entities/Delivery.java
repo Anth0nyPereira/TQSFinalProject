@@ -13,11 +13,9 @@ public class Delivery {
     private int id;
 
     @Column(name="store")
-    @NotBlank
     private int store;
 
     @Column(name="rider_fee")
-    @NotEmpty
     private int rider_fee;
 
     @Column(name="state")

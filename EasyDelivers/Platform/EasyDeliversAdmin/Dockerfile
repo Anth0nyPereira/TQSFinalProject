@@ -7,4 +7,5 @@ FROM openjdk:11-jre
 WORKDIR /app
 COPY --from=build_stage /app/target/EasyDeliversAdmin-0.0.1-SNAPSHOT.jar /app
 EXPOSE 8080
-CMD ["java", "-jar", "EasyDeliversAdmin-0.0.1-SNAPSHOT.jar"]
+ENV DB_URL "jdbc:mysql://db:3306/easydelivers"
+CMD ["java", "-jar","-Dspring.datasource.url=$DB_URL","EasyDeliversAdmin-0.0.1-SNAPSHOT.jar"]
