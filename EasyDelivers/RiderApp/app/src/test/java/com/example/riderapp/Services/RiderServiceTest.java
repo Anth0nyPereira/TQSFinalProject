@@ -1,6 +1,7 @@
 package com.example.riderapp.Services;
 
 
+import com.example.riderapp.Classes.Encomenda;
 import com.example.riderapp.Classes.User;
 import com.example.riderapp.Connections.API_Connection;
 import com.google.gson.JsonObject;
@@ -15,6 +16,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,10 +37,13 @@ class RiderServiceTest {
     User user;
     JsonObject login;
     JsonObject badlogin;
+    List<Encomenda> encomendaList;
 
     @BeforeEach
     void setUp() {
         api_connection=mock(API_Connection.class);
+        encomendaList = new ArrayList<>();
+        encomendaList.add(new Encomenda("Destino","Inicio",2,"919199112"));
         user = new User("user","name","rider@email.com", "pass1234", "930921312","car");
         login = new JsonObject();
         login.addProperty("email","rider@email.com");
@@ -157,6 +163,30 @@ class RiderServiceTest {
         assertNull(responseRef.get().body());
         verify(api_connection, times(1))
                 .api_signUp(user);
+
+    }
+
+    @Test
+    @DisplayName("Tests get Deliveries")
+    void GetDeliveriesTest() throws Exception {
+        User nullUser=null;
+        when(api_connection.api_get_deliveries()).thenReturn(Calls.response(encomendaList));
+        Call<List<Encomenda>> call = api_connection.api_get_deliveries();
+        final AtomicReference<Response<List<Encomenda>>> responseRef = new AtomicReference<>();
+        call.enqueue(new Callback<List<Encomenda>>() {
+            @Override
+            public void onResponse(Call<List<Encomenda>> call, Response<List<Encomenda>> response) {
+                responseRef.set(response);
+            }
+
+            @Override
+            public void onFailure(Call<List<Encomenda>> call, Throwable t) {
+
+            }
+        });
+        assertEquals(1,responseRef.get().body().size());
+        verify(api_connection, times(1))
+                .api_get_deliveries();
 
     }
 

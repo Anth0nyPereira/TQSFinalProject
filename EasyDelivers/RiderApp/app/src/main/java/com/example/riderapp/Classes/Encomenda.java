@@ -1,22 +1,26 @@
 package com.example.riderapp.Classes;
 
-public class Encomenda {
-    private String name;
-    private String destination;
-    private String start;
+import com.google.gson.annotations.SerializedName;
 
-    public Encomenda(String mName, String mDestination,String mStart){
-        this.name = mName;
+public class Encomenda {
+
+    @SerializedName("destination")
+    private String destination;
+    @SerializedName("start")
+    private String start;
+    @SerializedName("rider_fee")
+    private int rider_fee;
+
+    @SerializedName("client_telephone")
+    private String client_telephone;
+
+
+
+    public Encomenda(String mDestination, String mStart, int rider_fee, String client_telephone){
         this.destination = mDestination;
         this.start = mStart;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.rider_fee = rider_fee;
+        this.client_telephone = client_telephone;
     }
 
     public String getDestination() {
@@ -33,5 +37,15 @@ public class Encomenda {
 
     public void setStart(String start) {
         this.start = start;
+    }
+
+    @Override
+    public String toString() {
+        return "Encomenda{" +
+                "destination='" + destination + '\'' +
+                ", start='" + start + '\'' +
+                ", rider_fee=" + rider_fee +
+                ", client_telephone='" + client_telephone + '\'' +
+                '}';
     }
 }

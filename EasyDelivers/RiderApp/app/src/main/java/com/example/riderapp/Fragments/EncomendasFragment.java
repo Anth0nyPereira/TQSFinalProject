@@ -17,10 +17,16 @@ import android.widget.Toast;
 import com.example.riderapp.Adapters.EncomendasAdapter;
 import com.example.riderapp.Classes.ClickListener;
 import com.example.riderapp.Classes.Encomenda;
+import com.example.riderapp.Connections.API_Connection;
+import com.example.riderapp.Connections.API_Service;
 import com.example.riderapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +40,9 @@ public class EncomendasFragment extends Fragment {
     private EncomendasAdapter encomendasAdapter;
     private LinearLayoutManager linearLayoutManager;
     private List<Encomenda> itemsList;
+
+    API_Connection api_connection;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,43 +84,51 @@ public class EncomendasFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        api_connection = new API_Service().getClient();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_encomendas, container, false);
-        itemsList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recycleView);
+        itemsList= new ArrayList<>();
         encomendasAdapter = new EncomendasAdapter(itemsList);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(encomendasAdapter);
+        Call<List<Encomenda>> call = api_connection.api_get_deliveries();
+        call.enqueue(new Callback<List<Encomenda>>() {
+            @Override
+            public void onResponse(Call<List<Encomenda>> call, Response<List<Encomenda>> response) {
+                itemsList = response.body();
+                encomendasAdapter.setItemsList(itemsList);
+                encomendasAdapter.notifyDataSetChanged();
+                Log.w("EncomendasFragment", "Deliveries Success");
 
+            }
+
+            @Override
+            public void onFailure(Call<List<Encomenda>> call, Throwable t) {
+                call.cancel();
+                Log.w("EncomendasFragment", "Error "+t.toString());
+            }
+        });
         encomendasAdapter.setOnItemClickListener(new ClickListener<Encomenda>(){
             @Override
             public void onClick(View view, Encomenda data, int position) {
                 Navigation.findNavController(getActivity().findViewById(R.id.nav_fragment)).navigate(R.id.action_encomendasFragment_to_encomandaInfoFragment);
-                Toast.makeText(getContext(),"Position = "+position+"\n Item = "+data.getName(),Toast.LENGTH_SHORT).show();
-                Log.w("EncomendasFragment", "Position = "+position+"\n Item = "+data.getName());
+                Toast.makeText(getContext(),"Position = "+position+"\n Item = ",Toast.LENGTH_SHORT).show();
+                Log.w("EncomendasFragment", "Position = "+position+"\n Item = ");
             }
 
         });
-
-        prepareItems();
         return view;
 
     }
-    private void prepareItems(){
-        for(int i = 0; i < 50; i++) {
-            Encomenda items = new Encomenda("Encomenda"+i,"Destination"+i, "Start"+i+12);
-            itemsList.add(items);
-        }
-        encomendasAdapter.notifyDataSetChanged();
-    }
-
 }
