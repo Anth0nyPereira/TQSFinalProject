@@ -24,8 +24,6 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Go to the ProudPapers project folder
         run: cd ProudPapers/app 
-      - name: Clean and compile code
-        run: mvn clean install
-      - name: Run tests
-        run: mvn test
+      - name: Build & Test with Maven 
+        run: ./mvnw -B clean verify 
   
