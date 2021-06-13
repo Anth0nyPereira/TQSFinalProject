@@ -38,14 +38,14 @@
                     <div class="mb-3 row" th:if="${myinfo}">
                         <label for="email" class="col-sm-2 col-form-label">User Email:</label>
                         <div class="col-sm-8">
-                            <input type="text" readonly="readonly" class="form-control" id="email" value="example@ex.com"/>
+                            <input type="text" readonly="readonly" class="form-control" id="email" th:value="${client.email}"/>
                         </div>
                     </div>
 
                     <div class="mb-3 row" th:if="${myinfo}">
                         <label for="username" class="col-sm-2 col-form-label">User Name:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="username" value="Username"/>
+                            <input type="text" readonly="readonly" class="form-control" id="username" th:value="${client.name}"/>
                         </div>
                     </div>
                 
@@ -53,52 +53,53 @@
                     <div class="mb-3 row" th:if="${myinfo || address}">
                         <label for="zip" class="col-sm-2 col-form-label">Zip/Postal code:</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="zip" rows="3" name="zip" value="12345-1234">
+                            <input readonly="readonly" class="form-control" id="zip" rows="3" name="zip" th:value="${client.zip}">
                         </div>
                     </div>
                     <div class="mb-3 row" th:if="${myinfo || address}">
                         <label for="city" class="col-sm-2 col-form-label">City:</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="city" rows="3" name="city" value="Aveiro">
+                            <input readonly="readonly" class="form-control" id="city" rows="3" name="city" th:value="${client.city}">
                         </div>
                     </div>
                     <div class="mb-3 row" th:if="${myinfo || contact}">
                         <label for="telephone" class="col-sm-2 col-form-label">Telephone:</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="telephone" rows="3" name="telephone" value="12345678999" maxlength="11">
+                            <input readonly="readonly" class="form-control" id="telephone" rows="3" name="telephone" th:value="${client.telephone}" maxlength="11">
                         </div>
                     </div>
                     <div class="mb-3 row" th:if="${myinfo || payment}">
                         <label for="cardNumber" class="col-sm-2 col-form-label">Card Number:</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="cardNumber" rows="3" name="cardNumber" value="1234 5678 8765 4321" maxlength="16">
+                            <input readonly="readonly" class="form-control" id="cardNumber" rows="3" name="cardNumber"  th:value="${client.paymentMethod == null ? ' ' : client.paymentMethod.cardNumber }" maxlength="16">
                         </div>
                     </div>
 
                     <div class="mb-3 row" th:if="${myinfo || payment}">
                         <label for="cardExpirationMonth" class="col-sm-2 col-form-label">Card Expiration Month:</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="cardExpirationMonth" rows="3" name="cardExpirationMonth" value="06" maxlength="2">
+                            <input readonly="readonly" class="form-control" id="cardExpirationMonth" rows="3" name="cardExpirationMonth" th:value="${client.paymentMethod == null ? ' ' : client.paymentMethod.cardExpirationMonth}" maxlength="2">
                         </div>
                     </div>
                     <div class="mb-3 row" th:if="${myinfo || payment}">
                         <label for="cvc" class="col-sm-2 col-form-label">CVC:</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="cvc" rows="3" name="cvc" value="123" maxlength="3">
+                            <input readonly="readonly" class="form-control" id="cvc" rows="3" name="cvc" th:value="${client.paymentMethod == null ? ' ' : client.paymentMethod.cvc}" maxlength="3">
                         </div>
                     </div>
 
-                    <div class="cart" th:if="${cart}" th:each="product:${cartDto.products}">
+                    <div class="cart" th:if="${cartDto != null}" th:each="productOfCart:${cartDto}">
                         <div class="row mb-3">
                             <div class="col-md-10">
                                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                                     <div class="col-auto d-none d-lg-block">
-                                        <img class="bd-placeholder-img" width="200" height="150" src="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <img class="bd-placeholder-img" width="200" height="150" th:src="${'/img/' + productOfCart.product.name + '.jpg'}" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
                                     </div>
                                     <div class="col p-4 d-flex flex-column position-static">
-                                        <h5 class="mb-0 cart-product-name" th:text="${product.name}"></h5>
-                                        <div class="mb-1 text-muted cart-product-price">€ [[{product.price}]]</div>
-                                        <p class="card-text mb-auto cart-product-desc" th:text="${product.description}"></p>
+                                        <h5 class="mb-0 cart-product-name" th:text="${productOfCart.product.name}"></h5>
+                                        <div class="mb-1 text-muted cart-product-price" th:text="'€ ' + ${productOfCart.product.price}"></div>
+                                        <div class="mb-1 text-muted cart-product-quantity" th:text="'X '${productOfCart.quantity}"></div>
+                                        <p class="card-text mb-auto cart-product-desc" th:text="${productOfCart.product.description}"></p>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +122,6 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary">Save</button>
                 </div>
 
           </main>

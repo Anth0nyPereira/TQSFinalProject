@@ -12,6 +12,7 @@ import tqs.proudpapers.entity.Product;
 import tqs.proudpapers.service.ProductService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -57,7 +58,7 @@ public class ProductControllerTest_WithMock {
 
     @Test
     public void whenSearchAtmamunName_thenReturnAtmamun() throws Exception {
-        Mockito.when(service.searchByKeyWord(atmamun.getName())).thenReturn(List.of(atmamun));
+        Mockito.when(service.searchByKeyWord(atmamun.getName())).thenReturn(Arrays.asList(atmamun));
 
         mvc.perform(get("/search/{name}", atmamun.getName()))
                 .andExpect(status().isOk())

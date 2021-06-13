@@ -38,6 +38,7 @@ public class ClientService_WithMock {
         alex.setPassword("alexS3cr3t");
         alex.setAddress("2222-222, aveiro");
         alex.setTelephone("1234567891011");
+        alex.setId(111);
     }
 
     @Test
@@ -90,4 +91,16 @@ public class ClientService_WithMock {
         assertNull(found);
     }
 
+    @Test
+    public void whenAlexId_thenReturnAlex() {
+        Mockito.when(repository.getClientById(alex.getId())).thenReturn(alex);
+
+        ClientDTO found  = service.getClientById(alex.getId());
+
+        assertEquals(alex.getName(), found.getName());
+        assertEquals(alex.getTelephone(), found.getTelephone());
+        assertEquals(alex.getEmail(), found.getEmail());
+        assertEquals("2222-222", found.getZip());
+        assertEquals("aveiro", found.getCity());
+    }
 }

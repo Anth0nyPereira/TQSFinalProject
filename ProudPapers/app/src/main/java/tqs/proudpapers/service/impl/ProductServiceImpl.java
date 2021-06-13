@@ -7,6 +7,7 @@ import tqs.proudpapers.repository.ProductRepository;
 import tqs.proudpapers.service.ProductService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author wy
@@ -19,11 +20,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> searchByKeyWord(String name) {
-        return repository.getProductByNameContains(name);
+        return repository.getProductByNameContains(name)
+                .stream()
+                .filter(p -> p.getQuantity() > 1)
+                .collect(Collectors.toList());
     }
 
     @Override
     public Product searchById(Integer id) {
         return repository.getProductById(id);
+    }
+
+    @Override
+    public Product save(Product p) {
+        return repository.save(p);
     }
 }

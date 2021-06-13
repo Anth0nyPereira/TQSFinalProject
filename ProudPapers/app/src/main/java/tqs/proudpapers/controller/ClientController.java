@@ -1,12 +1,13 @@
 package tqs.proudpapers.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import tqs.proudpapers.entity.Client;
-import tqs.proudpapers.entity.ClientDTO;
-import tqs.proudpapers.entity.PaymentMethod;
+import tqs.proudpapers.entity.*;
+import tqs.proudpapers.service.CartService;
 import tqs.proudpapers.service.ClientService;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,9 @@ import javax.servlet.http.HttpSession;
 public class ClientController {
     @Autowired
     ClientService clientService;
+
+    @Autowired
+    CartService cartService;
 
     @GetMapping("/signup")
     public String signUp(){
@@ -54,9 +58,9 @@ public class ClientController {
             return "login";
         }
 
-        model.addAttribute("client", client);
-        session.setAttribute("userEmail", email);
-        session.setAttribute("userName", client.getName());
+        CartDTO cart = cartService.getCartByClientID(client.getId());
+        client.setCartDTO(cart);
+        session.setAttribute("client", client);
         return "index";
     }
 
@@ -65,18 +69,35 @@ public class ClientController {
     public String accountInfo(@PathVariable("id") Integer id,
                               @PathVariable("page") String page,
                               Model model){
-        String[] pages = {"myinfo", "address", "contact", "payment", "cart", "deliveries"};
+
+        String[] pages = {"myinfo", "address", "contact", "payment", "deliveries"};
+        ClientDTO client = clientService.getClientById(id);
+        model.addAttribute("client", client);
 
         for (String s : pages) {
-            if (s.equals(page)){
-                model.addAttribute(s, true);
-            }else{
-                model.addAttribute(s, false);
-            }
+            model.addAttribute(s, s.equals(page));
+        }
+
+        if ("cart".equals(page)){
+            CartDTO cart= cartService.getCartByClientID(id);
+            model.addAttribute("cartDto", cart);
+        }else {
+            model.addAttribute("cartDto", null);
         }
 
         return "account";
     }
 
+    @ResponseBody
+    @PostMapping("/account/{clientId}/add_to_cart/{productId}")
+    public ResponseEntity<ProductOfCart> addProductToCart(@PathVariable("clientId") Integer clientId,
+                                           @PathVariable("productId") Integer productId,
+                                           @RequestParam(value = "quantity", defaultValue = "1") Integer quantity){
+        ProductOfCart saved = cartService.save(clientId, productId, quantity);
+        if (saved != null)
+            return new ResponseEntity<>(saved, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
 }
 

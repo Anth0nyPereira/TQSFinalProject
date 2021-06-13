@@ -5,7 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import tqs.proudpapers.entity.Product;
+import tqs.proudpapers.entity.*;
+import tqs.proudpapers.repository.CartRepository;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author wy
@@ -22,6 +26,10 @@ public class CartRepositoryTest {
 
     private ProductOfCart pcart;
 
+    private Client alex;
+
+    private Cart cart;
+
     @BeforeEach
     void setUp() {
         Product atmamun = new Product();
@@ -29,9 +37,24 @@ public class CartRepositoryTest {
         atmamun.setDescription("The Path To Achieving The Blis Of The Himalayan Swamis. And The Freedom Of A Living God");
         atmamun.setPrice(15.99);
         atmamun.setQuantity(13);
+        entityManager.persistAndFlush(atmamun);
 
-        pcart.setProduct(atmamun);
-        pcart.setCartId(1);
+        alex = new Client();
+        alex.setEmail("alex@ua.pt");
+        alex.setName("alex");
+        alex.setPassword("alexS3cr3t");
+        alex.setAddress("2222-222, aveiro");
+        alex.setTelephone("1234567891011");
+        alex = entityManager.persistAndFlush(alex);
+
+        cart = new Cart();
+        cart.setClient(alex.getId()); // we need a client id to create a cart
+        cart = entityManager.persistAndFlush(cart);
+
+        pcart = new ProductOfCart();
+        pcart.setProductId(atmamun.getId());
+        pcart.setQuantity(1);
+        pcart.setCart(cart.getId());
 
         entityManager.persistAndFlush(pcart); //ensure data is persisted at this point
     }
@@ -39,18 +62,24 @@ public class CartRepositoryTest {
 
     @Test
     public void whenCartId_thenReturnProducts() {
-        List<ProductOfCart> products = repository.getProductsByCartID(1);
+        List<ProductOfCart> products = repository.getProductOfCartByCart(1);
         assertEquals(1, products.size());
         assertEquals(pcart, products.get(0));
     }
 
     @Test
     public void whenClear_thenReturnEmptyList() {
-        repository.clear(1);
+        repository.removeProductOfCartByCart(1);
 
-        List<ProductOfCart> products = repository.getProductsByCartID(1);
+        List<ProductOfCart> products = repository.getProductOfCartByCart(1);
         assertEquals(0, products.size());
     }
 
+    @Test
+    public void whenClientId_thenReturnHisCartId() {
+        Integer cartByClientId = repository.getCartByClientId(alex.getId());
+
+        assertEquals(cart.getId(), cartByClientId);
+    }
 
 }

@@ -6,11 +6,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tqs.proudpapers.entity.CartDTO;
 import tqs.proudpapers.entity.Product;
-import tqs.proudpapers.repository.ClientRepository;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import tqs.proudpapers.entity.ProductOfCart;
+import tqs.proudpapers.entity.ProductOfCartDTO;
+import tqs.proudpapers.repository.CartRepository;
+import tqs.proudpapers.repository.ProductRepository;
+import tqs.proudpapers.service.ProductService;
+import tqs.proudpapers.service.impl.CartServiceImpl;
+import tqs.proudpapers.service.impl.ProductServiceImpl;
 
-import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,43 +30,59 @@ import java.util.stream.Collectors;
 public class CartService_WithMock {
 
     @Mock(lenient = true)
-    private ClientRepository repository;
+    private CartRepository cartRepository;
+
+    @Mock(lenient = true)
+    private ProductService productService;
 
     @InjectMocks
-    private CartServiceImpl service;
+    private CartServiceImpl cartService;
+
 
     @Test
     public void whenClientId_thenReturnCart() {
+        int clientId = 1;
+        int cartId = 2;
+        int quantity = 1;
+
         Product b1 = new Product();
         b1.setName("Book A");
+        b1.setId(1);
+        ProductOfCartDTO dto1 = new ProductOfCartDTO(cartId, b1, quantity);
 
         Product b2 = new Product();
         b2.setName("Book B");
+        b2.setId(2);
+        ProductOfCartDTO dto2 = new ProductOfCartDTO(cartId, b1, quantity);
 
         Product b3 = new Product();
         b3.setName("Book C");
-
-        int clientId = 1;
-        int cartId = 2;
+        b3.setId(3);
+        ProductOfCartDTO dto3 = new ProductOfCartDTO(cartId, b1, quantity);
 
         CartDTO cart = new CartDTO();
-        cart.setId(cartId);
-        cart.setProducts(products);
+        cart.setCartId(cartId);
+        cart.setProductOfCarts(Arrays.asList(dto1, dto2, dto3));
 
         List<ProductOfCart> list = Arrays.asList(b1, b2, b3).stream()
-                .map(b -> new ProductOfCart(cartId, b))
+                .map(b -> new ProductOfCart(cartId, b.getId(), 1))
                 .collect(Collectors.toList());
 
-        Mockito.when(repository.getProductsByCartID(cartId)).thenReturn(list);
+        Mockito.when(cartRepository.getProductOfCartByCart(cartId)).thenReturn(list);
+        Mockito.when(cartRepository.getCartByClientId(clientId)).thenReturn(cartId);
 
-        CartDTO result = service.getCartByClientID(clientId);
+        Mockito.when(productService.searchById(1)).thenReturn(b1);
+        Mockito.when(productService.searchById(2)).thenReturn(b2);
+        Mockito.when(productService.searchById(3)).thenReturn(b3);
 
-        assertEquals(3, result.getProducts.size());
+        CartDTO result = cartService.getCartByClientID(clientId);
+
+        assertEquals(3, result.getProductOfCarts().size());
         assertEquals(clientId, result.getClientId());
-        assertThat(result.getProducts())
-                .contains(b1)
-                .contains(b2)
-                .contains(b3);
+        assertThat(result.getProductOfCarts())
+                .contains(dto1)
+                .contains(dto2)
+                .contains(dto3);
     }
 
 }

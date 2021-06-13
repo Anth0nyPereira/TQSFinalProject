@@ -9,10 +9,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tqs.proudpapers.controller.ClientController;
-import tqs.proudpapers.entity.Client;
-import tqs.proudpapers.entity.ClientDTO;
-import tqs.proudpapers.entity.PaymentMethod;
-import tqs.proudpapers.entity.Product;
+import tqs.proudpapers.entity.*;
+import tqs.proudpapers.service.CartService;
 import tqs.proudpapers.service.ClientService;
 
 import java.util.Arrays;
@@ -49,7 +47,6 @@ public class ClientControllerTest_WithMock {
         alexDTO.setZip("2222-222");
         alexDTO.setCity("aveiro");
         alexDTO.setTelephone("1234567891011");
-        alexDTO.setId(11);
 
         PaymentMethod paymentMethod = new PaymentMethod();
         paymentMethod.setCardNumber("1234567891234567");
@@ -138,14 +135,16 @@ public class ClientControllerTest_WithMock {
         b1.setDescription("Test Book");
 
         int clientId = 1;
+        int cartId = 1;
+        int quantity = 1;
 
         CartDTO cart = new CartDTO();
         cart.setClientId(clientId);
-        cart.setProducts(Arrays.asList(b1));
+        cart.setProductOfCarts(Arrays.asList(new ProductOfCartDTO(cartId, b1, quantity)));
 
-        Mockito.when(cartService.getCart(alex.getId())).thenReturn(cart);
+        Mockito.when(cartService.getCartByClientID(clientId)).thenReturn(cart);
 
-        mvc.perform(get("/cart"))
+        mvc.perform(get("/{clientId}/cart", clientId))
                 .andExpect(status().isOk())
                 .andExpect(view().name("account"))
                 .andExpect(xpath("//h5[contains(@class, 'cart-product-name']").string(b1.getName()))
@@ -155,15 +154,7 @@ public class ClientControllerTest_WithMock {
 
     @Test
     public void buyProductsInTheCart_thenCartEmpty() throws Exception {
-        Product b1 = new Product();
-        b1.setName("Book A");
-        b1.setPrice(10.0);
-        b1.setName("Test Book");
-
-        CartDTO cart = new CartDTO();
-        cart.setProducts(Arrays.asList(b1));
-
-        Mockito.when(cartService.buyAllProdutsInTheCart(alex.getId())).thenReturn(null);
+        Mockito.when(cartService.getCartByClientID(alex.getId())).thenReturn(new CartDTO());
 
         mvc.perform(post("/purchase")
                 .param("name", alexDTO.getName())

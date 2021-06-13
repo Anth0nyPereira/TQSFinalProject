@@ -1,21 +1,18 @@
 package tqs.proudpapers.client;
 
 import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
-import org.mockito.internal.verification.VerificationModeFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import tqs.proudpapers.ProudPapersApplication;
-import tqs.proudpapers.entity.Client;
-import tqs.proudpapers.entity.ClientDTO;
-import tqs.proudpapers.entity.PaymentMethod;
-import tqs.proudpapers.entity.Product;
+import tqs.proudpapers.entity.*;
+import tqs.proudpapers.repository.ClientRepository;
+import tqs.proudpapers.repository.PaymentMethodRepository;
+import tqs.proudpapers.service.CartService;
 import tqs.proudpapers.service.ClientService;
-
-import java.util.Arrays;
+import tqs.proudpapers.service.ProductService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -39,6 +36,9 @@ class ClientController_IT {
     @Autowired
     private CartService cartService;
 
+    @Autowired
+    private ProductService productService;
+
     private ClientDTO alexDTO;
     private Client alex;
 
@@ -50,7 +50,7 @@ class ClientController_IT {
         alexDTO.setPassword("alexS3cr3t");
         alexDTO.setZip("2222-222");
         alexDTO.setCity("aveiro");
-        alexDTO.setTelephone("1234567891011");
+        alexDTO.setTelephone("12345678912");
 
         PaymentMethod paymentMethod = new PaymentMethod();
         paymentMethod.setCardNumber("1234567891234567");
@@ -101,7 +101,7 @@ class ClientController_IT {
                 .param("city", copyed.getCity())
                 .param("zip", copyed.getZip())
                 .param("telephone", copyed.getTelephone())
-                .param("cardNumber", "1234567891234567")
+                .param("cardNumber", "12345678912")
                 .param("cardExpirationMonth", "11")
                 .param("cvc", "123"))
                 .andExpect(status().isOk())
@@ -113,11 +113,10 @@ class ClientController_IT {
     @Order(3)
     @Test
     public void getCartWithoutLogin_thenLoginPage() throws Exception {
-        mvc.perform(get("/{clientId}/cart",1))
+        mvc.perform(get("/account/{id}/cart", 2))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
 
-        Mockito.verify(cartService, VerificationModeFactory.times(0)).getProductsByCartID(1);
     }
 
     @Order(4)
@@ -132,7 +131,6 @@ class ClientController_IT {
                 .andExpect(xpath("//div[contains(@class, 'loveDiv')]").exists())
                 .andExpect(xpath("//div[contains(@class, 'cartDiv')]").exists());
 
-        Mockito.verify(clientService, VerificationModeFactory.times(1)).getClientByEmailAndPass(alex.getEmail(), alex.getPassword());
     }
 
     @Order(5)
@@ -143,33 +141,34 @@ class ClientController_IT {
                 .andExpect(view().name("login"))
                 .andExpect(xpath("//h5[@id='error-msg']").exists());
 
-        Mockito.verify(clientService, VerificationModeFactory.times(1)).getClientByEmailAndPass(alex.getEmail(), alex.getPassword());
     }
 
     @Order(6)
     @Test
     public void addProductToCart_thenSizeOne() throws Exception {
         Product b1 = new Product();
-        b1.setId(111);
         b1.setName("Book A");
         b1.setPrice(10.0);
         b1.setQuantity(99);
         b1.setDescription("Test");
 
-        mvc.perform(get("/add_to_cart")
-                    .param("product", b1.getId() + ""))
+        Product saved = productService.save(b1);
+
+        mvc.perform(post("/account/{clientId}/add_to_cart/{productId}",
+                2,
+                        saved.getId() + ""))
                 .andExpect(status().isOk());
 
-        CartDTO cartDTO = cartService.getCartByClientID(alex.getId());
-        assertEquals(1, cartDTO.getProducts().size());
-        assertEquals(b1, cartDTO.getProducts().get(0));
+        CartDTO cartDTO = cartService.getCartByClientID(2);
+        assertEquals(1, cartDTO.getProductOfCarts().size());
+        assertEquals(b1, cartDTO.getProductOfCarts().get(0).getProduct());
      }
 
     @Order(7)
     @Test
     public void getProductsInTheCart_thenReturnProducts() throws Exception {
         CartDTO cartDTO = cartService.getCartByClientID(alex.getId());
-        Product p = cartDTO.getProducts().get(0);
+        Product p = cartDTO.getProductOfCarts().get(0).getProduct();
 
         mvc.perform(get("/cart"))
                 .andExpect(status().isOk())
@@ -199,6 +198,6 @@ class ClientController_IT {
                 .andExpect(xpath("//p[contains(@class, 'cart-product-desc')]").doesNotExist());
 
         CartDTO cartDTO = cartService.getCartByClientID(alex.getId());
-        assertEquals(0, cartDTO.getProducts().size());
+        assertEquals(0, cartDTO.getProductOfCarts().size());
     }
 }

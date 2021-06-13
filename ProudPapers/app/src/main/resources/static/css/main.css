@@ -182,7 +182,7 @@
     z-index: 1;
     cursor: pointer;
     font-size: 15px;
-    width: 100px;
+    width: 120px;
 }
 
 .cartDiv button span{
@@ -1270,4 +1270,8 @@
 
 .username a:hover{
     color: white;
+}
+
+.cart{
+    cursor: pointer;
 }
