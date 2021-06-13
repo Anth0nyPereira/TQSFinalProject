@@ -122,7 +122,12 @@ public class EncomendasFragment extends Fragment {
         encomendasAdapter.setOnItemClickListener(new ClickListener<Encomenda>(){
             @Override
             public void onClick(View view, Encomenda data, int position) {
-                Navigation.findNavController(getActivity().findViewById(R.id.nav_fragment)).navigate(R.id.action_encomendasFragment_to_encomandaInfoFragment);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("start", data.getStart());
+                bundle.putSerializable("destination",data.getDestination());
+                bundle.putSerializable("rider_fee",data.getRider_fee());
+                bundle.putSerializable("telephone",data.getClient_telephone());
+                Navigation.findNavController(getActivity().findViewById(R.id.nav_fragment)).navigate(R.id.action_encomendasFragment_to_encomandaInfoFragment, bundle);
                 Toast.makeText(getContext(),"Position = "+position+"\n Item = ",Toast.LENGTH_SHORT).show();
                 Log.w("EncomendasFragment", "Position = "+position+"\n Item = ");
             }

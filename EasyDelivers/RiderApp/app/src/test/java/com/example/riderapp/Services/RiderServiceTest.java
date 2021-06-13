@@ -43,7 +43,7 @@ class RiderServiceTest {
     void setUp() {
         api_connection=mock(API_Connection.class);
         encomendaList = new ArrayList<>();
-        encomendaList.add(new Encomenda("Destino","Inicio",2,"919199112"));
+        encomendaList.add(new Encomenda(1,"Destino","Inicio",2,"919199112"));
         user = new User("user","name","rider@email.com", "pass1234", "930921312","car");
         login = new JsonObject();
         login.addProperty("email","rider@email.com");
