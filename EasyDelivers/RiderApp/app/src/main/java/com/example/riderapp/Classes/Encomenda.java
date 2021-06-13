@@ -60,6 +60,13 @@ public class Encomenda {
         this.client_telephone = client_telephone;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {

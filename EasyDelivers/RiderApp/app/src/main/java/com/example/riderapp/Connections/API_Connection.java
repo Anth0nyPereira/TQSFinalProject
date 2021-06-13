@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface API_Connection {
 
@@ -21,5 +22,8 @@ public interface API_Connection {
 
     @GET("/api/rider/deliveries")
     Call<List<Encomenda>> api_get_deliveries();
+
+    @POST("/api/rider/deliveries/{DeliverID}/{RiderID}")
+    Call<String> api_accept_delivery(@Path("DeliverID") String deliverID, @Path("RiderID") String riderID);
 
 }

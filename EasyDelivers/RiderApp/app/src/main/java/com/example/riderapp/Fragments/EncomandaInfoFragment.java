@@ -2,6 +2,7 @@ package com.example.riderapp.Fragments;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -10,18 +11,27 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.riderapp.Activities.EncomendaMapaActivity;
+import com.example.riderapp.Connections.API_Connection;
+import com.example.riderapp.Connections.API_Service;
 import com.example.riderapp.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static android.content.Context.LOCATION_SERVICE;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +41,8 @@ import static android.content.Context.LOCATION_SERVICE;
 public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    API_Connection api_connection;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +50,7 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
     private static final String ARG_DESTINATION = "destination";
     private static final String ARG_RIDER_FEE= "rider_fee";
     private static final String ARG_TELEPHONE= "telephone";
+    private static final String ARG_ID= "idDelivery";
 
     private LocationManager mLocationManager;
 
@@ -46,6 +59,7 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
     private String mDestination;
     private int mRider_Fee;
     private String mTelephone;
+    private int mID;
 
     public EncomandaInfoFragment() {
         // Required empty public constructor
@@ -58,13 +72,14 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
      * @return A new instance of fragment EncomandaInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EncomandaInfoFragment newInstance(String start, String destination,int rider_fee, String telephone) {
+    public static EncomandaInfoFragment newInstance(String start, String destination,int rider_fee, String telephone, int ID) {
         EncomandaInfoFragment fragment = new EncomandaInfoFragment();
         Bundle args = new Bundle();
         args.putString(ARG_START, start);
         args.putString(ARG_DESTINATION, destination);
         args.putInt(ARG_RIDER_FEE,rider_fee);
         args.putString(ARG_TELEPHONE,telephone);
+        args.putInt(ARG_ID,ID);
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,12 +93,17 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
             mTelephone = getArguments().getString(ARG_TELEPHONE);
             mDestination = getArguments().getString(ARG_RIDER_FEE);
             mRider_Fee =getArguments().getInt(ARG_RIDER_FEE);
+            mID = getArguments().getInt(ARG_ID);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        api_connection= API_Service.getClient();
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("UserData",MODE_PRIVATE);
+        int id = sharedPreferences.getInt("id",0);
+        System.out.println("id");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_encomanda_info, container, false);
@@ -107,7 +127,31 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
         buttonStartEncomenda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeToEncomendaMapaActivity();
+
+                Call<String> call = api_connection.api_accept_delivery(String.valueOf(mID),String.valueOf(id));
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        String s = response.body();
+                        if (s.equals("Delivery Assigned")){
+                            Toast.makeText(getContext(),"Starting Delivery",Toast.LENGTH_SHORT).show();
+                            Log.w("EncomendaInfo", "Starting Delivery");
+                            changeToEncomendaMapaActivity();
+                        }
+                        else{
+                            Toast.makeText(getContext(),"Error Starting Delivery",Toast.LENGTH_SHORT).show();
+                            Log.w("EncomendaInfo", "Error Starting Delivery");
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        call.cancel();
+                        Toast.makeText(getContext(),"Failure Starting Delivery",Toast.LENGTH_SHORT).show();
+                        Log.w("EncomendaInfo", "Failure Starting Delivery");
+                    }
+                });
             }
         });
         return view;

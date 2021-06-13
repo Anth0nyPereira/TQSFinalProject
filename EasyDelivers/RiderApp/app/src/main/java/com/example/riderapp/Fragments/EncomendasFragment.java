@@ -127,6 +127,7 @@ public class EncomendasFragment extends Fragment {
                 bundle.putSerializable("destination",data.getDestination());
                 bundle.putSerializable("rider_fee",data.getRider_fee());
                 bundle.putSerializable("telephone",data.getClient_telephone());
+                bundle.putSerializable("idDelivery",data.getId());
                 Navigation.findNavController(getActivity().findViewById(R.id.nav_fragment)).navigate(R.id.action_encomendasFragment_to_encomandaInfoFragment, bundle);
                 Toast.makeText(getContext(),"Position = "+position+"\n Item = ",Toast.LENGTH_SHORT).show();
                 Log.w("EncomendasFragment", "Position = "+position+"\n Item = ");
