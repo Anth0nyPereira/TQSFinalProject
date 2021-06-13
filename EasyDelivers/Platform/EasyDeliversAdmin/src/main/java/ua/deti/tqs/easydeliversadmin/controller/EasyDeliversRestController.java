@@ -17,6 +17,7 @@ public class EasyDeliversRestController {
 
     @Autowired
     EasyDeliversService service;
+    
 
     @PostMapping(value = "/rider/login", consumes = "application/json", produces = "application/json")
     public Rider login(@RequestBody Map<String, Object> request){
@@ -32,13 +33,14 @@ public class EasyDeliversRestController {
     }
     @PostMapping("/rider/account")
     public Rider createAccount(@RequestBody Map<String, Object> request){
-        String name = (String) request.get("name");
+        String firstname = (String) request.get("firstname");
+        String lastname = (String) request.get("lastname");
         String email = (String) request.get("email");
         String password = (String) request.get("password");
         String telephone = (String) request.get("telephone");
         String transportation = (String) request.get("transportation");
 
-        return service.createRider(name, email, password, telephone, transportation);
+        return service.createRider(firstname, lastname, email, password, telephone, transportation);
     }
     @PostMapping("/delivery")
     public String newDelivery(@RequestBody Map<String, Object> request){
