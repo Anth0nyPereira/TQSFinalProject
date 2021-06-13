@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery,Integer> {
     List<Delivery> findDeliveriesByState (String State);
+    Delivery findDeliveryById(int id);
 }

@@ -1,5 +1,6 @@
 package ua.deti.tqs.easydeliversadmin.repository;
 
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,10 +19,12 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import ua.deti.tqs.easydeliversadmin.entities.Delivery;
+import ua.deti.tqs.easydeliversadmin.entities.Rider;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Testcontainers
 @SpringBootTest
@@ -76,5 +79,20 @@ class DeliveryRepositoryTest {
                 });
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).extracting(Delivery::getStore).containsExactly(1, 2, 3);
+    }
+
+    @Test
+    @DisplayName("Tests a valid Find Rider By Email")
+    void whenValidFindRiderByEmail_thenReturnRider(){
+        deliveryRepository.save(del1);
+
+        Delivery fromDB = deliveryRepository.findDeliveryById(del1.getId());
+        AssertionsForClassTypes.assertThat(fromDB).isNotNull();
+        assertEquals(fromDB.getStart(),del1.getStart());
+        assertEquals(fromDB.getDestination(),del1.getDestination());
+        assertEquals(fromDB.getRider_fee(),del1.getRider_fee());
+        assertEquals(fromDB.getClient_telephone(),del1.getClient_telephone());
+        assertEquals(fromDB.getState(),del1.getState());
+        assertEquals(fromDB.getStore(),del1.getStore());
     }
 }

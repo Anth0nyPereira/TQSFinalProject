@@ -194,6 +194,20 @@ class EasyDeliversRestControllerTest {
         verify(service, times(1)).getAvailableDeliveries();
     }
 
+    @Test
+    @DisplayName("Test successful Assign delivery to rider")
+    void successfulAssignDeliveryTest() throws Exception {
+        when(service.assignRiderDeliver("1", "1")).thenReturn("Delivery Assigned");
+
+        mvc.perform(MockMvcRequestBuilders.post("/api/deliveries/1/1")
+                .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(newDeliveryRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("Delivery Assigned"));
+
+        verify(service,times(1))
+                .assignRiderDeliver("1","1");
+    }
+
 
 
 }

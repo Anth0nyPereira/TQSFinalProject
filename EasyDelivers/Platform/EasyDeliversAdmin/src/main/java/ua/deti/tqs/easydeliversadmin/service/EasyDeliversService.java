@@ -47,4 +47,13 @@ public class EasyDeliversService {
     public List<Delivery> getAvailableDeliveries(){
         return deliveryRepository.findDeliveriesByState("awaiting_processing ");
     }
+
+    public String assignRiderDeliver(String deliverID, String riderID) {
+       Delivery x = deliveryRepository.findDeliveryById(Integer.parseInt(deliverID));
+       x.setRider(Integer.parseInt(riderID));
+       x.setState("accepted");
+       deliveryRepository.save(x);
+       //Aqui mandar post para a loja
+       return "Delivery Assigned";
+    }
 }

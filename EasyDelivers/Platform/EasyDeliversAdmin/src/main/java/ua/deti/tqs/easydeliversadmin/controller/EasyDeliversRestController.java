@@ -2,7 +2,6 @@ package ua.deti.tqs.easydeliversadmin.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.entities.Rider;
@@ -47,6 +46,11 @@ public class EasyDeliversRestController {
     @GetMapping("/rider/deliveries")
     public List<Delivery> getAvailableDeliveriesRider(){
         return service.getAvailableDeliveries();
+    }
+
+    @PutMapping("/rider/deliveries/{DeliverID}/{RiderID}")
+    public String riderAcceptDeliver(@PathVariable String DeliverID, @PathVariable String RiderID){
+       return service.assignRiderDeliver(DeliverID,RiderID);
     }
 
     @PostMapping("/delivery")
