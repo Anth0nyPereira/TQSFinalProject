@@ -13,7 +13,7 @@
                 </div>
                 <div class="nav" th:if="${#session != null && #session.getAttribute('userName') != null}">
                     <span class="hello">Hello! </span>
-                    <div class="username btn btn-primary">[[${#session.getAttribute('userName')}]]</div>
+                    <div class="username btn btn-primary"><a href="/account/1/myinfo">[[${#session.getAttribute('userName')}]]</a></div>
                 </div>
                 <div class="nav loveDiv" th:if="${#session != null && #session.getAttribute('userName') != null}" >
                     <span class="notification">0</span>
@@ -172,5 +172,49 @@
             </div>
         </div>
     </div>
+
+
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" th:fragment="menu">
+        <div class="position-sticky pt-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <span>Welcome! </span>
+                    <div class="username btn btn-primary">Username</div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/account/1/myinfo">
+                        <span data-feather="home"></span>
+                        My Info
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/account/1/address">
+                        Address
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/account/1/contact">
+                        Contact
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/account/1/payment">
+                        Payment Method
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/account/1/cart">
+                        Cart
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/account/1/deliveries">
+                        <span data-feather="users"></span>
+                        Deliveries
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </body>
 </html>

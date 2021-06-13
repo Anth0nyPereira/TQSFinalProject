@@ -34,11 +34,16 @@ jacocoTestReport {
     xml.enabled true
   }
 }
+test {
+    useJUnitPlatform()
+}
 
 sonarqube {
   properties {
     property 'sonar.host.url', 'https://sonarcloud.io'
     property 'sonar.organization', 'tqsproject'
     property 'sonar.projectKey', 'tqsproject_TQSFinalProject_EasyDelivers_RiderApp'
+    property "sonar.tests", "src/test/java, src/androidTest/java"
+
   }
 }
