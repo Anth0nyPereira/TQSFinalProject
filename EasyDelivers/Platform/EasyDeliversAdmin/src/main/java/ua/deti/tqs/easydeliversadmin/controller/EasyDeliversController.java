@@ -57,7 +57,7 @@ public class EasyDeliversController {
     }
 
     @PostMapping("/login")
-    public ModelAndView login(@RequestParam(value = "email", defaultValue = "hello")String email, @RequestParam(value = "password", defaultValue = "bye")String password, ModelMap model) throws EasyDeliversService.AdminNotFoundException, Exception {d
+    public ModelAndView login(@RequestParam(value = "email", defaultValue = "hello")String email, @RequestParam(value = "password", defaultValue = "bye")String password, ModelMap model) throws EasyDeliversService.AdminNotFoundException, Exception {
         Admin admin = service.getAdminByEmail(email);
         if (admin == null) {
             return new ModelAndView("redirect:/error", model);
