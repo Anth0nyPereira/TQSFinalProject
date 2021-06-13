@@ -10,6 +10,7 @@ import tqs.proudpapers.repository.CartRepository;
 import tqs.proudpapers.service.CartService;
 import tqs.proudpapers.service.ProductService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -40,7 +41,6 @@ public class CartServiceImpl implements CartService {
                     return productOfCartDTO;
                 })
                 .collect(Collectors.toList());
-
 
         return new CartDTO(cartId, id, results, results.stream().map(p->p.getProduct().getPrice()).reduce(Double::sum).orElse(0.0));
     }

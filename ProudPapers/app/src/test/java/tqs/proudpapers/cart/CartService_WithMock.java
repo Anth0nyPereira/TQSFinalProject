@@ -47,16 +47,19 @@ public class CartService_WithMock {
 
         Product b1 = new Product();
         b1.setName("Book A");
+        b1.setPrice(11.0);
         b1.setId(1);
         ProductOfCartDTO dto1 = new ProductOfCartDTO(cartId, b1, quantity);
 
         Product b2 = new Product();
         b2.setName("Book B");
+        b2.setPrice(12.0);
         b2.setId(2);
         ProductOfCartDTO dto2 = new ProductOfCartDTO(cartId, b1, quantity);
 
         Product b3 = new Product();
         b3.setName("Book C");
+        b3.setPrice(13.0);
         b3.setId(3);
         ProductOfCartDTO dto3 = new ProductOfCartDTO(cartId, b1, quantity);
 

@@ -11,6 +11,8 @@ import tqs.proudpapers.repository.CartRepository;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * @author wy
  * @date 2021/6/5 21:15
@@ -24,6 +26,8 @@ public class CartRepositoryTest {
     @Autowired
     private CartRepository repository;
 
+    private Product atmamun;
+
     private ProductOfCart pcart;
 
     private Client alex;
@@ -32,7 +36,7 @@ public class CartRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        Product atmamun = new Product();
+        atmamun = new Product();
         atmamun.setName("Atmamun");
         atmamun.setDescription("The Path To Achieving The Blis Of The Himalayan Swamis. And The Freedom Of A Living God");
         atmamun.setPrice(15.99);
@@ -68,7 +72,7 @@ public class CartRepositoryTest {
     }
 
     @Test
-    public void whenClear_thenReturnEmptyList() {
+    public void whenRemove_thenReturnEmptyList() {
         repository.removeProductOfCartByCart(1);
 
         List<ProductOfCart> products = repository.getProductOfCartByCart(1);
@@ -80,6 +84,13 @@ public class CartRepositoryTest {
         Integer cartByClientId = repository.getCartByClientId(alex.getId());
 
         assertEquals(cart.getId(), cartByClientId);
+    }
+
+    @Test
+    public void whenAddedProduct_thenReturnTrue() {
+        boolean exists = repository.existsByCartAndProductId(cart.getId(), atmamun.getId());
+
+        assertTrue(exists);
     }
 
 }
