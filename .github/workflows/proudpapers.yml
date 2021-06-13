@@ -25,7 +25,7 @@ jobs:
       - name: Go to the ProudPapers project folder
         run: cd ProudPapers/app 
       - name: Clean and compile code
-        run: ./mvnw clean install
+        run: mvn clean install
       - name: Run tests
-        run: ./mvnw test
+        run: mvn test
   
