@@ -72,17 +72,14 @@ public class ClientController {
 
         String[] pages = {"myinfo", "address", "contact", "payment", "deliveries"};
         ClientDTO client = clientService.getClientById(id);
+        CartDTO cart= cartService.getCartByClientID(id);
+        client.setCartDTO(cart);
+
+        model.addAttribute("cartDto", cart);
         model.addAttribute("client", client);
 
         for (String s : pages) {
             model.addAttribute(s, s.equals(page));
-        }
-
-        if ("cart".equals(page)){
-            CartDTO cart= cartService.getCartByClientID(id);
-            model.addAttribute("cartDto", cart);
-        }else {
-            model.addAttribute("cartDto", null);
         }
 
         return "account";

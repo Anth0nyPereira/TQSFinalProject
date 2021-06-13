@@ -116,7 +116,6 @@ class ClientController_IT {
         mvc.perform(get("/account/{id}/cart", 2))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
-
     }
 
     @Order(4)
@@ -128,7 +127,6 @@ class ClientController_IT {
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
                 .andExpect(xpath("//div[contains(@class, 'username')]").string(alex.getName()))
-                .andExpect(xpath("//div[contains(@class, 'loveDiv')]").exists())
                 .andExpect(xpath("//div[contains(@class, 'cartDiv')]").exists());
 
     }
@@ -140,7 +138,6 @@ class ClientController_IT {
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"))
                 .andExpect(xpath("//h5[@id='error-msg']").exists());
-
     }
 
     @Order(6)

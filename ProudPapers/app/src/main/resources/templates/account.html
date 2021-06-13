@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <title>Proud Papers</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"/>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet"/>
     <script type="text/javascript" src="/js/main.js"></script>
 </head>
 
@@ -25,10 +25,10 @@
                     <h1 class="h2">My Info</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
-                            <button hidden type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            <button hidden type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                            <button hidden="hidden" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            <button hidden="hidden" type="button" class="btn btn-sm btn-outline-secondary">Export</button>
                         </div>
-                        <button hidden type="button" class="btn btn-sm btn-outline-secondary">
+                        <button hidden="hidden" type="button" class="btn btn-sm btn-outline-secondary">
                             Edit
                         </button>
                     </div>
@@ -93,12 +93,12 @@
                             <div class="col-md-10">
                                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                                     <div class="col-auto d-none d-lg-block">
-                                        <img class="bd-placeholder-img" width="200" height="150" th:src="${'/img/' + productOfCart.product.name + '.jpg'}" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <img class="bd-placeholder-img" width="200" height="150" th:src="${'/img/' + productOfCart.product.name + '.jpg'}" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"/>
                                     </div>
                                     <div class="col p-4 d-flex flex-column position-static">
                                         <h5 class="mb-0 cart-product-name" th:text="${productOfCart.product.name}"></h5>
                                         <div class="mb-1 text-muted cart-product-price" th:text="'€ ' + ${productOfCart.product.price}"></div>
-                                        <div class="mb-1 text-muted cart-product-quantity" th:text="'X '${productOfCart.quantity}"></div>
+                                        <div class="mb-1 text-muted cart-product-quantity" th:text="'X ' + ${productOfCart.quantity}"></div>
                                         <p class="card-text mb-auto cart-product-desc" th:text="${productOfCart.product.description}"></p>
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@
                             <div class="col-md-10">
                                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                                     <div class="col-auto d-none d-lg-block">
-                                        <img class="bd-placeholder-img" width="200" height="150" src="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <img class="bd-placeholder-img" width="200" height="150" src="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"/>
                                     </div>
                                     <div class="col p-4 d-flex flex-column position-static">
                                         <h5 class="mb-0">Featured post</h5>

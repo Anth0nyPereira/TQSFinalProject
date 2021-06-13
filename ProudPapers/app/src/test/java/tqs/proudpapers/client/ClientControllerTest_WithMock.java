@@ -7,12 +7,16 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import tqs.proudpapers.controller.ClientController;
 import tqs.proudpapers.entity.*;
 import tqs.proudpapers.service.CartService;
 import tqs.proudpapers.service.ClientService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -72,9 +76,9 @@ public class ClientControllerTest_WithMock {
                     .param("city", alexDTO.getCity())
                     .param("zip", alexDTO.getZip())
                     .param("telephone", alexDTO.getTelephone())
-                    .param("cardNumber", "1234567891234567")
-                    .param("cardExpirationMonth", "11")
-                    .param("cvc", "123"))
+                    .param("cardNumber", alexDTO.getPaymentMethod().getCardNumber())
+                    .param("cardExpirationMonth", alexDTO.getPaymentMethod().getCardExpirationMonth())
+                    .param("cvc", alexDTO.getPaymentMethod().getCvc()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"))
                 .andExpect(xpath("//input[@id='email']").string(alex.getEmail()));
@@ -107,20 +111,23 @@ public class ClientControllerTest_WithMock {
     public void loginWithAlex_thenIndexPageContainsUsernameAndButtons() throws Exception {
         Mockito.when(clientService.getClientByEmailAndPass(alexDTO.getEmail(), alexDTO.getPassword())).thenReturn(alexDTO);
 
+        CartDTO cart = new CartDTO();
+        cart.setProductOfCarts(new ArrayList<>());
+        cart.setTotalPrice(0.0);
+        Mockito.when(cartService.getCartByClientID(alex.getId())).thenReturn(cart);
+
         mvc.perform(post("/login")
                     .param("email", alex.getEmail())
                     .param("password", alex.getPassword()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
                 .andExpect(xpath("//div[contains(@class, 'username')]").string(alex.getName()))
-                .andExpect(xpath("//div[contains(@class, 'loveDiv')]").exists())
                 .andExpect(xpath("//div[contains(@class, 'cartDiv')]").exists());
     }
 
     @Test
     public void loginWithIncorrectPassword_thenLoginPageWithErrorMessage() throws Exception {
         Mockito.when(clientService.getClientByEmailAndPass(alexDTO.getEmail(), "invalid")).thenReturn(null);
-
         mvc.perform(post("/login",alexDTO.getEmail(), "invalid"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"))
@@ -141,13 +148,21 @@ public class ClientControllerTest_WithMock {
         CartDTO cart = new CartDTO();
         cart.setClientId(clientId);
         cart.setProductOfCarts(Arrays.asList(new ProductOfCartDTO(cartId, b1, quantity)));
+        alexDTO.setCartDTO(cart);
 
         Mockito.when(cartService.getCartByClientID(clientId)).thenReturn(cart);
+        Mockito.when(clientService.getClientById(clientId)).thenReturn(alexDTO);
 
-        mvc.perform(get("/{clientId}/cart", clientId))
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("client", alexDTO);
+
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/account/{id}/cart", clientId)
+                .session(session);
+
+        mvc.perform(builder)
                 .andExpect(status().isOk())
                 .andExpect(view().name("account"))
-                .andExpect(xpath("//h5[contains(@class, 'cart-product-name']").string(b1.getName()))
+                .andExpect(xpath("//h5[contains(@class, 'cart-product-name')]").string(b1.getName()))
                 .andExpect(xpath("//div[contains(@class, 'cart-product-price')]").string("€ " + b1.getPrice()))
                 .andExpect(xpath("//p[contains(@class, 'cart-product-desc')]").string(b1.getDescription()));
     }
