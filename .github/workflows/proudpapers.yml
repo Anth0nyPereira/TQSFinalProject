@@ -1,6 +1,6 @@
 name: CI for ProudPapers
 on:
-  push
+  push:
     branches:
     - feature/ci
   pull_request:
