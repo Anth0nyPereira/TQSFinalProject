@@ -62,8 +62,6 @@ class RiderRepositoryTest {
         assertThat(fromDB).isNull();
     }
 
-
-
     @Test
     @DisplayName("Tests a valid Find Rider By Email")
     void whenValidFindRiderByEmail_thenReturnRider(){

@@ -36,6 +36,11 @@ public class EasyDeliversController {
         }
     }
 
+    @GetMapping("/error")
+    public ModelAndView error(ModelMap model) {
+        return new ModelAndView("error", model);
+    }
+
     @GetMapping("/logout")
     public ModelAndView logout(ModelMap model){
         session = "";
@@ -63,6 +68,8 @@ public class EasyDeliversController {
             session = email;
             return new ModelAndView("redirect:/dashboard", model);
         } else{
+            model.addAttribute("error", true);
+            model.addAttribute("message", "Invalid credentials. Please, try again.");
             return new ModelAndView("login", model);
         }
     }
