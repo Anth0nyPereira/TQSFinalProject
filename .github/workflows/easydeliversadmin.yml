@@ -25,6 +25,6 @@ jobs:
       - name: Go to the EasyDeliversAdmin project folder
         run: cd EasyDelivers/Platform/EasyDeliversAdmin  
       - name: Clean and compile code
-        run: ./mvnw clean install
+        run: mvn clean install
       - name: Run tests
-        run: ./mvnw test
+        run: mvn test
