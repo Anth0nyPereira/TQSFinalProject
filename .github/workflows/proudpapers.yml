@@ -23,9 +23,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Go to the ProudPapers project folder
-        run: cd ProudPapers/app
-      - name: Give execution permissions
-        run: chmod +x mvnw  
+        run: cd ProudPapers/app 
       - name: Clean and compile code
         run: ./mvnw clean install
       - name: Run tests
