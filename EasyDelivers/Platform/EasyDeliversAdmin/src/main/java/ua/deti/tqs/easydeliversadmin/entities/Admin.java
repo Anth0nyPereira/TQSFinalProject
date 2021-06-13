@@ -89,4 +89,17 @@ public class Admin {
     public Admin() {
 
     }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + id +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", position='" + position + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

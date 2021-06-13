@@ -6,11 +6,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.interactions.Actions;
+
+import java.util.List;
 
 @ExtendWith(SeleniumJupiter.class)
-public class LoginSuccessfullTest {
+public class LogoutSuccessfullTest {
 
   @BeforeEach
   public void setUp(FirefoxDriver driver) {
@@ -22,7 +26,7 @@ public class LoginSuccessfullTest {
   }
 
   @Test
-  public void loginSuccessfullTest(FirefoxDriver driver) {
+  public void logoutSuccessfullTest(FirefoxDriver driver) {
     driver.get("http://localhost:8080/login");
     driver.manage().window().setSize(new Dimension(1900, 1000));
     driver.findElement(By.name("email")).click();
@@ -30,6 +34,18 @@ public class LoginSuccessfullTest {
     driver.findElement(By.name("password")).click();
     driver.findElement(By.name("password")).sendKeys("admin");
     driver.findElement(By.name("signup_submit")).click();
-    assertThat(driver.findElement(By.cssSelector(".simple-text")).getText(), is("EASY DELIVERS"));
+    {
+      WebElement element = driver.findElement(By.cssSelector("#navbarDropdownProfile > .material-icons"));
+      Actions builder = new Actions(driver);
+      builder.moveToElement(element).perform();
+    }
+    driver.findElement(By.cssSelector("#navbarDropdownProfile > .material-icons")).click();
+    {
+      WebElement element = driver.findElement(By.tagName("body"));
+      Actions builder = new Actions(driver);
+      builder.moveToElement(element, 0, 0).perform();
+    }
+    driver.findElement(By.linkText("Log out")).click();
+    assertThat(driver.findElement(By.cssSelector("h1")).getText(), is("Login"));
   }
 }

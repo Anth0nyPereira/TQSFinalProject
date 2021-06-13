@@ -6,11 +6,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.Dimension;
 
+import java.util.List;
+
 @ExtendWith(SeleniumJupiter.class)
-public class LoginSuccessfullTest {
+public class LoginUnsuccessfullTest {
 
   @BeforeEach
   public void setUp(FirefoxDriver driver) {
@@ -22,14 +25,18 @@ public class LoginSuccessfullTest {
   }
 
   @Test
-  public void loginSuccessfullTest(FirefoxDriver driver) {
+  public void loginUnsuccessfullTest(FirefoxDriver driver) {
     driver.get("http://localhost:8080/login");
     driver.manage().window().setSize(new Dimension(1900, 1000));
     driver.findElement(By.name("email")).click();
-    driver.findElement(By.name("email")).sendKeys("jaguiar2@gmail.com");
+    driver.findElement(By.name("email")).sendKeys("WRONG_EMAIL");
     driver.findElement(By.name("password")).click();
-    driver.findElement(By.name("password")).sendKeys("admin");
+    driver.findElement(By.name("password")).sendKeys("WRONG_PASS");
     driver.findElement(By.name("signup_submit")).click();
-    assertThat(driver.findElement(By.cssSelector(".simple-text")).getText(), is("EASY DELIVERS"));
+    {
+      List<WebElement> elements = driver.findElements(By.cssSelector(".img > img:nth-child(1)"));
+      assert(elements.size() > 0);
+    }
+    assertThat(driver.findElement(By.cssSelector("h2")).getText(), is("Internal Server Error"));
   }
 }

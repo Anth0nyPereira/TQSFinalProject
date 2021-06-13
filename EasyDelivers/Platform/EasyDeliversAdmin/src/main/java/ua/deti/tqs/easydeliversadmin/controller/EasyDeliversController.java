@@ -58,11 +58,10 @@ public class EasyDeliversController {
 
     @PostMapping("/login")
     public ModelAndView login(@RequestParam(value = "email", defaultValue = "hello")String email, @RequestParam(value = "password", defaultValue = "bye")String password, ModelMap model) throws EasyDeliversService.AdminNotFoundException, Exception {
-        log.warning("LOGS");
         Admin admin = service.getAdminByEmail(email);
-        log.info("Email: " + email);
-        log.info("Pass: " + password);
-        log.info(admin.getFirst_name());
+        if (admin == null) {
+            return new ModelAndView("redirect:/error", model);
+        }
         PasswordEncryption encryptor = new PasswordEncryption();
         if (admin.getPassword().equals(encryptor.encrypt(password))) {
             session = email;
