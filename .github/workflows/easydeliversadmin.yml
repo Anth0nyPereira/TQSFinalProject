@@ -22,9 +22,5 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Go to the EasyDeliversAdmin project folder
-        run: cd EasyDelivers/Platform/EasyDeliversAdmin  
-      - name: Clean and compile code
-        run: mvn clean install
-      - name: Run tests
-        run: mvn test
+      - name: Build & Test
+        run: cd EasyDelivers/Platform/EasyDeliversAdmin; chmod +x mvnw; ./mvnw -B clean verify
