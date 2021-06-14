@@ -1,68 +1,82 @@
-/*
 package ua.deti.tqs.easydeliversadmin.repository;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.jdbc.JdbcTestUtils;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 import ua.deti.tqs.easydeliversadmin.entities.Admin;
+import ua.deti.tqs.easydeliversadmin.entities.Rider;
+import java.awt.*;
 
-import javax.transaction.Transactional;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
-
-@DataJpaTest
-@Transactional
-@AutoConfigureTestDatabase(replace = NONE)
-
-public class AdminRepositoryTest {
+@Testcontainers
+@SpringBootTest
+class AdminRepositoryTest {
 
     @Autowired
-    private AdminRepository adminRepository;
+    private AdminRepository repository;
 
-    private Admin john;
+    private Admin admin;
 
-    @Autowired
-    private TestEntityManager em;
+    // container {
+    @Container
+    public static MySQLContainer container = new MySQLContainer(DockerImageName.parse("mysql:5.7"))
+            .withUsername("admin")
+            .withPassword("admin")
+            .withDatabaseName("easydeliversadmin");
+
+    // }
+
+    @DynamicPropertySource
+    static void properties(DynamicPropertyRegistry registry){
+        registry.add("spring.datasource.url", container::getJdbcUrl);
+        registry.add("spring.datasource.password", container::getPassword);
+        registry.add("spring.datasource.username", container::getUsername);
+    }
 
     @BeforeEach
-    public void setUp() {
-        john = new Admin("john", "aguiar", "jaguiar@gmail.com", "admin", "Senior Manager", "Hello World!");
-        adminRepository.saveAndFlush(john); //ensure data is persisted at this point
-    }
-
-    @Test
-    public void whenFindJohnByName_thenReturnJohnAdmin() {
-        Admin found = adminRepository.findAdminByEmail(john.getEmail());
-        assertThat(found).isNotNull().isEqualTo(john);
-    }
-
-    @Test
-    public void whenInvalidAdminEmail_thenReturnNull() {
-        Admin fromDb = adminRepository.findAdminByEmail("Does Not Exist");
-        assertThat(fromDb).isNull();
-    }
-
-    @Test
-    public void whenFindAdminByExistingEmail_thenReturnAdmin() {
-        Admin fromDb = adminRepository.findAdminByEmail(john.getEmail());
-        assertThat(fromDb).isNotNull();
-        assertThat(fromDb.getFirst_name()).isEqualTo(john.getFirst_name());
+    void setUp() {
+        admin = new Admin("anthony","pereira","anthonypereira@ua.pt", "admin", "Senior Manager","I fight for a future where everyone has the same rights");
+        repository.save(admin);
     }
 
     @AfterEach
-    public void tearDown() { // https://stackoverflow.com/questions/57235922/junit-how-to-test-method-which-deletes-entity-jpa
-        final int id = em.persistAndGetId(john, Integer.class);
-        adminRepository.deleteById(id);
-        em.flush();
+    void tearDown() {
+        repository.deleteAll();
     }
 
-}
+    @Test
+    @DisplayName("If an admin exists, checks if it is returned")
+    void whenValidAdminByEmail_thenReturnAdmin(){
+        Admin adminFromDatabase = repository.findAdminByEmail("anthonypereira@ua.pt");
+        assertThat(adminFromDatabase).isNotNull().isEqualTo(admin);
+        assertThat(adminFromDatabase.getEmail()).isEqualTo(admin.getEmail());
+        assertThat(adminFromDatabase.getFirst_name()).isEqualTo(admin.getFirst_name());
+        assertThat(adminFromDatabase.getLast_name()).isEqualTo(admin.getLast_name());
+        assertThat(adminFromDatabase.getPassword()).isEqualTo(admin.getPassword());
+        assertThat(adminFromDatabase.getPosition()).isEqualTo(admin.getPosition());
+        assertThat(adminFromDatabase.getDescription()).isEqualTo(admin.getDescription());
+    }
 
- */
+
+    @Test
+    @DisplayName("If an admin does not exist, null should be returned instead")
+    void whenInvalidAdminByEmail_thenReturnNull(){
+        Admin inexistingAdmin = repository.findAdminByEmail("tonypereira@hotmail.com");
+
+        assertThat(inexistingAdmin).isNull();
+    }
+
+
+
+
+}

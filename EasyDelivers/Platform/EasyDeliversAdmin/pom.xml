@@ -119,7 +119,6 @@
                         <exclude>**/LoginSuccessfullTest.java</exclude>
                         <exclude>**/LoginUnsuccessfullTest.java</exclude>
                         <exclude>**/LogoutSuccessfullTest.java</exclude>
-                        <exclude>**/AdminRepositoryTest.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
