@@ -1,6 +1,8 @@
 package com.example.riderapp.Activities;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.example.riderapp.Fragments.EncomendaMapaFragment;
 import com.example.riderapp.R;
@@ -8,8 +10,6 @@ import com.example.riderapp.R;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EncomendaMapaActivity extends AppCompatActivity {
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
