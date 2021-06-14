@@ -52,7 +52,7 @@ public class ProductControllerTest_WithMock {
                 .andExpect(status().isOk())
                 .andExpect(view().name("search"))
                 .andExpect(xpath("//h3[contains(@class, 'product-name')]").string(atmamun.getName()))
-                .andExpect(xpath("//div[contains(@class, 'product-price')]").string(String.valueOf(atmamun.getPrice())))
+                .andExpect(xpath("//div[contains(@class, 'product-price')]").string("€ " + atmamun.getPrice()))
                 .andExpect(xpath("//p[contains(@class, 'product-description')]").string(atmamun.getDescription()));
     }
 
@@ -64,7 +64,7 @@ public class ProductControllerTest_WithMock {
                 .andExpect(status().isOk())
                 .andExpect(view().name("search"))
                 .andExpect(xpath("//h3[contains(@class, 'product-name')]").string(atmamun.getName()))
-                .andExpect(xpath("//div[contains(@class, 'product-price')]").string(String.valueOf(atmamun.getPrice())))
+                .andExpect(xpath("//div[contains(@class, 'product-price')]").string("€ " + atmamun.getPrice()))
                 .andExpect(xpath("//p[contains(@class, 'product-description')]").string(atmamun.getDescription()));
     }
 

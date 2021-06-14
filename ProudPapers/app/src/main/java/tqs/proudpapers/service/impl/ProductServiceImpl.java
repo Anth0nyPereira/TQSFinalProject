@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> searchByKeyWord(String name) {
         return repository.getProductByNameContains(name)
                 .stream()
-                .filter(p -> p.getQuantity() > 1)
+                .filter(p -> p.getQuantity() > 0)
                 .collect(Collectors.toList());
     }
 

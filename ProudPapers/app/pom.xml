@@ -38,6 +38,10 @@
             <artifactId>hibernate-validator</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
@@ -48,19 +52,9 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>selenium-jupiter</artifactId>
             <version>3.4.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>spring-mock-mvc</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -73,32 +67,12 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
-                <configuration>
-                    <forkCount>1</forkCount>
-                    <reuseForks>false</reuseForks>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.6</version>
                 <executions>
                     <execution>
+                        <id>prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
@@ -111,6 +85,12 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <!-- see versions at https://search.maven.org/search?q=g:org.sonarsource.scanner.maven%20AND%20a:sonar-maven-plugin -->
+                <version>3.7.0.1746</version>
             </plugin>
         </plugins>
     </build>
