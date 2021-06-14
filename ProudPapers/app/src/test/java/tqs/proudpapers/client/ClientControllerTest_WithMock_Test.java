@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @date 2021/6/5 22:17
  */
 @WebMvcTest(ClientController.class)
-public class ClientControllerTest_WithMock {
+public class ClientControllerTest_WithMock_Test {
 
     @Autowired
     private MockMvc mvc;

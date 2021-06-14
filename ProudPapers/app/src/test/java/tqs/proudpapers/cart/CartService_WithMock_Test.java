@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @date 2021/6/5 21:12
  */
 @ExtendWith(MockitoExtension.class)
-public class CartService_WithMock {
+public class CartService_WithMock_Test {
 
     @Mock(lenient = true)
     private CartRepository cartRepository;
