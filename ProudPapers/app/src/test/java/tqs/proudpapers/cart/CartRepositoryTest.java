@@ -63,10 +63,9 @@ public class CartRepositoryTest {
         entityManager.persistAndFlush(pcart); //ensure data is persisted at this point
     }
 
-
     @Test
     public void whenCartId_thenReturnProducts() {
-        List<ProductOfCart> products = repository.getProductOfCartByCart(1);
+        List<ProductOfCart> products = repository.getProductOfCartByCart(cart.getId());
         assertEquals(1, products.size());
         assertEquals(pcart, products.get(0));
     }
