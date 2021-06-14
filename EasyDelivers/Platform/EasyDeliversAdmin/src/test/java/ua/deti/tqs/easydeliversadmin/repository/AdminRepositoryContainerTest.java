@@ -56,7 +56,7 @@ class AdminRepositoryContainerTest {
 
     @Test
     @DisplayName("If an admin exists, checks if it is returned")
-    void whenValidFindRiderByEmail_thenReturnRider(){
+    void whenValidAdminByEmail_thenReturnAdmin(){
         Admin adminFromDatabase = repository.findAdminByEmail("anthonypereira@ua.pt");
         assertThat(adminFromDatabase).isNotNull().isEqualTo(admin);
         assertThat(adminFromDatabase.getEmail()).isEqualTo(admin.getEmail());
@@ -70,7 +70,7 @@ class AdminRepositoryContainerTest {
 
     @Test
     @DisplayName("If an admin does not exist, null should be returned instead")
-    void whenInvalidFindRiderByEmail_thenReturnRider(){
+    void whenInvalidAdminByEmail_thenReturnNull(){
         Admin inexistingAdmin = repository.findAdminByEmail("tonypereira@hotmail.com");
 
         assertThat(inexistingAdmin).isNull();

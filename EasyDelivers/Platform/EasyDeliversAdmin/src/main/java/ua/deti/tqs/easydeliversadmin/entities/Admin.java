@@ -2,6 +2,7 @@ package ua.deti.tqs.easydeliversadmin.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 @Entity
 @Table(name = "admin")
@@ -88,6 +89,19 @@ public class Admin {
 
     public Admin() {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Admin admin = (Admin) o;
+        return id == admin.id && Objects.equals(first_name, admin.first_name) && Objects.equals(last_name, admin.last_name) && Objects.equals(email, admin.email) && Objects.equals(password, admin.password) && Objects.equals(position, admin.position) && Objects.equals(description, admin.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, first_name, last_name, email, password, position, description);
     }
 
     @Override
