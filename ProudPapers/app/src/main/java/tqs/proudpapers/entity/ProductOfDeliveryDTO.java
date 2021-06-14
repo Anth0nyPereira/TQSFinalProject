@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * @author wy
@@ -14,17 +13,10 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name="products_of_delivery")
-@IdClass(ProductOfDeliveryId.class)
-public class ProductOfDelivery{
-    @Id
+public class ProductOfDeliveryDTO {
     private Integer delivery;
 
-    @Id
-    @Column(name="product")
-    private Integer productId;
+    private Product product;
 
-    @Column(name="quantity")
     private Integer quantity;
 }

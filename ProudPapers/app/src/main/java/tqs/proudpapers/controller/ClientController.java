@@ -6,11 +6,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import tqs.proudpapers.entity.*;
 import tqs.proudpapers.service.CartService;
 import tqs.proudpapers.service.ClientService;
+import tqs.proudpapers.service.DeliveryService;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author wy
@@ -23,6 +29,12 @@ public class ClientController {
 
     @Autowired
     CartService cartService;
+
+    @Autowired
+    DeliveryService deliveryService;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     @GetMapping("/signup")
     public String signUp(){
@@ -94,6 +106,36 @@ public class ClientController {
             return new ResponseEntity<>(saved, HttpStatus.OK);
         else
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/account/{clientId}/purchase")
+    @Transactional
+    public ResponseEntity<ProductOfCart> purchase(@PathVariable("clientId") Integer clientId, ClientDTO clientDTO, PaymentMethod paymentMethod){
+        clientDTO.setPaymentMethod(paymentMethod);
+        clientDTO.setId(clientId);
+        Integer deliveryId = cartService.buyAllProductsInTheCart(clientDTO);
+        sendDeliveryToEasyDelivery(deliveryId, clientDTO);
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @PostMapping("/update/{id}/state/{state}")
+    public ResponseEntity<Object> changeState(@PathVariable("id") Integer id,
+                                              @PathVariable("state") String state){
+
+        deliveryService.changeStateOfDelivery(id, state);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    private void sendDeliveryToEasyDelivery(Integer deliveryId, ClientDTO clientDTO){
+        Map<String, String> request = Map.of("store", "1",
+                                    "client_telephone", clientDTO.getTelephone(),
+                                    "start", "UA",
+                                    "destination", clientDTO.getZip() + " " + clientDTO.getCity());
+
+        ResponseEntity<Integer> response = restTemplate.postForEntity("localhost:8080/delivery", request, Integer.class);
+        Integer id_delivery_store = response.getBody();
+        deliveryService.setDeliveryIdInStore(deliveryId, id_delivery_store);
     }
 }
 

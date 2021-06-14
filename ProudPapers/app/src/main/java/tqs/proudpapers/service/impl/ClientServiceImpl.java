@@ -11,6 +11,8 @@ import tqs.proudpapers.repository.ClientRepository;
 import tqs.proudpapers.repository.PaymentMethodRepository;
 import tqs.proudpapers.service.ClientService;
 
+import javax.transaction.Transactional;
+
 /**
  * @author wy
  * @date 2021/6/4 12:42
@@ -28,6 +30,7 @@ public class ClientServiceImpl implements ClientService {
     private CartRepository cartRepository;
 
     @Override
+    @Transactional
     public Client saveClient(ClientDTO clientDTO) {
         Client client = new Client();
         BeanUtils.copyProperties(clientDTO, client);

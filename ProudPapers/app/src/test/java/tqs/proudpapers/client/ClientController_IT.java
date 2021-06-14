@@ -1,8 +1,11 @@
 package tqs.proudpapers.client;
 
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
@@ -12,9 +15,13 @@ import tqs.proudpapers.repository.ClientRepository;
 import tqs.proudpapers.repository.PaymentMethodRepository;
 import tqs.proudpapers.service.CartService;
 import tqs.proudpapers.service.ClientService;
+import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -26,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProudPapersApplication.class)
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 class ClientController_IT {
     @Autowired
     private MockMvc mvc;
@@ -38,6 +46,9 @@ class ClientController_IT {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private DeliveryService deliveryService;
 
     private ClientDTO alexDTO;
     private Client alex;
@@ -82,6 +93,7 @@ class ClientController_IT {
                 .andExpect(xpath("//input[@id='email']").string(alex.getEmail()));
 
         ClientDTO result = clientService.getClientByEmail(alex.getEmail());
+        alex.setId(result.getId());
         assertEquals(result.getEmail(), alex.getEmail());
         assertEquals(result.getName(), alex.getName());
         assertEquals(result.getTelephone(), alex.getTelephone());
@@ -94,26 +106,13 @@ class ClientController_IT {
         BeanUtils.copyProperties(alexDTO, copyed);
         copyed.setEmail(alexDTO.getEmail());  // this email is already used by alex
 
-        mvc.perform(post("/signup")
-                .param("name", copyed.getName())
-                .param("email", copyed.getEmail())
-                .param("password", copyed.getPassword())
-                .param("city", copyed.getCity())
-                .param("zip", copyed.getZip())
-                .param("telephone", copyed.getTelephone())
-                .param("cardNumber", "12345678912")
-                .param("cardExpirationMonth", "11")
-                .param("cvc", "123"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("signUp"))
-                .andExpect(xpath("//h5[@id='error-msg']").exists());
-
+        assertThrows(Exception.class, ()->mvc.perform(post("/signup")));
     }
 
     @Order(3)
     @Test
     public void getCartWithoutLogin_thenLoginPage() throws Exception {
-        mvc.perform(get("/account/{id}/cart", 2))
+        mvc.perform(get("/account/{id}/cart", alex.getId()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }
@@ -152,7 +151,7 @@ class ClientController_IT {
         Product saved = productService.save(b1);
 
         mvc.perform(post("/account/{clientId}/add_to_cart/{productId}",
-                2,
+                alex.getId(),
                         saved.getId() + ""))
                 .andExpect(status().isOk());
 
@@ -177,17 +176,25 @@ class ClientController_IT {
 
     @Order(8)
     @Test
-    public void buyProductsInTheCart_thenCartEmpty() throws Exception {
-        mvc.perform(post("/purchase")
+    public void buyProductsInTheCart_thenCartEmptyAndDeliveryWithProducts() throws Exception {
+        Product atmamun = new Product();
+        atmamun.setName("Atmamun");
+        atmamun.setDescription("The Path To Achieving The Blis Of The Himalayan Swamis. And The Freedom Of A Living God");
+        atmamun.setPrice(15.99);
+        atmamun.setQuantity(13);
+        atmamun = productService.save(atmamun);
+        cartService.save(alex.getId(), atmamun.getId(), 1);
+
+        mvc.perform(post("/account/" + alex.getId() + "/purchase")
                 .param("name", alexDTO.getName())
                 .param("email", alexDTO.getEmail())
                 .param("password", alexDTO.getPassword())
                 .param("city", alexDTO.getCity())
                 .param("zip", alexDTO.getZip())
                 .param("telephone", alexDTO.getTelephone())
-                .param("cardNumber", "1234567891234567")
-                .param("cardExpirationMonth", "11")
-                .param("cvc", "123"))
+                .param("cardNumber", alexDTO.getPaymentMethod().getCardNumber())
+                .param("cardExpirationMonth", alexDTO.getPaymentMethod().getCardExpirationMonth())
+                .param("cvc", alexDTO.getPaymentMethod().getCvc()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("account"))
                 .andExpect(xpath("//h5[contains(@class, 'cart-product-name']").doesNotExist())
@@ -196,5 +203,10 @@ class ClientController_IT {
 
         CartDTO cartDTO = cartService.getCartByClientID(alex.getId());
         assertEquals(0, cartDTO.getProductOfCarts().size());
+
+        List<Delivery> deliveries = deliveryService.getDeliveries(alex.getId());
+        assertEquals(1, deliveries.size());
+        assertEquals(1, deliveries.get(0).getProductsOfDelivery().size());
+        assertEquals(atmamun, deliveries.get(0).getProductsOfDelivery().get(0).getProduct());
     }
 }

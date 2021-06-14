@@ -88,10 +88,8 @@
                         </div>
                     </div>
 
-
-
+                    <button type="submit" class="buy-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy</button>
                     <div class="cart" th:if="${cart}" th:each="productOfCart:${client.cartDTO.productOfCarts}">
-                        <button type="submit" class="buy-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy</button>
                         <div class="row mb-3">
                             <div class="col-md-10">
                                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -111,7 +109,7 @@
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content modal-address">
-                                    <form >
+                                    <form th:action="${'/account/' + #session.getAttribute('client').id + '/purchase'}" method="post">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Shipping details</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

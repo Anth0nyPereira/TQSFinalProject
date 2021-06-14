@@ -2,19 +2,14 @@ package tqs.proudpapers.delivery;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import tqs.proudpapers.entity.*;
-import tqs.proudpapers.repository.CartRepository;
 import tqs.proudpapers.repository.DeliveryRepository;
-import tqs.proudpapers.service.impl.DeliveryServiceImpl;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,28 +28,61 @@ public class DeliveryRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
 
+    private int clientId = 1;
 
-    @Test
-    public void whenDeliveryId_thenReturnDelivery() {
-        int bookId = 1;
-        int quantity = 1;
-        int deliveryId = 1;
+    private Delivery delivery;
 
-        Product b1 = new Product();
-        b1.setName("Book A");
-        b1.setPrice(11.0);
-        b1.setId(bookId);
-
-        ProductOfDelivery product = new ProductOfDelivery();
-        product.setProductId(b1.getId());
-        product.setQuantity(quantity);
-        product.setDelivery(deliveryId);
-
-        List<ProductOfDelivery> list = Arrays.asList(product);
-
-        List<ProductOfDelivery> products = repository.getProductsOfDeliveryById(deliveryId);
-        assertEquals(1, products.size());
-
+    @BeforeEach
+    void setUp(){
+        delivery = new Delivery();
+        delivery.setClient(clientId);
+        delivery = entityManager.persistAndFlush(delivery);
     }
 
+    @Test
+    public void whenClientId_thenReturnDeliveries() {
+        List<Delivery> deliveriesByClient = repository.getDeliveriesByClient(clientId);
+
+        assertEquals(1, deliveriesByClient.size());
+        assertEquals(delivery, deliveriesByClient.get(0));
+    }
+
+    @Test
+    public void whenDeliveryId_thenReturnProductsInIt() {
+        Product atmamun = new Product();
+        atmamun.setName("Atmamun");
+        atmamun.setDescription("The Path To Achieving The Blis Of The Himalayan Swamis. And The Freedom Of A Living God");
+        atmamun.setPrice(15.99);
+        atmamun.setQuantity(13);
+        atmamun = entityManager.persistAndFlush(atmamun);
+
+        entityManager.persistAndFlush(new ProductOfDelivery(delivery.getId(), atmamun.getId(), 1));
+
+        List<Map<String, Integer>> productsOfDeliveryById = repository.getProductsOfDeliveryById(delivery.getId());
+        Map<String, Integer> map = productsOfDeliveryById.get(0);
+
+        assertEquals(1, productsOfDeliveryById.size());
+        assertEquals(atmamun.getId(), map.get("PRODUCT"));
+        assertEquals(1, map.get("QUANTITY"));
+        assertEquals(delivery.getId(), map.get("DELIVERY"));
+    }
+
+
+    @Test
+    public void whenChangeState_thenDeliveryStateChanged() {
+        String state = "accepted";
+        repository.changeStateOfDelivery(delivery.getId(), state);
+        Delivery saved = repository.getOne(delivery.getId());
+
+        assertEquals(state, saved.getState());
+    }
+
+    @Test
+    public void whenSetDeliveryStoreId_thenDeliveryWithId() {
+        int id_delivery_store = 100;
+        repository.setDeliveryIdInStore(delivery.getId(), id_delivery_store);
+        Delivery saved = repository.getOne(delivery.getId());
+
+        assertEquals(id_delivery_store, saved.getIdDeliveryStore());
+    }
 }

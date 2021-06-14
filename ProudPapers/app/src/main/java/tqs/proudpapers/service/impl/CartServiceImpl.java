@@ -4,12 +4,15 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tqs.proudpapers.entity.CartDTO;
+import tqs.proudpapers.entity.ClientDTO;
 import tqs.proudpapers.entity.ProductOfCart;
 import tqs.proudpapers.entity.ProductOfCartDTO;
 import tqs.proudpapers.repository.CartRepository;
 import tqs.proudpapers.service.CartService;
+import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +30,10 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private DeliveryService deliveryService;
+
 
     @Override
     public CartDTO getCartByClientID(Integer id) {
@@ -46,8 +53,10 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void buyAllProductsInTheCart(Integer cartId) {
-        repository.removeProductOfCartByCart(cartId);
+    public Integer buyAllProductsInTheCart(ClientDTO clientDTO) {
+        CartDTO cart = getCartByClientID(clientDTO.getId());
+        repository.removeProductOfCartByCart(cart.getCartId());
+        return deliveryService.addProductToDelivery(clientDTO.getId(), cart.getProductOfCarts());
     }
 
     @Override

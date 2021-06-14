@@ -1,6 +1,7 @@
 package tqs.proudpapers.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import tqs.proudpapers.entity.ProductOfCart;
 
@@ -18,7 +19,8 @@ public interface CartRepository extends JpaRepository<ProductOfCart, Integer> {
     @Query(nativeQuery = true, value = "SELECT id FROM cart WHERE client = :client")
     Integer getCartByClientId(Integer client);
 
-    @Query(nativeQuery = true, value = "INSERT INTO cart VALUE(:client)")
+    @Modifying
+    @Query(nativeQuery = true, value = "INSERT INTO cart (client) VALUE(:client)")
     void createCart(Integer client);
 
     boolean existsByCartAndProductId(Integer cart, Integer product);
