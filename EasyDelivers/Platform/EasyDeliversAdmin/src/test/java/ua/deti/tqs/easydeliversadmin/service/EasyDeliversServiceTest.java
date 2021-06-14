@@ -54,7 +54,8 @@ class EasyDeliversServiceTest {
         del3= new Delivery(3,4,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
 
         allDeliversAwaitingProcessing = Arrays.asList(del1, del2, del3);
-
+        Mockito.when(deliveryRepository.findDeliveryById(Integer.parseInt("1"))).thenReturn(del1);
+        Mockito.when(deliveryRepository.findDeliveryById(Integer.parseInt("20"))).thenReturn(null);
         Mockito.when(riderRepository.findRiderByEmail("hugo@email.com")).thenReturn(rider1);
         Mockito.when(riderRepository.findRiderByEmail("no@email.com")).thenReturn(null);
         Mockito.when(riderRepository.findRiderByEmail("notfake@email.com")).thenReturn(null);
@@ -151,12 +152,49 @@ class EasyDeliversServiceTest {
 
     @Test
     @DisplayName("Tests request all available Deliveries")
-    public void whenGetAllAvailableDeliveries() {
+     void whenGetAllAvailableDeliveries() {
         List<Delivery> dels = deliveryRepository.findDeliveriesByState("awaiting_processing");
         assertThat(dels).hasSize(3).extracting(Delivery::getStart).contains(del1.getStart(), del1.getStart(), del3.getStart());
         Mockito.verify(deliveryRepository,times(1)).findDeliveriesByState("awaiting_processing");
     }
 
+
+    @Test
+    @DisplayName("Tests a successful Update Delivery")
+    void whenSuccessfulUpdateDeliveryTest(){
+        String x = easyDeliversService.updateDeliveryStateByRider("1","1","done");
+        assertEquals("Delivery State Changed",x);
+        verify(deliveryRepository,times(1))
+                .findDeliveryById(1);
+
+    }
+
+    @Test
+    @DisplayName("Tests a invalid Update Delivery")
+    void whenInvalidUpdateDeliveryTest(){
+        String x = easyDeliversService.updateDeliveryStateByRider("20","1","done");
+        assertEquals("error",x);
+        verify(deliveryRepository,times(1))
+                .findDeliveryById(20);
+    }
+
+    @Test
+    @DisplayName("Tests a Successful Assign Rider to Deliver")
+    void whenSuccessfulAssignRiderDeliver(){
+        String x = easyDeliversService.assignRiderDeliver("1","1");
+        assertEquals("Delivery Assigned",x);
+        verify(deliveryRepository,times(1))
+                .findDeliveryById(1);
+    }
+
+    @Test
+    @DisplayName("Tests a invalid Assign Rider to Deliver")
+    void whenInvalidAssignRiderDeliver(){
+        String x = easyDeliversService.assignRiderDeliver("20","1");
+        assertEquals("error",x);
+        verify(deliveryRepository,times(1))
+                .findDeliveryById(20);
+    }
 
 
 }

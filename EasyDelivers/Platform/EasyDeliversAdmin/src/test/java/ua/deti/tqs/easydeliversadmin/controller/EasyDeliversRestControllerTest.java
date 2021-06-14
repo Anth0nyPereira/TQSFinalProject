@@ -199,13 +199,48 @@ class EasyDeliversRestControllerTest {
     void successfulAssignDeliveryTest() throws Exception {
         when(service.assignRiderDeliver("1", "1")).thenReturn("Delivery Assigned");
 
-        mvc.perform(MockMvcRequestBuilders.put("/api/rider/deliveries/1/1")
-                .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(newDeliveryRequest)))
+        mvc.perform(MockMvcRequestBuilders.put("/api/rider/deliveries/1/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value("Delivery Assigned"));
 
         verify(service,times(1))
                 .assignRiderDeliver("1","1");
+    }
+
+    @Test
+    @DisplayName("Test invalid Assign delivery to rider")
+    void invalidAssignDeliveryTest() throws Exception {
+        when(service.assignRiderDeliver("1", "1")).thenReturn("error");
+
+        mvc.perform(MockMvcRequestBuilders.put("/api/rider/deliveries/1/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("error"));
+
+        verify(service,times(1))
+                .assignRiderDeliver("1","1");
+    }
+
+    @Test
+    @DisplayName("Test successful Update to  Delivery State")
+    void successfulUpdateDeliveryTest() throws Exception {
+        when(service.updateDeliveryStateByRider("1", "1", "done")).thenReturn("Delivery Updated");
+        mvc.perform(MockMvcRequestBuilders.put("/api/rider/deliveries/update/1/1/in_distribution"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("Delivery Updated"));
+
+        verify(service,times(1))
+                .updateDeliveryStateByRider("1", "1", "done");
+    }
+
+    @Test
+    @DisplayName("Test invalid Update to  Delivery State")
+    void invalidUpdateDeliveryTest() throws Exception {
+        when(service.updateDeliveryStateByRider("1", "1", "done")).thenReturn("error");
+        mvc.perform(MockMvcRequestBuilders.put("/api/rider/deliveries/update/1/1/in_distribution"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("Delivery Updated"));
+        verify(service,times(1))
+                .updateDeliveryStateByRider("1", "1", "done");
     }
 
 

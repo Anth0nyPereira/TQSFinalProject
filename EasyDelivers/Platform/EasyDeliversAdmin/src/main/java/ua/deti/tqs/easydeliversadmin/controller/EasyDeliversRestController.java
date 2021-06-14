@@ -19,6 +19,8 @@ public class EasyDeliversRestController {
     EasyDeliversService service;
     
 
+    // EndPoint for Rider Login
+
     @PostMapping(value = "/rider/login", consumes = "application/json", produces = "application/json")
     public Rider login(@RequestBody Map<String, Object> request){
         String email = (String) request.get("email");
@@ -31,6 +33,9 @@ public class EasyDeliversRestController {
             return null;
         }
     }
+
+    // EndPoint for Rider Sign Up
+
     @PostMapping("/rider/account")
     public Rider createAccount(@RequestBody Map<String, Object> request){
         String firstname = (String) request.get("firstname");
@@ -43,14 +48,25 @@ public class EasyDeliversRestController {
         return service.createRider(firstname, lastname, email, password, telephone, transportation);
     }
 
+    // EndPoint for Rider gets Available Deliveries
+
     @GetMapping("/rider/deliveries")
     public List<Delivery> getAvailableDeliveriesRider(){
         return service.getAvailableDeliveries();
     }
 
+    // EndPoint for Rider accept Deliver
+
     @PutMapping("/rider/deliveries/{DeliverID}/{RiderID}")
     public String riderAcceptDeliver(@PathVariable String DeliverID, @PathVariable String RiderID){
        return service.assignRiderDeliver(DeliverID,RiderID);
+    }
+
+    // EndPoint for Rider Update Delivery Status
+
+    @PutMapping("/rider/deliveries/update/{DeliverID}/{RiderID}/{state}")
+    public String riderAcceptDeliver(@PathVariable String DeliverID, @PathVariable String RiderID, @PathVariable String state){
+        return service.updateDeliveryStateByRider(DeliverID,RiderID, state);
     }
 
     @PostMapping("/delivery")
