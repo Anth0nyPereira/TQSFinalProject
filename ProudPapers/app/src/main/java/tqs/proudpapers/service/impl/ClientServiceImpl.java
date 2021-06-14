@@ -48,7 +48,6 @@ public class ClientServiceImpl implements ClientService {
             cartRepository.createCart(saved.getId());
             return saved;
         }catch (Exception e){
-            e.printStackTrace();
             return null;
         }
     }
