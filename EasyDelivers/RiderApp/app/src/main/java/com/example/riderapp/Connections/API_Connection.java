@@ -27,4 +27,7 @@ public interface API_Connection {
     @PUT("/api/rider/deliveries/{DeliverID}/{RiderID}")
     Call<String> api_accept_delivery(@Path("DeliverID") String deliverID, @Path("RiderID") String riderID);
 
+    @PUT("/api/rider/deliveries/update/{DeliverID}/{RiderID}/{state}")
+    Call<String> api_rider_update_Deliver_State(@Path("DeliverID") String DeliverID, @Path("RiderID") String RiderID, @Path("state") String state);
+
 }

@@ -102,7 +102,6 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
         api_connection= API_Service.getClient();
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("UserData",MODE_PRIVATE);
         int id = sharedPreferences.getInt("id",0);
-        System.out.println("id");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_encomanda_info, container, false);
@@ -161,6 +160,11 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
     //
     public void changeToEncomendaMapaActivity(){
         Intent intent = new Intent(getActivity(), EncomendaMapaActivity.class);
+        intent.putExtra("start",mStart);
+        intent.putExtra("destination",mDestination);
+        intent.putExtra("deliveryID",mID);
+        intent.putExtra("telephone",mTelephone);
+        intent.putExtra("rider_fee",mRider_Fee);
         startActivity(intent);
     }
 
