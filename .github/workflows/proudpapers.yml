@@ -1,6 +1,6 @@
 name: CI for ProudPapers
 on:
-  push
+  push:
     branches:
     - feature/ci
   pull_request:
@@ -22,12 +22,5 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Go to the ProudPapers project folder
-        run: cd ProudPapers/app
-      - name: Give execution permissions
-        run: chmod +x mvnw  
-      - name: Clean and compile code
-        run: ./mvnw clean install
-      - name: Run tests
-        run: ./mvnw test
-  
+      - name: Build & Test
+        run: cd ProudPapers/app; ./mvnw -B clean verify
