@@ -14,4 +14,6 @@ public interface ProductService {
     Product searchById(Integer id);
 
     Product save(Product p);
+
+    List<Product> getAll();
 }

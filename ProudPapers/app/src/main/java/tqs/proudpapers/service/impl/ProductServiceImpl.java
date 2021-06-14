@@ -35,4 +35,9 @@ public class ProductServiceImpl implements ProductService {
     public Product save(Product p) {
         return repository.save(p);
     }
+
+    @Override
+    public List<Product> getAll() {
+        return repository.findAll();
+    }
 }

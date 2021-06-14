@@ -62,9 +62,11 @@ public class CartServiceImpl implements CartService {
     @Override
     public ProductOfCart save(Integer clientId, Integer productId, Integer quantity) {
         Integer cart = repository.getCartByClientId(clientId);
+        if (cart == null) return null;
+
         boolean added = repository.existsByCartAndProductId(cart, productId);
-        if (added)
-            return null;
+
+        if (added) return null;
 
         ProductOfCart productOfCart = new ProductOfCart(cart, productId, quantity);
         return repository.save(productOfCart);

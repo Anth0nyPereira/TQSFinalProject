@@ -86,7 +86,6 @@ public class DeliveryServiceImpl implements DeliveryService {
         state.setDelivery(id);
         state.setTimestamp(new Date());
         state.setDescription(description);
-
         stateRepository.save(state);
     }
 

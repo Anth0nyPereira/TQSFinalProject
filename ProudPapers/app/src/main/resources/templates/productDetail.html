@@ -151,19 +151,23 @@
     })
 
     $('.add-to-cart-btn').click(function (){
-        $.ajax({
-            type : "POST",
-            url : "/account/" +$('#user-id').val() + "/add_to_cart/" + $('#product-id').val() + "?quantity=" + $('#current-quantity').val(),
-            success : function(result) {
-                alert("Book added to cart!")
-                var newTotalPrice = parseInt($('#product-price').text()) + parseInt($('#product-total-price').text())
-                $('#product-total-price').text(newTotalPrice)
-                $('#product-cart-quantity').text(parseInt($('#product-cart-quantity').text()) + 1)
-            },
-            error: function (result) {
-                alert("You already have this book in your cart!")
-            }
-        });
+        if ($('#user-id').val() === '-1'){
+            window.location.href='/login'
+        }else{
+            $.ajax({
+                type : "POST",
+                url : "/account/" +$('#user-id').val() + "/add_to_cart/" + $('#product-id').val() + "?quantity=" + $('#current-quantity').val(),
+                success : function(result) {
+                    alert("Book added to cart!")
+                    var newTotalPrice = parseInt($('#product-price').text()) + parseInt($('#product-total-price').text())
+                    $('#product-total-price').text(newTotalPrice)
+                    $('#product-cart-quantity').text(parseInt($('#product-cart-quantity').text()) + 1)
+                },
+                error: function (result) {
+                    alert("You already have this book in your cart!")
+                }
+            });
+        }
     })
 </script>
 </body>

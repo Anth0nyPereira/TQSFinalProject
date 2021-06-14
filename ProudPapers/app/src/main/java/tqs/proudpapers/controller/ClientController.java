@@ -1,5 +1,6 @@
 package tqs.proudpapers.controller;
 
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import tqs.proudpapers.entity.*;
 import tqs.proudpapers.service.CartService;
 import tqs.proudpapers.service.ClientService;
 import tqs.proudpapers.service.DeliveryService;
+import tqs.proudpapers.service.ProductService;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -31,10 +33,19 @@ public class ClientController {
     CartService cartService;
 
     @Autowired
+    ProductService productService;
+
+    @Autowired
     DeliveryService deliveryService;
 
     @Autowired
     RestTemplate restTemplate;
+
+    @GetMapping("/")
+    public String index(Model model){
+        model.addAttribute("products", productService.getAll());
+        return "index";
+    }
 
     @GetMapping("/signup")
     public String signUp(){
@@ -73,6 +84,8 @@ public class ClientController {
         CartDTO cart = cartService.getCartByClientID(client.getId());
         client.setCartDTO(cart);
         session.setAttribute("client", client);
+
+        model.addAttribute("products", productService.getAll());
         return "index";
     }
 
@@ -91,6 +104,10 @@ public class ClientController {
 
         for (String s : pages) {
             model.addAttribute(s, s.equals(page));
+        }
+
+        if ("deliveries".equals(page)){
+            model.addAttribute("deliveriesDTO", deliveryService.getDeliveries(id));
         }
 
         return "account";

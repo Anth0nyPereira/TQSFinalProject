@@ -88,7 +88,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="buy-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy</button>
+                    <button type="submit" th:if="${cart && client.cartDTO.productOfCarts.size() > 0}"  class="buy-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy</button>
                     <div class="cart" th:if="${cart}" th:each="productOfCart:${client.cartDTO.productOfCarts}">
                         <div class="row mb-3">
                             <div class="col-md-10">
@@ -175,17 +175,14 @@
                         </div>
                     </div>
 
-                    <div class="deliveries" th:if="${deliveries}" th:each="delivery:${deliveries}">
+                    <div class="deliveries" th:if="${deliveries}" th:each="delivery:${deliveriesDTO}">
                         <div class="row mb-3">
                             <div class="col-md-10">
                                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                                    <div class="col-auto d-none d-lg-block">
-                                        <img class="bd-placeholder-img" width="200" height="150" src="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"/>
-                                    </div>
                                     <div class="col p-4 d-flex flex-column position-static">
-                                        <h5 class="mb-0">Featured post</h5>
-                                        <div class="mb-1 text-muted">€ 15.2   <span>    1x </span></div>
-                                        <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                                        <h5 class="mb-0" th:text="${'You have ' + delivery.getProductsOfDelivery().size() + ' books in this Delivery'}"></h5>
+                                        <div class="mb-1 text-muted" th:text="${'State: ' + delivery.getState()}"></div>
+                                        <p class="card-text mb-auto" th:text="${'Total price ' + delivery.getTotal_price()}"></p>
                                     </div>
                                 </div>
                             </div>

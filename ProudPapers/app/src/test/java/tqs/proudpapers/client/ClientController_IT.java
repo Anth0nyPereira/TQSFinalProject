@@ -1,28 +1,27 @@
 package tqs.proudpapers.client;
 
-import lombok.extern.log4j.Log4j;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import tqs.proudpapers.ProudPapersApplication;
 import tqs.proudpapers.entity.*;
-import tqs.proudpapers.repository.ClientRepository;
-import tqs.proudpapers.repository.PaymentMethodRepository;
+import tqs.proudpapers.repository.DeliveryRepository;
 import tqs.proudpapers.service.CartService;
 import tqs.proudpapers.service.ClientService;
 import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -50,11 +49,14 @@ class ClientController_IT {
     @Autowired
     private DeliveryService deliveryService;
 
-    private ClientDTO alexDTO;
-    private Client alex;
+    @Autowired
+    private DeliveryRepository deliveryRepository;
 
-    @BeforeEach
-    void setUp() {
+    private static ClientDTO alexDTO;
+    private static Client alex;
+
+    @BeforeAll
+    static void setUp() {
         alexDTO = new ClientDTO();
         alexDTO.setEmail("alex@ua.pt");
         alexDTO.setName("alex");
@@ -111,14 +113,6 @@ class ClientController_IT {
 
     @Order(3)
     @Test
-    public void getCartWithoutLogin_thenLoginPage() throws Exception {
-        mvc.perform(get("/account/{id}/cart", alex.getId()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("login"));
-    }
-
-    @Order(4)
-    @Test
     public void loginWithAlex_thenIndexPageContainsUsernameAndButtons() throws Exception {
         mvc.perform(post("/login")
                 .param("email", alex.getEmail())
@@ -130,7 +124,7 @@ class ClientController_IT {
 
     }
 
-    @Order(5)
+    @Order(4)
     @Test
     public void loginWithIncorrectPassword_thenLoginPageWithErrorMessage() throws Exception {
         mvc.perform(post("/login",alexDTO.getEmail(), "invalid"))
@@ -139,7 +133,7 @@ class ClientController_IT {
                 .andExpect(xpath("//h5[@id='error-msg']").exists());
     }
 
-    @Order(6)
+    @Order(5)
     @Test
     public void addProductToCart_thenSizeOne() throws Exception {
         Product b1 = new Product();
@@ -150,32 +144,44 @@ class ClientController_IT {
 
         Product saved = productService.save(b1);
 
-        mvc.perform(post("/account/{clientId}/add_to_cart/{productId}",
-                alex.getId(),
-                        saved.getId() + ""))
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("client", alexDTO);
+
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
+                    .post("/account/{clientId}/add_to_cart/{productId}", alex.getId(), saved.getId())
+                    .session(session);
+
+        mvc.perform(builder)
                 .andExpect(status().isOk());
 
-        CartDTO cartDTO = cartService.getCartByClientID(2);
+        CartDTO cartDTO = cartService.getCartByClientID(alex.getId());
         assertEquals(1, cartDTO.getProductOfCarts().size());
         assertEquals(b1, cartDTO.getProductOfCarts().get(0).getProduct());
      }
 
-    @Order(7)
+    @Order(6)
     @Test
     public void getProductsInTheCart_thenReturnProducts() throws Exception {
         CartDTO cartDTO = cartService.getCartByClientID(alex.getId());
         Product p = cartDTO.getProductOfCarts().get(0).getProduct();
 
-        mvc.perform(get("/cart"))
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("client", alexDTO);
+
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
+                .get("/account/{clientId}/cart", alex.getId())
+                .session(session);
+
+        mvc.perform(builder)
                 .andExpect(status().isOk())
                 .andExpect(view().name("account"))
-                .andExpect(xpath("//h5[contains(@class, 'cart-product-name']").string(p.getName()))
+                .andExpect(xpath("//h5[contains(@class, 'cart-product-name')]").string(p.getName()))
                 .andExpect(xpath("//div[contains(@class, 'cart-product-price')]").string("€ " + p.getPrice()))
-                .andExpect(xpath("//p[contains(@class, 'cart-product-desc')]").string(p.getDescription()));
+                .andExpect(xpath("//p[contains(@class, 'cart-product-desc')]    ").string(p.getDescription()));
     }
 
-    @Order(8)
-    @Test
+
+    // waiting for deployment
     public void buyProductsInTheCart_thenCartEmptyAndDeliveryWithProducts() throws Exception {
         Product atmamun = new Product();
         atmamun.setName("Atmamun");
@@ -185,7 +191,11 @@ class ClientController_IT {
         atmamun = productService.save(atmamun);
         cartService.save(alex.getId(), atmamun.getId(), 1);
 
-        mvc.perform(post("/account/" + alex.getId() + "/purchase")
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("client", alexDTO);
+
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
+                .post("/account/" + alex.getId() + "/purchase")
                 .param("name", alexDTO.getName())
                 .param("email", alexDTO.getEmail())
                 .param("password", alexDTO.getPassword())
@@ -194,7 +204,10 @@ class ClientController_IT {
                 .param("telephone", alexDTO.getTelephone())
                 .param("cardNumber", alexDTO.getPaymentMethod().getCardNumber())
                 .param("cardExpirationMonth", alexDTO.getPaymentMethod().getCardExpirationMonth())
-                .param("cvc", alexDTO.getPaymentMethod().getCvc()))
+                .param("cvc", alexDTO.getPaymentMethod().getCvc())
+                .session(session);
+
+        mvc.perform(builder)
                 .andExpect(status().isOk())
                 .andExpect(view().name("account"))
                 .andExpect(xpath("//h5[contains(@class, 'cart-product-name']").doesNotExist())
@@ -209,4 +222,23 @@ class ClientController_IT {
         assertEquals(1, deliveries.get(0).getProductsOfDelivery().size());
         assertEquals(atmamun, deliveries.get(0).getProductsOfDelivery().get(0).getProduct());
     }
+
+
+    @Test
+    @Transactional
+    public void changeDeliverStateTest() throws Exception {
+        Delivery delivery = new Delivery();
+        delivery.setClient(alex.getId());
+        deliveryRepository.save(delivery);
+
+        mvc.perform(post("/update/{id}/state/{state}",
+                delivery.getId(),
+                        "testState"))
+                .andExpect(status().isOk());
+
+        Delivery deliveryById = deliveryService.getDeliveryById(delivery.getId());
+
+        assertEquals("testState", deliveryById.getState());
+    }
+
 }
