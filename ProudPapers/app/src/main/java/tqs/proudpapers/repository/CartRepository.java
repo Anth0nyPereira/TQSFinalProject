@@ -19,7 +19,7 @@ public interface CartRepository extends JpaRepository<ProductOfCart, Integer> {
     Integer getCartByClientId(Integer client);
 
     @Query(nativeQuery = true, value = "INSERT INTO cart VALUE(:client)")
-    Integer createCart(Integer client);
+    void createCart(Integer client);
 
     boolean existsByCartAndProductId(Integer cart, Integer product);
 }

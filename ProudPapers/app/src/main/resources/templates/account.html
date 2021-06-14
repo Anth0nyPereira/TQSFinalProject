@@ -88,7 +88,10 @@
                         </div>
                     </div>
 
-                    <div class="cart" th:if="${cartDto != null}" th:each="productOfCart:${cartDto}">
+
+
+                    <div class="cart" th:if="${cart}" th:each="productOfCart:${client.cartDTO.productOfCarts}">
+                        <button type="submit" class="buy-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy</button>
                         <div class="row mb-3">
                             <div class="col-md-10">
                                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -101,6 +104,74 @@
                                         <div class="mb-1 text-muted cart-product-quantity" th:text="'X ' + ${productOfCart.quantity}"></div>
                                         <p class="card-text mb-auto cart-product-desc" th:text="${productOfCart.product.description}"></p>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content modal-address">
+                                    <form >
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Shipping details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-5 col-md-6">
+                                                    <div class="product-details-left">
+                                                        <img class="product-image" th:src="${'/img/' + productOfCart.product.name + '.jpg'}" style="width: 400px;"/>
+                                                        <div class="descr" th:text="${productOfCart.product.description}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 col-md-6" >
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <label for="shipping-name" class="form-label">Name</label>
+                                                            <input class="form-control" id="shipping-name" rows="3" name="name" th:value="${#session.getAttribute('client').name}"/>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label for="shipping-email" class="form-label">Email</label>
+                                                            <input type="email" class="form-control" id="shipping-email" name="email" th:value="${#session.getAttribute('client').email}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="shipping-zip" class="form-label">Zip/Postal code</label>
+                                                        <input class="form-control" id="shipping-zip" rows="3" name="zip" th:value="${#session.getAttribute('client').zip}"/>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="shipping-city" class="form-label">City</label>
+                                                        <input class="form-control" id="shipping-city" rows="3" name="city" th:value="${#session.getAttribute('client').city}"/>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="shipping-telephone" class="form-label">Telephone</label>
+                                                        <input class="form-control" id="shipping-telephone" rows="3" name="telephone" th:value="${#session.getAttribute('client').telephone}" maxlength="11"/>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="shipping-cardNumber" class="form-label">Card Number</label>
+                                                        <input class="form-control" id="shipping-cardNumber" rows="3" name="cardNumber" th:value="${#session.getAttribute('client').paymentMethod.cardNumber}" maxlength="16"/>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <label for="shipping-cardExpirationMonth" class="form-label">Card Expiration Month</label>
+                                                            <input class="form-control" id="shipping-cardExpirationMonth" rows="3" name="cardExpirationMonth" th:value="${#session.getAttribute('client').paymentMethod.cardExpirationMonth}" maxlength="2"/>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label for="shipping-cvc" class="form-label">CVC</label>
+                                                            <input class="form-control" id="shipping-cvc" rows="3" name="cvc" th:value="${#session.getAttribute('client').paymentMethod.cvc}" maxlength="3"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -123,10 +194,10 @@
                         </div>
                     </div>
                 </div>
-
           </main>
         </div>
       </div>
+
 <script>
     $('.search_box').submit(function (){
         $('.search_box').attr("action", "/search/" + $('.search-input').val())

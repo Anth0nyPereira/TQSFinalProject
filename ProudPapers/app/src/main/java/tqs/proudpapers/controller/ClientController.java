@@ -70,12 +70,11 @@ public class ClientController {
                               @PathVariable("page") String page,
                               Model model){
 
-        String[] pages = {"myinfo", "address", "contact", "payment", "deliveries"};
+        String[] pages = {"myinfo", "address", "contact", "payment", "cart", "deliveries"};
         ClientDTO client = clientService.getClientById(id);
         CartDTO cart= cartService.getCartByClientID(id);
         client.setCartDTO(cart);
 
-        model.addAttribute("cartDto", cart);
         model.addAttribute("client", client);
 
         for (String s : pages) {
