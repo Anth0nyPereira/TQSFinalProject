@@ -16,7 +16,10 @@ import android.widget.Toast;
 import com.example.riderapp.MainActivity;
 import com.example.riderapp.R;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -84,11 +87,16 @@ public class EncomendaMapaFragment extends Fragment {
 
             }
         });
-        /*(SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)
-        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(0, 0))
-                .title("Hello world"));*/
+        ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.home_map))
+                .getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(GoogleMap googleMap) {
+                        googleMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(40.6, -8.6))
+                                .title("Hello world"));
+                    }
+                });
+        //mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         return view;
     }
     public void CreateAlertDialogWithRadioButtonGroup(){
