@@ -1,5 +1,6 @@
 package ua.deti.tqs.easydeliversadmin.service;
 
+import ch.qos.logback.core.encoder.EchoEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,15 +46,34 @@ public class EasyDeliversService {
     }
 
     public List<Delivery> getAvailableDeliveries(){
-        return deliveryRepository.findDeliveriesByState("awaiting_processing ");
+        return deliveryRepository.findDeliveriesByState("awaiting_processing");
     }
 
     public String assignRiderDeliver(String deliverID, String riderID) {
-       Delivery x = deliveryRepository.findDeliveryById(Integer.parseInt(deliverID));
-       x.setRider(Integer.parseInt(riderID));
-       x.setState("accepted");
-       deliveryRepository.save(x);
-       //Aqui mandar post para a loja
-       return "Delivery Assigned";
+        try{
+            Delivery x = deliveryRepository.findDeliveryById(Integer.parseInt(deliverID));
+            x.setRider(Integer.parseInt(riderID));
+            x.setState("accepted");
+            deliveryRepository.save(x);
+            //Aqui mandar post para a loja a atualizar o state
+            return "Delivery Assigned";
+        }
+        catch(Exception e){
+            return "error";
+        }
+
+    }
+
+    public String updateDeliveryStateByRider(String deliverID, String riderID, String state) {
+        try {
+            Delivery x = deliveryRepository.findDeliveryById(Integer.parseInt(deliverID));
+            x.setState(state);
+            deliveryRepository.save(x);
+            //Aqui mandar post para a loja a atualizar o state
+            return "Delivery State Changed";
+        }
+        catch (Exception e){
+            return "error";
+        }
     }
 }
