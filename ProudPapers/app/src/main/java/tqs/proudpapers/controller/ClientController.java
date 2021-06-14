@@ -61,9 +61,10 @@ public class ClientController {
                          Model model){
 
         PaymentMethod paymentMethod = new PaymentMethod();
-        paymentMethod.setCvc(cvc);
         paymentMethod.setCardNumber(cardNumber);
+        paymentMethod.setCvc(cvc);
         paymentMethod.setCardExpirationMonth(cardExpirationMonth);
+
         clientDTO.setPaymentMethod(paymentMethod);
         Client client = clientService.saveClient(clientDTO);
 
@@ -141,10 +142,11 @@ public class ClientController {
                                                   String cardNumber,
                                                   String cardExpirationMonth,
                                                   String cvc){
+
         PaymentMethod paymentMethod = new PaymentMethod();
+        paymentMethod.setCardExpirationMonth(cardExpirationMonth);
         paymentMethod.setCvc(cvc);
         paymentMethod.setCardNumber(cardNumber);
-        paymentMethod.setCardExpirationMonth(cardExpirationMonth);
 
         clientDTO.setPaymentMethod(paymentMethod);
         clientDTO.setId(clientId);
