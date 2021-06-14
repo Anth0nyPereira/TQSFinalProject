@@ -91,7 +91,6 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
             mStart = getArguments().getString(ARG_START);
             mDestination = getArguments().getString(ARG_DESTINATION);
             mTelephone = getArguments().getString(ARG_TELEPHONE);
-            mDestination = getArguments().getString(ARG_RIDER_FEE);
             mRider_Fee =getArguments().getInt(ARG_RIDER_FEE);
             mID = getArguments().getInt(ARG_ID);
         }
@@ -132,7 +131,8 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
                 call.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        String s = response.body();
+                        String s = response.body().toString();
+                        Log.w("EncomendaInfo",s);
                         if (s.equals("Delivery Assigned")){
                             Toast.makeText(getContext(),"Starting Delivery",Toast.LENGTH_SHORT).show();
                             Log.w("EncomendaInfo", "Starting Delivery");
@@ -150,6 +150,7 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
                         call.cancel();
                         Toast.makeText(getContext(),"Failure Starting Delivery",Toast.LENGTH_SHORT).show();
                         Log.w("EncomendaInfo", "Failure Starting Delivery");
+                        Log.d("EncomendaInfo",t.getMessage());
                     }
                 });
             }

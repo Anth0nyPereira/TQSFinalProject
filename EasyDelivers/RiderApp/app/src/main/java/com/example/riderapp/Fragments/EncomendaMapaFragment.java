@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.riderapp.MainActivity;
 import com.example.riderapp.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +28,7 @@ public class EncomendaMapaFragment extends Fragment {
     Button button;
     AlertDialog alertDialog1;
     CharSequence[] values = {"in_distribution","done"};
+    //GoogleMap mMap;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,6 +84,11 @@ public class EncomendaMapaFragment extends Fragment {
 
             }
         });
+        /*(SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)
+        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(0, 0))
+                .title("Hello world"));*/
         return view;
     }
     public void CreateAlertDialogWithRadioButtonGroup(){
