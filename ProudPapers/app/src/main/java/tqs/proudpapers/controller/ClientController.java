@@ -14,6 +14,7 @@ import tqs.proudpapers.service.ClientService;
 import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
 
+import javax.persistence.Column;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.io.Serializable;
@@ -53,7 +54,16 @@ public class ClientController {
     }
 
     @PostMapping("/signup")
-    public String signUp(ClientDTO clientDTO, PaymentMethod paymentMethod, Model model){
+    public String signUp(ClientDTO clientDTO,
+                         String cardNumber,
+                         String cardExpirationMonth,
+                         String cvc,
+                         Model model){
+
+        PaymentMethod paymentMethod = new PaymentMethod();
+        paymentMethod.setCvc(cvc);
+        paymentMethod.setCardNumber(cardNumber);
+        paymentMethod.setCardExpirationMonth(cardExpirationMonth);
         clientDTO.setPaymentMethod(paymentMethod);
         Client client = clientService.saveClient(clientDTO);
 
@@ -127,7 +137,15 @@ public class ClientController {
 
     @PostMapping("/account/{clientId}/purchase")
     @Transactional
-    public ResponseEntity<ProductOfCart> purchase(@PathVariable("clientId") Integer clientId, ClientDTO clientDTO, PaymentMethod paymentMethod){
+    public ResponseEntity<ProductOfCart> purchase(@PathVariable("clientId") Integer clientId, ClientDTO clientDTO,
+                                                  String cardNumber,
+                                                  String cardExpirationMonth,
+                                                  String cvc){
+        PaymentMethod paymentMethod = new PaymentMethod();
+        paymentMethod.setCvc(cvc);
+        paymentMethod.setCardNumber(cardNumber);
+        paymentMethod.setCardExpirationMonth(cardExpirationMonth);
+
         clientDTO.setPaymentMethod(paymentMethod);
         clientDTO.setId(clientId);
         Integer deliveryId = cartService.buyAllProductsInTheCart(clientDTO);
