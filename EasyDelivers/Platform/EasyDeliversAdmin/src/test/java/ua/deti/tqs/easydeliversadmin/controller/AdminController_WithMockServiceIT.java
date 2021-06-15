@@ -1,4 +1,4 @@
-/*
+
 package ua.deti.tqs.easydeliversadmin.controller;
 
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ua.deti.tqs.easydeliversadmin.entities.Admin;
 import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
 import ua.deti.tqs.easydeliversadmin.utils.JsonUtil;
+import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 
 import java.util.Arrays;
 
@@ -36,37 +37,22 @@ public class AdminController_WithMockServiceIT {
     private EasyDeliversService service;
 
     @Test
-    public void whenPostValidAdmin_thenVerifyAdmin( ) throws Exception, EasyDeliversService.AdminNotFoundException {
-        Admin alex = new Admin("alex", "conte", "alex@deti.com", "pass", "CEO", "You can fall only if you fly");
+    public void whenPostValidAdmin_thenVerifyAdmin() throws Exception, EasyDeliversService.AdminNotFoundException {
+        PasswordEncryption encryptor = new PasswordEncryption();
+        String hashedPassword = encryptor.encrypt("pass");
+        Admin alex = new Admin("alex", "conte", "alex@deti.com", hashedPassword, "CEO", "You can fall only if you fly");
 
         when(service.getAdminByEmail("alex@deti.com")).thenReturn(alex);
         when(service.getAdminByEmail("wrong_email")).thenReturn(null);
 
         mvc.perform(post("/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"email\": \"alex@deti.com\", \"password\": \"pass\"}"))
+                .param("email", "alex@deti.com")
+                .param("password", "pass"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(content().string(containsString(alex.toString())));
+                .andExpect(view().name("redirect:/dashboard"));
 
-
-        mvc.perform(post("/login")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .content(EntityUtils.toString(new UrlEncodedFormEntity(Arrays.asList(
-                        new BasicNameValuePair("email", alex.getEmail()),
-                        new BasicNameValuePair("password", alex.getPassword())
-                )))))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(content().string(containsString(alex.getFirst_name())));
-
-        mvc.perform(post("/login").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(alex))).andExpect(status().is3xxRedirection()).andDo(print())
-                .andExpect(jsonPath("first_name", is("alex")));
-
-
-        //mvc.perform(post("/login").contentType(MediaType.ALL_VALUE).content(alex.toString())).andExpect(content().string(org.hamcrest.Matchers.containsString(alex.getFirst_name())));
-        //.andExpect(jsonPath("first_name", is(alex.getFirst_name())));
-
-        //verify(service, times(1)).getAdminByEmail(Mockito.any());
+        verify(service, times(1)).getAdminByEmail(Mockito.any());
 
     }
 }
- */
+

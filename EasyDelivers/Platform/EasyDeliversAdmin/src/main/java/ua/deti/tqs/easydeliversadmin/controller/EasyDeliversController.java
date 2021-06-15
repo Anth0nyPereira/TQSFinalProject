@@ -63,6 +63,8 @@ public class EasyDeliversController {
             return new ModelAndView("redirect:/error", model);
         }
         PasswordEncryption encryptor = new PasswordEncryption();
+        System.out.println(admin.getPassword());
+        System.out.println(encryptor.encrypt(password));
         if (admin.getPassword().equals(encryptor.encrypt(password))) {
             session = email;
             return new ModelAndView("redirect:/dashboard", model);
