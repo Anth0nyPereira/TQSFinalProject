@@ -224,7 +224,7 @@ class EasyDeliversRestControllerTest {
     @DisplayName("Test successful Update to  Delivery State")
     void successfulUpdateDeliveryTest() throws Exception {
         when(service.updateDeliveryStateByRider("1", "1", "done")).thenReturn("Delivery Updated");
-        mvc.perform(MockMvcRequestBuilders.put("/api/rider/deliveries/update/1/1/in_distribution"))
+        mvc.perform(MockMvcRequestBuilders.put("/api/rider/deliveries/update/1/1/done"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value("Delivery Updated"));
 
@@ -236,9 +236,9 @@ class EasyDeliversRestControllerTest {
     @DisplayName("Test invalid Update to  Delivery State")
     void invalidUpdateDeliveryTest() throws Exception {
         when(service.updateDeliveryStateByRider("1", "1", "done")).thenReturn("error");
-        mvc.perform(MockMvcRequestBuilders.put("/api/rider/deliveries/update/1/1/in_distribution"))
+        mvc.perform(MockMvcRequestBuilders.put("/api/rider/deliveries/update/1/1/done"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").value("Delivery Updated"));
+                .andExpect(jsonPath("$").value("error"));
         verify(service,times(1))
                 .updateDeliveryStateByRider("1", "1", "done");
     }
