@@ -13,7 +13,7 @@ public class PasswordEncryptionTest {
     @Test
     public void whenGivenPlainText_ThenCheckItsEncryption() throws Exception {
         String plainText = "HelloWorld!";
-        String expectedPasswd = "a653423925f386225953e7f9dcd961074ba7498ce45ea64400c8c332";
+        String expectedPasswd = "729e344a01e52c822bdfdec61e28d6eda02658d2e7d2b80a9b9029f41e212dde";
         assertEquals(encryptor.encrypt(plainText), expectedPasswd);
     }
 
