@@ -54,5 +54,19 @@ public class AdminController_WithMockServiceIT {
         verify(service, times(1)).getAdminByEmail(Mockito.any());
 
     }
+
+    @Test
+    public void whenPostInvalidAdmin_thenVerifyAdmin() throws Exception, EasyDeliversService.AdminNotFoundException {
+        when(service.getAdminByEmail("wrong_email")).thenReturn(null);
+
+        mvc.perform(post("/login")
+                .param("email", "wrong_email")
+                .param("password", "pass"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/error"));
+
+        verify(service, times(1)).getAdminByEmail(Mockito.any());
+
+    }
 }
 
