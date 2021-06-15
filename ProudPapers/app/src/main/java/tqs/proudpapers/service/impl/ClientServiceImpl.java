@@ -6,9 +6,12 @@ import org.springframework.stereotype.Service;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.entity.ClientDTO;
 import tqs.proudpapers.entity.PaymentMethod;
+import tqs.proudpapers.repository.CartRepository;
 import tqs.proudpapers.repository.ClientRepository;
 import tqs.proudpapers.repository.PaymentMethodRepository;
 import tqs.proudpapers.service.ClientService;
+
+import javax.transaction.Transactional;
 
 /**
  * @author wy
@@ -23,20 +26,27 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private PaymentMethodRepository paymentMethodRepository;
 
+    @Autowired
+    private CartRepository cartRepository;
+
     @Override
+    @Transactional
     public Client saveClient(ClientDTO clientDTO) {
         Client client = new Client();
         BeanUtils.copyProperties(clientDTO, client);
 
-        if (client.getPaymentMethodId() != null){
+        if (clientDTO.getPaymentMethod() != null){
             PaymentMethod saved = paymentMethodRepository.save(clientDTO.getPaymentMethod());
             client.setPaymentMethodId(saved.getId());
         }
 
         client.setAddress(clientDTO.getZip() + "," + clientDTO.getCity());
 
+
         try {
-            return clientRepository.save(client);
+            Client saved = clientRepository.save(client);
+            cartRepository.createCart(saved.getId());
+            return saved;
         }catch (Exception e){
             return null;
         }
@@ -52,6 +62,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDTO getClientByEmail(String email) {
         return getClientDTO(clientRepository.getClientByEmail(email));
+    }
+
+    @Override
+    public ClientDTO getClientById(Integer id) {
+        return getClientDTO(clientRepository.getClientById(id));
     }
 
 

@@ -12,6 +12,7 @@ import tqs.proudpapers.entity.Product;
 import tqs.proudpapers.service.ProductService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -51,19 +52,19 @@ public class ProductControllerTest_WithMock {
                 .andExpect(status().isOk())
                 .andExpect(view().name("search"))
                 .andExpect(xpath("//h3[contains(@class, 'product-name')]").string(atmamun.getName()))
-                .andExpect(xpath("//div[contains(@class, 'product-price')]").string(String.valueOf(atmamun.getPrice())))
+                .andExpect(xpath("//div[contains(@class, 'product-price')]").string("€ " + atmamun.getPrice()))
                 .andExpect(xpath("//p[contains(@class, 'product-description')]").string(atmamun.getDescription()));
     }
 
     @Test
     public void whenSearchAtmamunName_thenReturnAtmamun() throws Exception {
-        Mockito.when(service.searchByKeyWord(atmamun.getName())).thenReturn(List.of(atmamun));
+        Mockito.when(service.searchByKeyWord(atmamun.getName())).thenReturn(Arrays.asList(atmamun));
 
         mvc.perform(get("/search/{name}", atmamun.getName()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("search"))
                 .andExpect(xpath("//h3[contains(@class, 'product-name')]").string(atmamun.getName()))
-                .andExpect(xpath("//div[contains(@class, 'product-price')]").string(String.valueOf(atmamun.getPrice())))
+                .andExpect(xpath("//div[contains(@class, 'product-price')]").string("€ " + atmamun.getPrice()))
                 .andExpect(xpath("//p[contains(@class, 'product-description')]").string(atmamun.getDescription()));
     }
 

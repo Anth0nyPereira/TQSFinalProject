@@ -11,9 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.entity.ClientDTO;
 import tqs.proudpapers.entity.Product;
-import tqs.proudpapers.repository.ClientRepository;
 import tqs.proudpapers.repository.ProductRepository;
-import tqs.proudpapers.service.impl.ClientServiceImpl;
 import tqs.proudpapers.service.impl.ProductServiceImpl;
 
 import java.awt.*;
@@ -53,7 +51,7 @@ public class ProductService_WithMock {
 
     @Test
     public void whenAtmamun_thenReturnAtmamun() {
-        Mockito.when(repository.getProductByNameContains(atmamun.getName())).thenReturn(List.of(atmamun));
+        Mockito.when(repository.getProductByNameContains(atmamun.getName())).thenReturn(Arrays.asList(atmamun));
         List<Product> products = service.searchByKeyWord(atmamun.getName());
 
         assertEquals(1, products.size());
@@ -75,23 +73,30 @@ public class ProductService_WithMock {
     public void whenKeyWord_thenReturnProdutsContainKeyWord() {
         Product b1 = new Product();
         b1.setName("Book A");
+        b1.setPrice(10.0);
+        b1.setQuantity(1);
 
         Product b2 = new Product();
         b2.setName("Book B");
+        b2.setPrice(11.0);
+        b2.setQuantity(2);
 
         Product b3 = new Product();
         b3.setName("Book C");
+        b3.setPrice(12.0);
+        b3.setQuantity(3);
 
-        List<Product> products = List.of(b1, b2, b3);
+        List<Product> products = Arrays.asList(b1, b2, b3);
 
         Mockito.when(repository.getProductByNameContains("Book")).thenReturn(products);
 
         List<Product> result = service.searchByKeyWord("Book");
 
         assertEquals(3, result.size());
-        assertThat(result).contains(b1);
-        assertThat(result).contains(b2);
-        assertThat(result).contains(b3);
+        assertThat(result)
+                .contains(b1)
+                .contains(b2)
+                .contains(b3);
     }
 
     @Test

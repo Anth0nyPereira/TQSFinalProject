@@ -14,6 +14,8 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class ClientDTO implements Serializable {
+    @NotBlank
+    private Integer id;
 
     @NotBlank
     private String name;
@@ -32,6 +34,8 @@ public class ClientDTO implements Serializable {
 
     @NotBlank
     private String telephone;
+
+    private CartDTO cartDTO;
 
     private PaymentMethod paymentMethod;
 

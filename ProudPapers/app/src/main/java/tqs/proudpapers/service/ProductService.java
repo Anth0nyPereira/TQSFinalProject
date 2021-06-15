@@ -10,5 +10,10 @@ import java.util.List;
  */
 public interface ProductService {
     List<Product> searchByKeyWord(String name);
+
     Product searchById(Integer id);
+
+    Product save(Product p);
+
+    List<Product> getAll();
 }

@@ -13,4 +13,6 @@ public interface ClientService {
     ClientDTO getClientByEmailAndPass(String email, String password);
 
     ClientDTO getClientByEmail(String email);
+
+    ClientDTO getClientById(Integer id);
 }
