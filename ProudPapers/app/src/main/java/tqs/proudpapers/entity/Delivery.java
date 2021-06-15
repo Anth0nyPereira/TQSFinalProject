@@ -22,14 +22,17 @@ public class Delivery implements Serializable {
     private Integer id;
 
     @Column(name="total_price")
-    private Double total_price;
+    private Double total_price = 0.0;
 
     @Column(name="client")
     private Integer client;
 
     @Column(name="state")
-    private String state;
+    private String state = "awaiting_processing";
+
+    @Column(name="id_delivery_store")
+    private Integer idDeliveryStore;
 
     @Transient
-    private List<Product> products;
+    private List<ProductOfDeliveryDTO> productsOfDelivery;
 }

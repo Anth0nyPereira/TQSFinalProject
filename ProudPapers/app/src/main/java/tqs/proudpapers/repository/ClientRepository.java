@@ -9,5 +9,6 @@ import tqs.proudpapers.entity.Client;
  */
 public interface ClientRepository extends JpaRepository<Client, Integer> {
     Client getClientByEmail(String email);
+    Client getClientById(Integer id);
     Client getClientByEmailAndPassword(String email, String password);
 }

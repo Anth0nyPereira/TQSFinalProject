@@ -44,7 +44,7 @@ CREATE TABLE `delivery`  (
   `client_telephone` char(11) NOT NULL,
   `start` varchar(255) NOT NULL,
   `destination` varchar(255) NOT NULL,
-  `rider` int NOT NULL,
+  `rider` int,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `rider`(`rider`) USING BTREE,
   INDEX `store`(`store`) USING BTREE,

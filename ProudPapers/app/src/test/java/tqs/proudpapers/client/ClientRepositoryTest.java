@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.repository.ClientRepository;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @date 2021/6/5 21:15
  */
 @DataJpaTest
-public class ClientRopositoryTest {
+public class ClientRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -33,7 +34,7 @@ public class ClientRopositoryTest {
         alex.setPassword("alexS3cr3t");
         alex.setAddress("2222-222, aveiro");
         alex.setTelephone("1234567891011");
-        entityManager.persistAndFlush(alex); //ensure data is persisted at this point
+        alex = entityManager.persistAndFlush(alex); //ensure data is persisted at this point
     }
 
     @Test
@@ -49,7 +50,7 @@ public class ClientRopositoryTest {
     }
 
     @Test
-    public void givenAlexEmailAndPassword_thenReturnAlex() {
+    public void whenAlexEmailAndPassword_thenReturnAlex() {
          Client found = repository.getClientByEmailAndPassword("alex@ua.pt", "alexS3cr3t");
 
         assertEquals("alex@ua.pt", found.getEmail());
@@ -57,12 +58,19 @@ public class ClientRopositoryTest {
     }
 
     @Test
-    public void givenAlexEmailAndInvalidPassword_thenReturnNull() {
+    public void whenAlexEmailAndInvalidPassword_thenReturnNull() {
 
         Client found = repository.getClientByEmailAndPassword("alex@ua.pt", "abcd");
 
         assertNull(found);
     }
 
+    @Test
+    public void whenAlexId_thenReturnAlex() {
+
+        Client found = repository.getClientById(alex.getId());
+
+        assertEquals(alex, found);
+    }
 
 }

@@ -182,7 +182,7 @@
     z-index: 1;
     cursor: pointer;
     font-size: 15px;
-    width: 100px;
+    width: 120px;
 }
 
 .cartDiv button span{
@@ -1257,12 +1257,6 @@
     text-align: right;
 }
 
-.menu-content button{
-    position: relative;
-    margin-bottom: 30px;
-    left: 40%;
-}
-
 .username a{
     text-decoration: none;
     color: white;
@@ -1270,4 +1264,16 @@
 
 .username a:hover{
     color: white;
+}
+
+.cart .col-md-10{
+    cursor: pointer;
+}
+
+.buy-btn{
+    position: relative;
+    margin-bottom: 30px;
+    font-size: 20px;
+    left: -10%;
+    top: -30px;
 }

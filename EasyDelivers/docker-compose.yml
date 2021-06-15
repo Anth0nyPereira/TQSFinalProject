@@ -11,6 +11,8 @@ services:
       MYSQL_DATABASE: easydelivers
       MYSQL_USER: alexis
       MYSQL_PASSWORD: abcABC123!!!
+    ports:
+    - "3306:3306"
 
   easydelivers:
     depends_on:
