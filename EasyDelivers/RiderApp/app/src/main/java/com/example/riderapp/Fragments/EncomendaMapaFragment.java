@@ -1,11 +1,14 @@
 package com.example.riderapp.Fragments;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -20,6 +23,7 @@ import com.example.riderapp.Connections.API_Connection;
 import com.example.riderapp.Connections.API_Service;
 import com.example.riderapp.MainActivity;
 import com.example.riderapp.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -42,7 +46,7 @@ public class EncomendaMapaFragment extends Fragment {
 
     Button button;
     AlertDialog alertDialog1;
-    CharSequence[] values = {"in_distribution","done"};
+    CharSequence[] values = {"in_distribution", "done"};
 
     String mstart;
     String mdestination;
@@ -93,51 +97,60 @@ public class EncomendaMapaFragment extends Fragment {
         }
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-             mstart = bundle.getString("start");
-             mdestination =bundle.getString("destination");
-             mrider_fee = bundle.getInt("rider_fee");
-             mtelephone = bundle.getString("telephone");
-             mdeliveryID = bundle.getInt("deliveryID");
+            mstart = bundle.getString("start");
+            mdestination = bundle.getString("destination");
+            mrider_fee = bundle.getInt("rider_fee");
+            mtelephone = bundle.getString("telephone");
+            mdeliveryID = bundle.getInt("deliveryID");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("UserData",MODE_PRIVATE);
-        String firstname = sharedPreferences.getString("FirstName","User");
-        riderID= sharedPreferences.getInt("id" ,1);
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("UserData", MODE_PRIVATE);
+        String firstname = sharedPreferences.getString("FirstName", "User");
+        riderID = sharedPreferences.getInt("id", 1);
 
 
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_encomenda_mapa, container, false);
+        View view = inflater.inflate(R.layout.fragment_encomenda_mapa, container, false);
 
         TextView earning = view.findViewById(R.id.textviewEarningMapa);
         TextView start = view.findViewById(R.id.textviewStartMapa);
         TextView destination = view.findViewById(R.id.textviewDestinationMapa);
         TextView distance = view.findViewById(R.id.textviewDistanceMapa);
         TextView deliver = view.findViewById(R.id.textviewEncomendaMapa);
-        deliver.setText("Deliver: "+ firstname);
-        earning.setText("Earnings: "+mrider_fee);
-        start.setText("Start: "+mstart);
-        destination.setText("Destination:  "+mdestination);
-        distance.setText("Remaining Distance:(a calcular)" );
+        deliver.setText("Deliver: " + firstname);
+        earning.setText("Earnings: " + mrider_fee);
+        start.setText("Start: " + mstart);
+        destination.setText("Destination:  " + mdestination);
+        distance.setText("Remaining Distance:(a calcular)");
 
 
         button = view.findViewById(R.id.buttonStateEncomenda);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CreateAlertDialogWithRadioButtonGroup() ;
+                CreateAlertDialogWithRadioButtonGroup();
             }
         });
         ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.home_map))
                 .getMapAsync(new OnMapReadyCallback() {
                     @Override
                     public void onMapReady(GoogleMap googleMap) {
-                        googleMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(40.6, -8.6))
-                                .title("Hello world"));
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.64, -8.65), 11.95f));
+                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return;
+                        }
+                        googleMap.setMyLocationEnabled(true);
                     }
                 });
         //mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();

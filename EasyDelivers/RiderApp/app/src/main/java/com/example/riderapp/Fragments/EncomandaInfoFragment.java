@@ -23,8 +23,11 @@ import com.example.riderapp.Activities.EncomendaMapaActivity;
 import com.example.riderapp.Connections.API_Connection;
 import com.example.riderapp.Connections.API_Service;
 import com.example.riderapp.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -154,6 +157,24 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
                 });
             }
         });
+        ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map))
+                .getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(GoogleMap googleMap) {
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.64, -8.65), 11.95f));
+                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return;
+                        }
+                        googleMap.setMyLocationEnabled(true);
+                    }
+                });
         return view;
     }
 
