@@ -1,7 +1,5 @@
 package ua.deti.tqs.easydeliversadmin.service;
 
-import ch.qos.logback.classic.util.LogbackMDCAdapter;
-import ch.qos.logback.core.encoder.EchoEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,17 +11,26 @@ import ua.deti.tqs.easydeliversadmin.repository.RiderRepository;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 
 @Service
 @Transactional
 public class EasyDeliversService {
+    Logger logger = Logger.getLogger(EasyDeliversService.class.getName());
+
     Map<Integer,String> addresses;
 
     @Autowired
     RiderRepository riderRepository;
+
+    public void initializer(){
+        addresses = new HashMap<Integer, String>();
+        addresses.put(1, "localhost:9000"); // TODO: change this to match ProudPapers address
+    }
 
     @Autowired
     DeliveryRepository deliveryRepository;
@@ -83,7 +90,7 @@ public class EasyDeliversService {
             Delivery x = deliveryRepository.findDeliveryById(Integer.parseInt(deliverID));
             x.setState(state);
             deliveryRepository.save(x);
-            //postToApi(state,x.getId(),Integer.parseInt(deliverID));
+            postToApi(state,x.getId(),Integer.parseInt(deliverID));
             return "Delivery State Changed";
         }
         catch (Exception e){
@@ -94,9 +101,13 @@ public class EasyDeliversService {
     //Function to update Delivery Status from Delivery from certain store
 
     private void postToApi(String state, int store, int delivery_id) throws Exception {
-        //For now 1;Later this will be updated
-        URL my_final_url = new URL(1 + "/update/" + delivery_id + "/state/" + state);
+        initializer(); // For now, this will be updated
+        URL my_final_url = new URL(store + "/update/" + delivery_id + "/state/" + state);
         HttpURLConnection con = (HttpURLConnection) my_final_url.openConnection(); // open HTTP connection
         con.setRequestMethod("POST");
+
+        if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            logger.info(state);
+        }
     }
 }
