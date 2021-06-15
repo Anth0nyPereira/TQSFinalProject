@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                     User logged = response.body();
                     SharedPreferences sharedPreferences = getSharedPreferences("UserData",MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("id",logged.getId());
                     editor.putString("FirstName", logged.getFirstname());
                     editor.putString("LastName", logged.getLastname());
                     editor.putString("Email", logged.getEmail());

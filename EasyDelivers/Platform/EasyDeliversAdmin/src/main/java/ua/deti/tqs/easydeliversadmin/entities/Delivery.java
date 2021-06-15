@@ -2,6 +2,7 @@ package ua.deti.tqs.easydeliversadmin.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "delivery")
@@ -12,11 +13,9 @@ public class Delivery {
     private int id;
 
     @Column(name="store")
-    @NotBlank
     private int store;
 
     @Column(name="rider_fee")
-    @NotBlank
     private int rider_fee;
 
     @Column(name="state")
@@ -38,13 +37,17 @@ public class Delivery {
     @Column(name="rider")
     private int rider;
 
-    public Delivery(@NotBlank int store, @NotBlank int rider_fee, @NotBlank String state, @NotBlank String client_telephone, @NotBlank String start, @NotBlank String destination) {
+    public Delivery(int store,int rider_fee, String state, String client_telephone, String start, String destination) {
         this.store = store;
         this.rider_fee = rider_fee;
         this.state = state;
         this.client_telephone = client_telephone;
         this.start = start;
         this.destination = destination;
+    }
+
+    public Delivery() {
+
     }
 
     public int getId() {

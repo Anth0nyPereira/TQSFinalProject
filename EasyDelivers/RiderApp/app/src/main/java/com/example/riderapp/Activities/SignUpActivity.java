@@ -64,6 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
                     editor.putString("FirstName", logged.getFirstname());
                     editor.putString("LastName", logged.getLastname());
                     editor.putInt("Delivery_radius", logged.getDelivery_radius());
+                    editor.putInt("id",logged.getId());
                     editor.apply();
                     Log.w("SignProcessProcess", "Sucess:"+ logged.toString());
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
