@@ -70,7 +70,7 @@ public class EasyDeliversRestController {
     }
 
     @PostMapping("/delivery")
-    public String newDelivery(@RequestBody Map<String, Object> request){
+    public Integer newDelivery(@RequestBody Map<String, Object> request){
         int store = (Integer) request.get("store");
         String client_telephone = (String) request.get("client_telephone");
         String start = (String) request.get("start");

@@ -1,5 +1,6 @@
 package ua.deti.tqs.easydeliversadmin.service;
 
+import ch.qos.logback.classic.util.LogbackMDCAdapter;
 import ch.qos.logback.core.encoder.EchoEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,12 +11,16 @@ import ua.deti.tqs.easydeliversadmin.repository.DeliveryRepository;
 import ua.deti.tqs.easydeliversadmin.repository.RiderRepository;
 
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
 @Transactional
 public class EasyDeliversService {
+    Map<Integer,String> addresses;
 
     @Autowired
     RiderRepository riderRepository;
@@ -41,8 +46,17 @@ public class EasyDeliversService {
         return riderRepository.save(new Rider(firstname,lastname,email,password,telephone,transportation));
     }
 
-    public String createDelivery(int store, String client_telephone, String start, String destination) {
-        return "Delivery accepted";
+    public Integer createDelivery(int store, String client_telephone, String start, String destination) {
+       Delivery n;
+
+        try {
+            n= deliveryRepository.save( new Delivery(store,2,"awaiting_processing",client_telephone,start,destination));
+            return n.getId();
+        }
+        catch (Exception e){
+            return -1;
+        }
+
     }
 
     public List<Delivery> getAvailableDeliveries(){
@@ -55,7 +69,7 @@ public class EasyDeliversService {
             x.setRider(Integer.parseInt(riderID));
             x.setState("accepted");
             deliveryRepository.save(x);
-            //Aqui mandar post para a loja a atualizar o state
+            postToApi("accepted",x.getId(),Integer.parseInt(deliverID));
             return "Delivery Assigned";
         }
         catch(Exception e){
@@ -69,11 +83,20 @@ public class EasyDeliversService {
             Delivery x = deliveryRepository.findDeliveryById(Integer.parseInt(deliverID));
             x.setState(state);
             deliveryRepository.save(x);
-            //Aqui mandar post para a loja a atualizar o state
+            //postToApi(state,x.getId(),Integer.parseInt(deliverID));
             return "Delivery State Changed";
         }
         catch (Exception e){
             return "error";
         }
+    }
+
+    //Function to update Delivery Status from Delivery from certain store
+
+    private void postToApi(String state, int store, int delivery_id) throws Exception {
+        //For now 1;Later this will be updated
+        URL my_final_url = new URL(1 + "/update/" + delivery_id + "/state/" + state);
+        HttpURLConnection con = (HttpURLConnection) my_final_url.openConnection(); // open HTTP connection
+        con.setRequestMethod("POST");
     }
 }

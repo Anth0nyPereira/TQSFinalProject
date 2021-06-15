@@ -151,12 +151,11 @@ class EasyDeliversRestControllerTest {
     @DisplayName("Tests receiving a new successful delivery")
     void successfulReceiveNewDeliveryTest() throws Exception {
         when(service.createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro"))
-                .thenReturn("Delivery accepted");
-
+                .thenReturn(1);
         mvc.perform(MockMvcRequestBuilders.post("/api/delivery")
                 .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(newDeliveryRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").value("Delivery accepted"));
+                .andExpect(jsonPath("$").value(1));
 
         verify(service,times(1))
                 .createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro");
@@ -166,12 +165,12 @@ class EasyDeliversRestControllerTest {
     @DisplayName("Tests receiving a new invalid delivery")
     void invalidReceiveNewDeliveryTest() throws Exception {
         when(service.createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro"))
-                .thenReturn("Delivery refused");
+                .thenReturn(-1);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/delivery")
                 .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(newDeliveryRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").value("Delivery refused"));
+                .andExpect(jsonPath("$").value(-1));
 
         verify(service,times(1))
                 .createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro");

@@ -50,10 +50,13 @@ class EasyDeliversServiceTest {
         newRider = new Rider("firstname","lastname","notfake@email.com","password","telephone","transportation");
 
         del1= new Delivery(1,2,"awaiting_processing","919292112","DETI","Bairro de Santiago");
-        del2= new Delivery(2,4,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu");
-        del3= new Delivery(3,4,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
-
+        del2= new Delivery(2,2,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu");
+        del3= new Delivery(3,2,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
+        del1.setId(1);
+        del2.setId(-1);
         allDeliversAwaitingProcessing = Arrays.asList(del1, del2, del3);
+        Mockito.when(deliveryRepository.save(eq(del1))).thenReturn(del1);
+        Mockito.when(deliveryRepository.save(eq(del3))).thenReturn(del3);
         Mockito.when(deliveryRepository.findDeliveryById(Integer.parseInt("1"))).thenReturn(del1);
         Mockito.when(deliveryRepository.findDeliveryById(Integer.parseInt("20"))).thenReturn(null);
         Mockito.when(riderRepository.findRiderByEmail("hugo@email.com")).thenReturn(rider1);
@@ -195,6 +198,52 @@ class EasyDeliversServiceTest {
         verify(deliveryRepository,times(1))
                 .findDeliveryById(20);
     }
+
+    @Test
+    @DisplayName("Tests a invalid Assign Rider to Deliver")
+    void whenSuccefullAssignRiderDeliver(){
+        String x = easyDeliversService.assignRiderDeliver("20","1");
+        assertEquals("error",x);
+        verify(deliveryRepository,times(1))
+                .findDeliveryById(20);
+    }
+
+    @Test
+    @DisplayName("Tests a Successful Create Deliver")
+    void whenSuccessfulCreateDelivery(){
+        Integer x = easyDeliversService.createDelivery(1, "919292112", "DETI Aveiro", "Bairro de Santiago Aveiro");
+        assertEquals(1,x);
+        verify(deliveryRepository,times(1))
+                .save(eq(del1));
+    }
+
+    @Test
+    @DisplayName("Tests a invalid Create Deliver")
+    void whenInvalidCreateDelivery(){
+        Integer x = easyDeliversService.createDelivery(3,"949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
+        assertEquals(-1,x);
+        verify(deliveryRepository,times(1))
+                .save(eq(del3));
+    }
+
+    @Test
+    @DisplayName(" Tests a Successfully Send Update Delivery to Store")
+    void whenSuccessfullySendUpdateDelivery(){
+
+    }
+
+    @Test
+    @DisplayName(" Tests a Invalid Send Update Delivery to Store")
+    void whenInvalidSendUpdateDelivery(){
+
+    }
+
+
+
+
+
+
+
 
 
 }
