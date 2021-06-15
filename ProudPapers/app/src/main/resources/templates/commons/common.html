@@ -1,8 +1,16 @@
 <!DOCTYPE>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title></title>
+    <meta charset="utf-8"/>
+    <title>Proud Papers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="/css/main.css" rel="stylesheet"/>
+    <script type="text/javascript" src="/js/main.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navbar">
@@ -11,20 +19,17 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="navbar-nav me-auto mb-2 mb-lg-0">
                 </div>
-                <div class="nav" th:if="${#session != null && #session.getAttribute('userName') != null}">
+                <input id="user-id" type="hidden" th:value="${#session != null ? #session.getAttribute('client').id : -1}"/>
+                <div class="nav" th:if="${#session != null && #session.getAttribute('client') != null}">
                     <span class="hello">Hello! </span>
-                    <div class="username btn btn-primary"><a href="/account/1/myinfo">[[${#session.getAttribute('userName')}]]</a></div>
+                    <div class="username btn btn-primary"><a th:href="'/account/' + ${#session.getAttribute('client').id} + '/myinfo'">[[${#session.getAttribute('client').name}]]</a></div>
                 </div>
-                <div class="nav loveDiv" th:if="${#session != null && #session.getAttribute('userName') != null}" >
-                    <span class="notification">0</span>
-                    <button type="button" class="btn sub_btn" title="love"><i class="far fa-heart"></i></button>
-                </div>
-                <div class="nav cartDiv" th:if="${#session != null && #session.getAttribute('userName') != null}">
-                    <span class="notification">2</span>
-                    <button type="button" class="btn sub_btn" title="cart">
+                <div class="nav cartDiv" th:if="${#session != null && #session.getAttribute('client') != null}">
+                    <span class="notification" id="product-cart-quantity" th:text="${#session.getAttribute('client').cartDTO.productOfCarts.size()}"></span>
+                    <a type="button" class="cart_btn btn sub_btn" title="cart" th:href="'/account/' + ${#session.getAttribute('client').id} + '/cart'">
                         <i class="fas fa-cart-plus"></i>
-                        <span>|</span><span> € 80 </span>
-                    </button>
+                        <span>| € </span><span id="product-total-price" th:text="${#session.getAttribute('client').cartDTO.totalPrice}"></span>
+                    </a>
                 </div>
                 <div class="nav" th:if="${#session == null}">
                     <a type="button" class="btn btn-primary" href="/login">Login</a>
@@ -37,7 +42,7 @@
         <div class="row">
             <div class="col-lg-2 col-md-8">
                 <div class="logo pb-sm-30 pb-xs-30">
-                    <a href="index.html">
+                    <a href="/">
                         <img src="/img/logo.png" alt=""/>
                     </a>
                 </div>
@@ -182,33 +187,33 @@
                     <div class="username btn btn-primary">Username</div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/account/1/myinfo">
+                    <a class="nav-link active" aria-current="page" th:href="'/account/' + ${#session.getAttribute('client').id} + '/myinfo'">
                         <span data-feather="home"></span>
                         My Info
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/account/1/address">
+                    <a class="nav-link" th:href="'/account/' + ${#session.getAttribute('client').id} + '/address'">
                         Address
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/account/1/contact">
+                    <a class="nav-link" th:href="'/account/' + ${#session.getAttribute('client').id} + '/contact'">
                         Contact
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/account/1/payment">
+                    <a class="nav-link" th:href="'/account/' + ${#session.getAttribute('client').id} + '/payment'">
                         Payment Method
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/account/1/cart">
+                    <a class="nav-link" th:href="'/account/' + ${#session.getAttribute('client').id} + '/cart'">
                         Cart
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/account/1/deliveries">
+                    <a class="nav-link" th:href="'/account/' + ${#session.getAttribute('client').id} + '/deliveries'">
                         <span data-feather="users"></span>
                         Deliveries
                     </a>
