@@ -63,7 +63,7 @@ public class DeliveryService_WithMock_Test {
 
         Mockito.when(deliveryRepository.getProductsOfDeliveryById(deliveryId)).thenReturn(maps);
 
-        List<Delivery> serviceDeliveries = service.getDeliveries(clientId);
+        List<DeliveryDTO> serviceDeliveries = service.getDeliveries(clientId);
 
         assertEquals(1, serviceDeliveries.size());
         assertEquals(1, serviceDeliveries.get(0).getProductsOfDelivery().size());

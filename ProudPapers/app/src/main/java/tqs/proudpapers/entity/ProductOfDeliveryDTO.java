@@ -1,9 +1,6 @@
 package tqs.proudpapers.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
  * @date 2021/6/13 9:59
  */
 @Setter
+@ToString
 public class ProductOfDeliveryDTO {
     private Integer delivery;
 

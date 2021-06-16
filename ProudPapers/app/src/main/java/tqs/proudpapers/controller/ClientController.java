@@ -157,7 +157,8 @@ public class ClientController {
     }
 
     @PostMapping("/update/{id}/state/{state}")
-    public ResponseEntity<Object> changeState(@PathVariable("id") Integer id,
+    @Transactional
+    public ResponseEntity<Object> updateState(@PathVariable("id") Integer id,
                                               @PathVariable("state") String state){
 
         deliveryService.changeStateOfDelivery(id, state);

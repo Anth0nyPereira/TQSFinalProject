@@ -31,4 +31,6 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
     void setDeliveryIdInStore(Integer delivery, Integer id);
 
     List<Delivery> getDeliveriesByClient(Integer client);
+
+    Delivery findAllById(Integer id);
 }

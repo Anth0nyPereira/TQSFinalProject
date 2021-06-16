@@ -32,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProudPapersApplication.class)
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-
 class ClientController_IT_Test {
     @Autowired
     private MockMvc mvc;
@@ -217,7 +216,7 @@ class ClientController_IT_Test {
         CartDTO cartDTO = cartService.getCartByClientID(alex.getId());
         assertEquals(0, cartDTO.getProductOfCarts().size());
 
-        List<Delivery> deliveries = deliveryService.getDeliveries(alex.getId());
+        List<DeliveryDTO> deliveries = deliveryService.getDeliveries(alex.getId());
         assertEquals(1, deliveries.size());
         assertEquals(1, deliveries.get(0).getProductsOfDelivery().size());
         assertEquals(atmamun, deliveries.get(0).getProductsOfDelivery().get(0).getProduct());
@@ -225,10 +224,11 @@ class ClientController_IT_Test {
 
 
     @Test
-    @Transactional
     public void changeDeliverStateTest() throws Exception {
         Delivery delivery = new Delivery();
         delivery.setClient(alex.getId());
+        delivery.setState("asd");
+        delivery.setTotalPrice(10.0);
         deliveryRepository.save(delivery);
 
         mvc.perform(post("/update/{id}/state/{state}",
