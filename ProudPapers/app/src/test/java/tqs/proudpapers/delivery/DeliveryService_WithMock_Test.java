@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @date 2021/6/5 21:12
  */
 @ExtendWith(MockitoExtension.class)
-public class DeliveryService_WithMock {
+public class DeliveryService_WithMock_Test {
 
     @Mock(lenient = true)
     private DeliveryRepository deliveryRepository;

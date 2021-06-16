@@ -43,6 +43,8 @@ public class CartServiceImpl implements CartService {
         List<ProductOfCartDTO> results = productsOfCart.stream()
                 .map(p ->{
                     ProductOfCartDTO productOfCartDTO = new ProductOfCartDTO();
+                    productOfCartDTO.setCart(cartId);
+                    productOfCartDTO.setQuantity(p.getQuantity());
                     productOfCartDTO.setProduct(productService.searchById(p.getProductId()));
                     BeanUtils.copyProperties(p, productOfCartDTO);
                     return productOfCartDTO;

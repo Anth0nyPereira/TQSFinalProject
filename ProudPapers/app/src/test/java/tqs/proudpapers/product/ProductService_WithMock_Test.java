@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @date 2021/6/5 21:12
  */
 @ExtendWith(MockitoExtension.class)
-public class ProductService_WithMock {
+public class ProductService_WithMock_Test {
 
     @Mock(lenient = true)
     private ProductRepository repository;

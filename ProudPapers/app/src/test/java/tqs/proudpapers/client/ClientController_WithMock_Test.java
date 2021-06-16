@@ -1,5 +1,6 @@
 package tqs.proudpapers.client;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -7,6 +8,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -19,10 +22,9 @@ import tqs.proudpapers.service.ClientService;
 import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -31,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @date 2021/6/5 22:17
  */
 @WebMvcTest(ClientController.class)
-public class ClientControllerTest_WithMock_Test {
+public class ClientController_WithMock_Test {
 
     @Autowired
     private MockMvc mvc;
@@ -182,10 +184,33 @@ public class ClientControllerTest_WithMock_Test {
     }
 
     @Test
-    public void buyProductsInTheCart_thenCartEmpty() throws Exception {
-        Mockito.when(cartService.getCartByClientID(alex.getId())).thenReturn(new CartDTO());
+    void buyAllProductInTheCart_thenSendDeliveryToEasyDelivery() throws Exception {
+        int clientId = 1;
+        int idDeliveryStore = 1;
+        Mockito.when(deliveryService.addProductToDelivery(clientId, new ArrayList<>())).thenReturn(idDeliveryStore);
 
-        mvc.perform(post("/account/{id}/purchase", alex.getId())
+        ClientDTO dto = new ClientDTO();
+        dto.setId(clientId);
+        dto.setTelephone("12345678910");
+        dto.setCity("aveiro");
+
+        Mockito.when(cartService.buyAllProductsInTheCart(dto)).thenReturn(idDeliveryStore);
+        Integer returnedId = cartService.buyAllProductsInTheCart(dto);
+        assertEquals(idDeliveryStore, returnedId);
+
+        ResponseEntity<Integer> response = new ResponseEntity<>(idDeliveryStore, HttpStatus.OK);
+
+        Map<String, String> request = Map.of("store", "1",
+                "client_telephone", alexDTO.getTelephone(),
+                "start", "UA",
+                "destination", alexDTO.getZip() + " " + alexDTO.getCity());
+
+        Mockito.when(restTemplate.postForEntity("localhost:8080/delivery", request, Integer.class)).thenReturn(response);
+
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("client", alexDTO);
+
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/account/{clientId}/purchase", clientId)
                 .param("name", alexDTO.getName())
                 .param("email", alexDTO.getEmail())
                 .param("password", alexDTO.getPassword())
@@ -194,7 +219,11 @@ public class ClientControllerTest_WithMock_Test {
                 .param("telephone", alexDTO.getTelephone())
                 .param("cardNumber", "1234567891234567")
                 .param("cardExpirationMonth", "11")
-                .param("cvc", "123"))
+                .param("cvc", "123")
+                .session(session);
+
+        mvc.perform(builder)
                 .andExpect(status().isOk());
+
     }
 }

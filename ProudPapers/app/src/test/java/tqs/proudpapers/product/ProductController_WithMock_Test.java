@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @date 2021/6/5 22:17
  */
 @WebMvcTest(ProductController.class)
-public class ProductControllerTest_WithMock {
+public class ProductController_WithMock_Test {
 
     @Autowired
     private MockMvc mvc;

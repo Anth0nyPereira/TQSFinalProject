@@ -11,9 +11,6 @@ import java.util.List;
  * @author wy
  * @date 2021/6/13 11:50
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name="cart")
 public class Cart {
@@ -23,4 +20,12 @@ public class Cart {
 
     @Column(name="client")
     private Integer client;
+
+    public void setClient(Integer id) {
+        this.client = id;
+    }
+
+    public Integer getId() {
+        return this.id;
+    }
 }

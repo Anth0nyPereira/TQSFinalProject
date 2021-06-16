@@ -1,8 +1,6 @@
 package tqs.proudpapers.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,8 +11,8 @@ import java.io.Serializable;
  * @author wy
  * @date 2021/6/3 15:50
  */
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name= "client")
 public class Client implements Serializable {
@@ -46,4 +44,11 @@ public class Client implements Serializable {
     @Column(name="payment_method")
     private Integer paymentMethodId;
 
+    public void setPaymentMethodId(Integer id) {
+        this.paymentMethodId = id;
+    }
+
+    public void setAddress(String s) {
+        this.address = s;
+    }
 }

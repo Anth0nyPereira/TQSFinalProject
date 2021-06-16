@@ -1,7 +1,9 @@
 package tqs.proudpapers.entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -31,5 +33,5 @@ public class Product implements Serializable {
 
     @Column(name = "description")
     private String description;
-
 }
+

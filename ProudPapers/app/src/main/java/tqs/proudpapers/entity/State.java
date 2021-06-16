@@ -13,7 +13,6 @@ import java.util.Date;
  * @date 2021/6/14 16:44
  */
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name="state")
 public class State {

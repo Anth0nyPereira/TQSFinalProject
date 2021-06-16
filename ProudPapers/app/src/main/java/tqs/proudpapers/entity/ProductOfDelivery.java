@@ -11,8 +11,6 @@ import java.io.Serializable;
  * @author wy
  * @date 2021/6/13 9:59
  */
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name="products_of_delivery")

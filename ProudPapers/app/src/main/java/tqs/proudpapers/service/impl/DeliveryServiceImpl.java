@@ -40,7 +40,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         Delivery delivery = new Delivery();
         delivery.setClient(clientId);
         double totalPrice = product.stream().map(p->p.getProduct().getPrice()).reduce(Double::sum).orElse(0.0);
-        delivery.setTotal_price(totalPrice);
+        delivery.setTotalPrice(totalPrice);
 
         Delivery saved = deliveryRepository.save(delivery);
         createState(saved.getId(), saved.getState());

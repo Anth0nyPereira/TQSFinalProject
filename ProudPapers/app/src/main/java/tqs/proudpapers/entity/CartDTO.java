@@ -1,8 +1,6 @@
 package tqs.proudpapers.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -12,9 +10,10 @@ import java.util.List;
  * @author wy
  * @date 2021/6/13 11:50
  */
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
 public class CartDTO implements Iterable<ProductOfCartDTO>{
     private Integer cartId;
 
@@ -28,4 +27,17 @@ public class CartDTO implements Iterable<ProductOfCartDTO>{
     public Iterator<ProductOfCartDTO> iterator() {
         return productOfCarts.iterator();
     }
+
+    public Integer getCartId() {
+        return cartId;
+    }
+
+    public List<ProductOfCartDTO> getProductOfCarts() {
+        return productOfCarts;
+    }
+
+    public int getClientId() {
+        return clientId;
+    }
+
 }

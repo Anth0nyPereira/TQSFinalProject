@@ -138,7 +138,8 @@ public class ClientController {
 
     @PostMapping("/account/{clientId}/purchase")
     @Transactional
-    public ResponseEntity<ProductOfCart> purchase(@PathVariable("clientId") Integer clientId, ClientDTO clientDTO,
+    public ResponseEntity<Integer> purchase(@PathVariable("clientId") Integer clientId,
+                                                  ClientDTO clientDTO,
                                                   String cardNumber,
                                                   String cardExpirationMonth,
                                                   String cvc){
@@ -152,7 +153,6 @@ public class ClientController {
         clientDTO.setId(clientId);
         Integer deliveryId = cartService.buyAllProductsInTheCart(clientDTO);
         sendDeliveryToEasyDelivery(deliveryId, clientDTO);
-
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 

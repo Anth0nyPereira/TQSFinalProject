@@ -1,7 +1,6 @@
 package tqs.proudpapers.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +10,9 @@ import java.io.Serializable;
  * @author wy
  * @date 2021/6/3 15:50
  */
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 public class ClientDTO implements Serializable {
     @NotBlank

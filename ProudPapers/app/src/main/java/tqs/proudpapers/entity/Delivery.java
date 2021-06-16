@@ -1,7 +1,9 @@
 package tqs.proudpapers.entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,8 +13,8 @@ import java.util.List;
  * @author wy
  * @date 2021/6/3 16:05
  */
-@Data
-@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name="delivery")
 public class Delivery implements Serializable {
@@ -22,7 +24,7 @@ public class Delivery implements Serializable {
     private Integer id;
 
     @Column(name="total_price")
-    private Double total_price = 0.0;
+    private Double totalPrice = 0.0;
 
     @Column(name="client")
     private Integer client;
@@ -35,4 +37,36 @@ public class Delivery implements Serializable {
 
     @Transient
     private List<ProductOfDeliveryDTO> productsOfDelivery;
+
+    public void setClient(Integer clientId) {
+        this.client = clientId;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setProductsOfDelivery(List<ProductOfDeliveryDTO> products) {
+        this.productsOfDelivery = products;
+    }
+
+    public List<ProductOfDeliveryDTO> getProductsOfDelivery() {
+        return productsOfDelivery;
+    }
+
+    public int getIdDeliveryStore() {
+        return idDeliveryStore;
+    }
+
+    public void setId(int deliveryId) {
+        this.id = deliveryId;
+    }
 }
