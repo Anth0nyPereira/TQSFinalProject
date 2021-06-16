@@ -14,14 +14,10 @@
  Date: 16/06/2021 18:09:35
 */
 
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
 -- ----------------------------
 -- Table structure for cart
 -- ----------------------------
-DROP TABLE IF EXISTS `cart`;
-CREATE TABLE `cart`  (
+CREATE TABLE cart  (
   `id` int NOT NULL AUTO_INCREMENT,
   `client` int NOT NULL,
   PRIMARY KEY (`id`, `client`) USING BTREE,
@@ -33,8 +29,7 @@ CREATE TABLE `cart`  (
 -- ----------------------------
 -- Table structure for cart_products
 -- ----------------------------
-DROP TABLE IF EXISTS `cart_products`;
-CREATE TABLE `cart_products`  (
+CREATE TABLE cart_product  (
   `cart` int NOT NULL,
   `product` int NOT NULL,
   `quantity` int NOT NULL DEFAULT 1,
@@ -47,8 +42,7 @@ CREATE TABLE `cart_products`  (
 -- ----------------------------
 -- Table structure for client
 -- ----------------------------
-DROP TABLE IF EXISTS `client`;
-CREATE TABLE `client`  (
+CREATE TABLE client  (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -65,8 +59,7 @@ CREATE TABLE `client`  (
 -- ----------------------------
 -- Table structure for delivery
 -- ----------------------------
-DROP TABLE IF EXISTS `delivery`;
-CREATE TABLE `delivery`  (
+CREATE TABLE delivery  (
   `id` int NOT NULL AUTO_INCREMENT,
   `total_price` decimal(10, 2) NOT NULL DEFAULT 0.00,
   `state` varchar(255) NOT NULL DEFAULT 'awaiting_processing',
@@ -79,8 +72,7 @@ CREATE TABLE `delivery`  (
 -- ----------------------------
 -- Table structure for payment_method
 -- ----------------------------
-DROP TABLE IF EXISTS `payment_method`;
-CREATE TABLE `payment_method`  (
+CREATE TABLE payment_method  (
   `id` int NOT NULL AUTO_INCREMENT,
   `card_number` char(16) NOT NULL,
   `card_expiration_month` varchar(2) NOT NULL,
@@ -91,8 +83,7 @@ CREATE TABLE `payment_method`  (
 -- ----------------------------
 -- Table structure for product
 -- ----------------------------
-DROP TABLE IF EXISTS `product`;
-CREATE TABLE `product`  (
+CREATE TABLE product  (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `price` decimal(10, 2) NOT NULL,
@@ -105,8 +96,7 @@ CREATE TABLE `product`  (
 -- ----------------------------
 -- Table structure for products_of_delivery
 -- ----------------------------
-DROP TABLE IF EXISTS `products_of_delivery`;
-CREATE TABLE `products_of_delivery`  (
+CREATE TABLE products_of_delivery  (
   `product` int NOT NULL,
   `delivery` int NOT NULL,
   `quantity` int NOT NULL,
@@ -118,8 +108,7 @@ CREATE TABLE `products_of_delivery`  (
 -- ----------------------------
 -- Table structure for state
 -- ----------------------------
-DROP TABLE IF EXISTS `state`;
-CREATE TABLE `state`  (
+CREATE TABLE state  (
   `id` int NOT NULL AUTO_INCREMENT,
   `description` varchar(255) NOT NULL,
   `delivery` int NOT NULL,
@@ -128,5 +117,3 @@ CREATE TABLE `state`  (
   INDEX `delivery`(`delivery`) USING BTREE,
   CONSTRAINT `state_ibfk_1` FOREIGN KEY (`delivery`) REFERENCES `delivery` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
-
-SET FOREIGN_KEY_CHECKS = 1;
