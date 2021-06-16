@@ -47,7 +47,7 @@
     position: absolute;
     right: 0;
     height: 80%;
-    border-radius: 5;
+    border-radius: 5px;
     background: rgb(212, 85, 0);
     z-index: 1;
     cursor: pointer;
@@ -182,7 +182,7 @@
     z-index: 1;
     cursor: pointer;
     font-size: 15px;
-    width: 100px;
+    width: 120px;
 }
 
 .cartDiv button span{
@@ -1229,4 +1229,51 @@
 
 .product-form{
     cursor: pointer;
+}
+
+.position-sticky{
+    position: relative;
+    height: 600px !important;
+}
+
+.flex-column li a{
+    font-size: 18px;
+    color: rgb(43, 43, 43);
+}
+
+.account-info{
+    position: relative;
+    top: 50px;
+}
+.menu-content{
+    position: relative;
+    width: 80%;
+    left: 10%;
+    margin-top: 50px;
+}
+
+.menu-content label{
+    margin-right: 20px;
+    text-align: right;
+}
+
+.username a{
+    text-decoration: none;
+    color: white;
+}
+
+.username a:hover{
+    color: white;
+}
+
+.cart .col-md-10{
+    cursor: pointer;
+}
+
+.buy-btn{
+    position: relative;
+    margin-bottom: 30px;
+    font-size: 20px;
+    left: -10%;
+    top: -30px;
 }

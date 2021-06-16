@@ -64,6 +64,7 @@
                     <div class="col-lg-7 col-md-6">
                         <div class="product-details-view-content pt-60">
                             <div class="product-info">
+                                <input type="hidden" id="product-id" th:value="${product.id}"/>
                                 <h2 id="product-name" th:text="${product.name}"></h2>
                                 <span class="product-details-ref">Reference: demo_15</span>
                                 <div class="rating-box rr">
@@ -81,19 +82,19 @@
                                     <span id="product-price" class="new-price new-price-2" th:text="${product.getPrice()}"></span>
                                 </div>
                                 <div class="single-add-to-cart">
-                                    <form action="#" class="cart-quantity">
+                                    <div class="cart-quantity">
                                         <div class="quantity">
                                             <label>Quantity</label>
                                             <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box" value="1" type="text"/>
+                                                <input class="cart-plus-minus-box" id="current-quantity" value="1" type="text"/>
                                                 <input type="hidden" id="quantity" th:value="${product.quantity}"/>
                                                 <div class="dec qtybutton" onclick="dec()"><i class="fa fa-angle-down"></i></div>
                                                 <div class="inc qtybutton" onclick="inc()"><i class="fa fa-angle-up"></i></div>
                                             </div>
                                         </div>
-                                        <button class="add-to-cart" type="submit">Add to cart</button>
-                                        <button class="add-to-cart" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy now</button>
-                                    </form>
+                                        <a class="add-to-cart add-to-cart-btn">Add to cart</a>
+                                        <button hidden="hidden" class="add-to-cart" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy now</button>
+                                    </div>
                                 </div>
                                 <div class="product-additional-info pt-25">
                                     <a class="wishlist-btn" href="#"><i class="far fa-heart"></i>Add to wishlist</a>
@@ -141,82 +142,32 @@
             </div>
         </div>
 
-        <div th:if="${product != null}" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div th:if="${product != null}" class="modal-dialog">
-            <div class="modal-content modal-address">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Shipping Address</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-5 col-md-6">
-                            <div class="product-details-left">
-                                <img class="product-image" th:src="${'/img/' + product.name + '.jpg'}" style="width: 400px;"/>
-                                <div class="descr" th:text="${product.description}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-7 col-md-6" >
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input class="form-control" id="name" rows="3" name="name" placeholder="username"/>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label for="Email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="Email" name="email" placeholder="name@example.com"/>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input class="form-control" id="password" rows="3" name="password" placeholder="password"/>
-                            </div>
-                            <div class="mb-3">
-                                <label for="zip" class="form-label">Zip/Postal code</label>
-                                <input class="form-control" id="zip" rows="3" name="zip" placeholder="Zip/Postal code"/>
-                            </div>
-                            <div class="mb-3">
-                                <label for="city" class="form-label">City</label>
-                                <input class="form-control" id="city" rows="3" name="city" placeholder="City/location"/>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="telephone" class="form-label">Telephone</label>
-                                <input class="form-control" id="telephone" rows="3" name="telephone" placeholder="Your telephone number" maxlength="11"/>
-                            </div>
-                            <div class="mb-3">
-                                <label for="cardNumber" class="form-label">Card Number</label>
-                                <input class="form-control" id="cardNumber" rows="3" name="cardNumber" placeholder="Bank card number" maxlength="16"/>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label for="cardExpirationMonth" class="form-label">Card Expiration Month</label>
-                                    <input class="form-control" id="cardExpirationMonth" rows="3" name="cardExpirationMonth" placeholder="card expiration month" maxlength="2"/>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label for="cvc" class="form-label">CVC</label>
-                                    <input class="form-control" id="cvc" rows="3" name="cvc" placeholder="cvc" maxlength="3"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
-        </div>
-        </div>
-
         <div th:replace="commons/common::footer"></div>
 
     </div>
 <script>
     $('.search_box').submit(function (){
         $('.search_box').attr("action", "/search/" + $('.search-input').val())
+    })
+
+    $('.add-to-cart-btn').click(function (){
+        if ($('#user-id').val() === '-1'){
+            window.location.href='/login'
+        }else{
+            $.ajax({
+                type : "POST",
+                url : "/account/" +$('#user-id').val() + "/add_to_cart/" + $('#product-id').val() + "?quantity=" + $('#current-quantity').val(),
+                success : function(result) {
+                    alert("Book added to cart!")
+                    var newTotalPrice = parseInt($('#product-price').text()) + parseInt($('#product-total-price').text())
+                    $('#product-total-price').text(newTotalPrice)
+                    $('#product-cart-quantity').text(parseInt($('#product-cart-quantity').text()) + 1)
+                },
+                error: function (result) {
+                    alert("You already have this book in your cart!")
+                }
+            });
+        }
     })
 </script>
 </body>

@@ -9,6 +9,7 @@ import tqs.proudpapers.entity.Product;
 import tqs.proudpapers.service.ProductService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public class ProductController {
             if (product == null)
                 model.addAttribute("products", new ArrayList<>());
             else
-                model.addAttribute("products", List.of(product));
+                model.addAttribute("products", Arrays.asList(product));
 
         }catch (Exception e){
             List<Product> products = service.searchByKeyWord(key);

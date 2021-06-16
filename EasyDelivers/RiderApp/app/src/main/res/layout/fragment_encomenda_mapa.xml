@@ -59,7 +59,7 @@
                 android:elevation="4dp"
                 android:padding="20dp"
                 android:text="Remaining Distance:"
-                app:layout_constraintTop_toBottomOf="@+id/textviewEarning"
+                app:layout_constraintTop_toBottomOf="@+id/textviewDestination"
                 tools:layout_editor_absoluteX="5dp" />
         </LinearLayout>
         <LinearLayout
@@ -95,7 +95,7 @@
                 android:elevation="4dp"
                 android:padding="20dp"
                 android:text="Destination:"
-                app:layout_constraintTop_toBottomOf="@+id/textviewEarning"
+                app:layout_constraintTop_toBottomOf="@+id/textviewDestination"
                 tools:layout_editor_absoluteX="5dp" />
         </LinearLayout>
 
@@ -116,7 +116,7 @@
             android:elevation="4dp"
             android:padding="20dp"
             android:text="Earning:"
-            app:layout_constraintTop_toBottomOf="@+id/textviewEncomenda"
+            app:layout_constraintTop_toBottomOf="@+id/textviewStart"
             tools:layout_editor_absoluteX="16dp" />
 
         <Button
