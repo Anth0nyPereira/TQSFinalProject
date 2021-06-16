@@ -61,4 +61,4 @@
 
 **Static Analysis** - [SonarCloud](https://sonarcloud.io/organizations/tqsproject/projects)
 
-**CI/CD Environment** - [Travis CI](https://travis-ci.com/github/Wei93442/TQSFinalProject)
+**CI/CD Environment** - [Git Actions](https://github.com/Wei93442/TQSFinalProject/actions)
