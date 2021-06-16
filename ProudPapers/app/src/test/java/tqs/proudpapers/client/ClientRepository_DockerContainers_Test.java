@@ -5,6 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.repository.ClientRepository;
 
@@ -15,11 +22,22 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @author wy
  * @date 2021/6/5 21:15
  */
-@DataJpaTest
-public class ClientRepositoryTest {
+@Testcontainers
+@SpringBootTest
+public class ClientRepository_DockerContainers_Test {
 
-    @Autowired
-    private TestEntityManager entityManager;
+    @Container
+    public static MySQLContainer container = new MySQLContainer(DockerImageName.parse("mysql:5.7"))
+            .withUsername("root")
+            .withPassword("12345")
+            .withDatabaseName("proudpapers");
+
+    @DynamicPropertySource
+    static void properties(DynamicPropertyRegistry registry){
+        registry.add("spring.datasource.url", container::getJdbcUrl);
+        registry.add("spring.datasource.password", container::getPassword);
+        registry.add("spring.datasource.username", container::getUsername);
+    }
 
     @Autowired
     private ClientRepository repository;
@@ -34,7 +52,7 @@ public class ClientRepositoryTest {
         alex.setPassword("alexS3cr3t");
         alex.setAddress("2222-222, aveiro");
         alex.setTelephone("1234567891011");
-        alex = entityManager.persistAndFlush(alex); //ensure data is persisted at this point
+        alex = repository.save(alex); //ensure data is persisted at this point
     }
 
     @Test

@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @Testcontainers
 @SpringBootTest
-public class CarRepositoryTest_TestContainers {
+public class CarRepository_DockerContainers_Test {
     @Container
     public static MySQLContainer container = new MySQLContainer(DockerImageName.parse("mysql:5.7"))
             .withUsername("root")

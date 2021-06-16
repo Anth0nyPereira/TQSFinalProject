@@ -1,31 +1,44 @@
 package tqs.proudpapers.product;
 
-import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import tqs.proudpapers.entity.Client;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 import tqs.proudpapers.entity.Product;
-import tqs.proudpapers.repository.ClientRepository;
 import tqs.proudpapers.repository.ProductRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author wy
  * @date 2021/6/5 21:15
  */
-@DataJpaTest
-public class ProductRopositoryTest {
+@Testcontainers
+@SpringBootTest
+public class ProductRepository_DockerContainer_Test {
+    @Container
+    public static MySQLContainer container = new MySQLContainer(DockerImageName.parse("mysql:5.7"))
+            .withUsername("root")
+            .withPassword("12345")
+            .withDatabaseName("proudpapers");
 
-    @Autowired
-    private TestEntityManager entityManager;
+    @DynamicPropertySource
+    static void properties(DynamicPropertyRegistry registry){
+        registry.add("spring.datasource.url", container::getJdbcUrl);
+        registry.add("spring.datasource.password", container::getPassword);
+        registry.add("spring.datasource.username", container::getUsername);
+    }
 
     @Autowired
     private ProductRepository repository;
@@ -39,7 +52,7 @@ public class ProductRopositoryTest {
         atmamun.setDescription("The Path To Achieving The Blis Of The Himalayan Swamis. And The Freedom Of A Living God");
         atmamun.setPrice(15.99);
         atmamun.setQuantity(13);
-        entityManager.persistAndFlush(atmamun);
+        atmamun = repository.save(atmamun);
     }
 
     @Test
@@ -70,16 +83,17 @@ public class ProductRopositoryTest {
         Product b3 = new Product();
         b3.setName("Book C");
 
-        entityManager.persistAndFlush(b1);
-        entityManager.persistAndFlush(b2);
-        entityManager.persistAndFlush(b3);
+        repository.save(b1);
+        repository.save(b2);
+        repository.save(b3);
 
         List<Product> result = repository.getProductByNameContains("Book");
 
         assertEquals(3, result.size());
-        assertThat(result).contains(b1);
-        assertThat(result).contains(b2);
-        assertThat(result).contains(b3);
+        assertThat(result)
+                .contains(b1)
+                .contains(b2)
+                .contains(b3);
     }
 
 
