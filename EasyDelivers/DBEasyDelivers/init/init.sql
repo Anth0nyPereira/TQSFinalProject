@@ -32,24 +32,7 @@ CREATE TABLE `admin`  (
   PRIMARY KEY (`id`) USING BTREE
 );
 
--- ----------------------------
--- Table structure for delivery
--- ----------------------------
-DROP TABLE IF EXISTS `delivery`;
-CREATE TABLE `delivery`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `store` int NOT NULL,
-  `rider_fee` float NOT NULL,
-  `state` varchar(255) NOT NULL,
-  `client_telephone` char(11) NOT NULL,
-  `start` varchar(255) NOT NULL,
-  `destination` varchar(255) NOT NULL,
-  `rider` int DEFAULT -1,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `rider`(`rider`) USING BTREE,
-  INDEX `store`(`store`) USING BTREE,
-  CONSTRAINT `delivery_ibfk_1` FOREIGN KEY (`store`) REFERENCES `store` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-);
+
 
 -- ----------------------------
 -- Table structure for rider
@@ -71,6 +54,39 @@ CREATE TABLE `rider`  (
 );
 
 -- ----------------------------
+-- Table structure for store
+-- ----------------------------
+DROP TABLE IF EXISTS `store`;
+CREATE TABLE `store`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `id`(`id`) USING BTREE,
+  INDEX `name`(`name`) USING BTREE
+);
+
+-- ----------------------------
+-- Table structure for delivery
+-- ----------------------------
+DROP TABLE IF EXISTS `delivery`;
+CREATE TABLE `delivery`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `store` int NOT NULL,
+  `rider_fee` float NOT NULL,
+  `state` varchar(255) NOT NULL,
+  `client_telephone` char(11) NOT NULL,
+  `start` varchar(255) NOT NULL,
+  `destination` varchar(255) NOT NULL,
+  `rider` int DEFAULT -1,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `rider`(`rider`) USING BTREE,
+  INDEX `store`(`store`) USING BTREE,
+  CONSTRAINT `delivery_ibfk_1` FOREIGN KEY (`store`) REFERENCES `store` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
+
+-- ----------------------------
 -- Table structure for state
 -- ----------------------------
 DROP TABLE IF EXISTS `state`;
@@ -82,19 +98,6 @@ CREATE TABLE `state`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `delivery`(`delivery`) USING BTREE,
   CONSTRAINT `state_ibfk_1` FOREIGN KEY (`delivery`) REFERENCES `delivery` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-);
-
--- ----------------------------
--- Table structure for store
--- ----------------------------
-DROP TABLE IF EXISTS `store`;
-CREATE TABLE `store`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `id`(`id`) USING BTREE,
-  INDEX `name`(`name`) USING BTREE
 );
 
 SET FOREIGN_KEY_CHECKS = 1;
