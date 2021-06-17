@@ -19,6 +19,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -55,8 +56,6 @@ class EasyDeliversServiceTest {
         del1.setId(1);
         del2.setId(-1);
         allDeliversAwaitingProcessing = Arrays.asList(del1, del2, del3);
-        Mockito.when(deliveryRepository.save(eq(del1))).thenReturn(del1);
-        Mockito.when(deliveryRepository.save(eq(del3))).thenReturn(del3);
         Mockito.when(deliveryRepository.findDeliveryById(Integer.parseInt("1"))).thenReturn(del1);
         Mockito.when(deliveryRepository.findDeliveryById(Integer.parseInt("20"))).thenReturn(null);
         Mockito.when(riderRepository.findRiderByEmail("hugo@email.com")).thenReturn(rider1);
@@ -211,19 +210,21 @@ class EasyDeliversServiceTest {
     @Test
     @DisplayName("Tests a Successful Create Deliver")
     void whenSuccessfulCreateDelivery(){
+        Mockito.when(deliveryRepository.save(any())).thenReturn(del1);
         Integer x = easyDeliversService.createDelivery(1, "919292112", "DETI Aveiro", "Bairro de Santiago Aveiro");
         assertEquals(1,x);
         verify(deliveryRepository,times(1))
-                .save(eq(del1));
+                .save(any());
     }
 
     @Test
     @DisplayName("Tests a invalid Create Deliver")
     void whenInvalidCreateDelivery(){
+        Mockito.when(deliveryRepository.save(any())).thenReturn(del2);
         Integer x = easyDeliversService.createDelivery(3,"949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
         assertEquals(-1,x);
         verify(deliveryRepository,times(1))
-                .save(eq(del3));
+                .save(any());
     }
 
     @Test
