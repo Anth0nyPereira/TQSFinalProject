@@ -17,6 +17,7 @@
 -- ----------------------------
 -- Table structure for cart
 -- ----------------------------
+DROP TABLE IF EXISTS cart
 CREATE TABLE cart  (
   `id` int NOT NULL AUTO_INCREMENT,
   `client` int NOT NULL,
@@ -29,6 +30,8 @@ CREATE TABLE cart  (
 -- ----------------------------
 -- Table structure for cart_products
 -- ----------------------------
+
+DROP TABLE IF EXISTS cart_product
 CREATE TABLE cart_product  (
   `cart` int NOT NULL,
   `product` int NOT NULL,
@@ -42,6 +45,7 @@ CREATE TABLE cart_product  (
 -- ----------------------------
 -- Table structure for client
 -- ----------------------------
+DROP TABLE IF EXISTS client
 CREATE TABLE client  (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -59,6 +63,7 @@ CREATE TABLE client  (
 -- ----------------------------
 -- Table structure for delivery
 -- ----------------------------
+DROP TABLE IF EXISTS delivery
 CREATE TABLE delivery  (
   `id` int NOT NULL AUTO_INCREMENT,
   `total_price` decimal(10, 2) NOT NULL DEFAULT 0.00,
@@ -72,6 +77,7 @@ CREATE TABLE delivery  (
 -- ----------------------------
 -- Table structure for payment_method
 -- ----------------------------
+DROP TABLE IF EXISTS payment_method
 CREATE TABLE payment_method  (
   `id` int NOT NULL AUTO_INCREMENT,
   `card_number` char(16) NOT NULL,
@@ -83,6 +89,7 @@ CREATE TABLE payment_method  (
 -- ----------------------------
 -- Table structure for product
 -- ----------------------------
+DROP TABLE IF EXISTS product
 CREATE TABLE product  (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -96,6 +103,7 @@ CREATE TABLE product  (
 -- ----------------------------
 -- Table structure for products_of_delivery
 -- ----------------------------
+DROP TABLE IF EXISTS products_of_delivery
 CREATE TABLE products_of_delivery  (
   `product` int NOT NULL,
   `delivery` int NOT NULL,
@@ -108,6 +116,7 @@ CREATE TABLE products_of_delivery  (
 -- ----------------------------
 -- Table structure for state
 -- ----------------------------
+DROP TABLE IF EXISTS state
 CREATE TABLE state  (
   `id` int NOT NULL AUTO_INCREMENT,
   `description` varchar(255) NOT NULL,

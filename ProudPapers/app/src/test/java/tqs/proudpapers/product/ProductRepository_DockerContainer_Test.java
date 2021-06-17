@@ -1,7 +1,6 @@
 package tqs.proudpapers.product;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -15,6 +14,7 @@ import org.testcontainers.utility.DockerImageName;
 import tqs.proudpapers.entity.Product;
 import tqs.proudpapers.repository.ProductRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,6 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @Testcontainers
 @SpringBootTest
+@Transactional
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProductRepository_DockerContainer_Test {
     @Container
     public static MySQLContainer container = new MySQLContainer(DockerImageName.parse("mysql:5.7"))
@@ -55,6 +57,12 @@ public class ProductRepository_DockerContainer_Test {
         atmamun = repository.save(atmamun);
     }
 
+    @AfterEach
+    void tearDown(){
+        repository.deleteAll();
+    }
+
+    @Order(1)
     @Test
     public void whenAtmamun_thenReturnAtmamun() {
         List<Product> products = repository.getProductByNameContains(atmamun.getName());

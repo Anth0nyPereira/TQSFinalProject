@@ -1,6 +1,7 @@
 package tqs.proudpapers.entity;
 
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -11,8 +12,7 @@ import java.io.Serializable;
  * @author wy
  * @date 2021/6/3 15:50
  */
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name= "client")
 public class Client implements Serializable {

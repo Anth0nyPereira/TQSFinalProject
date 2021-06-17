@@ -1,5 +1,6 @@
 package tqs.proudpapers.delivery;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import tqs.proudpapers.repository.ClientRepository;
 import tqs.proudpapers.repository.DeliveryRepository;
 import tqs.proudpapers.repository.ProductRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @Testcontainers
 @SpringBootTest
+@Transactional
 public class DeliveryRepository_DockerContainer_Test {
 
     @Container
@@ -55,13 +58,13 @@ public class DeliveryRepository_DockerContainer_Test {
     @Autowired
     private ProductRepository productRepository;
 
-    private int clientId = 1;
-
     private Delivery delivery;
+
+    private Client alex;
 
     @BeforeEach
     void setUp(){
-        Client alex = new Client();
+        alex = new Client();
         alex.setEmail("alex@ua.pt");
         alex.setName("alex");
         alex.setPassword("alexS3cr3t");
@@ -70,13 +73,19 @@ public class DeliveryRepository_DockerContainer_Test {
         alex = clientRepository.save(alex); //ensure data is persisted at this point
 
         delivery = new Delivery();
-        delivery.setClient(clientId);
+        delivery.setClient(alex.getId());
         delivery = deliveryRepository.save(delivery);
+    }
+
+    @AfterEach
+    void tearDown(){
+        deliveryRepository.deleteAll();
+        clientRepository.deleteAll();
     }
 
     @Test
     public void whenClientId_thenReturnDeliveries() {
-        List<Delivery> deliveriesByClient = deliveryRepository.getDeliveriesByClient(clientId);
+        List<Delivery> deliveriesByClient = deliveryRepository.getDeliveriesByClient(alex.getId());
 
         assertEquals(1, deliveriesByClient.size());
         assertEquals(delivery, deliveriesByClient.get(0));

@@ -1,7 +1,6 @@
 package tqs.proudpapers.client;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -15,6 +14,8 @@ import org.testcontainers.utility.DockerImageName;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.repository.ClientRepository;
 
+import javax.transaction.Transactional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -24,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  */
 @Testcontainers
 @SpringBootTest
+@Transactional
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ClientRepository_DockerContainers_Test {
 
     @Container
@@ -42,21 +45,22 @@ public class ClientRepository_DockerContainers_Test {
     @Autowired
     private ClientRepository repository;
 
-    private Client alex;
+    private static Client alex;
 
-    @BeforeEach
-    void setUp(){
+    @BeforeAll
+    static void setUp(){
         alex = new Client();
         alex.setEmail("alex@ua.pt");
         alex.setName("alex");
         alex.setPassword("alexS3cr3t");
         alex.setAddress("2222-222, aveiro");
         alex.setTelephone("1234567891011");
-        alex = repository.save(alex); //ensure data is persisted at this point
     }
 
+    @Order(1)
     @Test
-    public void whenFindAlexByEmail_thenReturnAlex() {
+    public void saveALex_getAlexByEmail_thenReturnAlex(){
+        alex = repository.save(alex);
         Client found = repository.getClientByEmail(alex.getEmail());
         assertEquals(alex, found);
     }

@@ -1,7 +1,6 @@
 package tqs.proudpapers.cart;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +18,7 @@ import tqs.proudpapers.repository.CartRepository;
 import tqs.proudpapers.repository.ClientRepository;
 import tqs.proudpapers.repository.ProductRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @Testcontainers
 @SpringBootTest
+@Transactional
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CarRepository_DockerContainers_Test {
     @Container
     public static MySQLContainer container = new MySQLContainer(DockerImageName.parse("mysql:5.7"))
@@ -53,22 +55,21 @@ public class CarRepository_DockerContainers_Test {
     @Autowired
     private ClientRepository clientRepository;
 
-    private Product atmamun;
+    private static Product atmamun;
 
-    private ProductOfCart pcart;
+    private static ProductOfCart pcart;
 
-    private Client alex;
+    private static Client alex;
 
-    private Cart cart;
+    private static Cart cart;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         atmamun = new Product();
         atmamun.setName("Atmamun");
         atmamun.setDescription("The Path To Achieving The Blis Of The Himalayan Swamis. And The Freedom Of A Living God");
         atmamun.setPrice(15.99);
         atmamun.setQuantity(13);
-        atmamun = productRepository.save(atmamun);
 
         alex = new Client();
         alex.setEmail("alex@ua.pt");
@@ -76,27 +77,42 @@ public class CarRepository_DockerContainers_Test {
         alex.setPassword("alexS3cr3t");
         alex.setAddress("2222-222, aveiro");
         alex.setTelephone("1234567891011");
-        alex = clientRepository.save(alex);
 
         cart = new Cart();
+        pcart = new ProductOfCart();
+
+    }
+
+    @Order(1)
+    @Test
+    public void whenCartId_thenReturnProducts() {
+        atmamun = productRepository.save(atmamun);
+        alex = clientRepository.save(alex);
+
         cart.setClient(alex.getId()); // we need a client id to create a cart
         cartRepository.createCart(alex.getId());
+        cart.setId(cartRepository.getCartByClientId(alex.getId()));
 
-        pcart = new ProductOfCart();
         pcart.setProductId(atmamun.getId());
         pcart.setQuantity(1);
         pcart.setCart(cart.getId());
+        pcart = cartRepository.save(pcart);
 
-        cartRepository.save(pcart); //ensure data is persisted at this point
-    }
 
-    @Test
-    public void whenCartId_thenReturnProducts() {
+        // test
         List<ProductOfCart> products = cartRepository.getProductOfCartByCart(cart.getId());
         assertEquals(1, products.size());
         assertEquals(pcart, products.get(0));
     }
 
+    @Order(2)
+    @Test
+    public void whenAddedProduct_thenReturnTrue() {
+        boolean exists = cartRepository.existsByCartAndProductId(cart.getId(), atmamun.getId());
+        assertTrue(exists);
+    }
+
+    @Order(3)
     @Test
     public void whenRemove_thenReturnEmptyList() {
         cartRepository.removeProductOfCartByCart(1);
@@ -105,16 +121,11 @@ public class CarRepository_DockerContainers_Test {
         assertEquals(0, products.size());
     }
 
+    @Order(4)
     @Test
     public void whenClientId_thenReturnHisCartId() {
         Integer cartByClientId = cartRepository.getCartByClientId(alex.getId());
 
         assertEquals(cart.getId(), cartByClientId);
-    }
-
-    @Test
-    public void whenAddedProduct_thenReturnTrue() {
-        boolean exists = cartRepository.existsByCartAndProductId(cart.getId(), atmamun.getId());
-        assertTrue(exists);
     }
 }

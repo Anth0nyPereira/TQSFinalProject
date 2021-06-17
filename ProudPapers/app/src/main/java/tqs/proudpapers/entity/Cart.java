@@ -3,6 +3,7 @@ package tqs.proudpapers.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="cart")
+@Setter
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +22,6 @@ public class Cart {
 
     @Column(name="client")
     private Integer client;
-
-    public void setClient(Integer id) {
-        this.client = id;
-    }
 
     public Integer getId() {
         return this.id;

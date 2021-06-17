@@ -19,7 +19,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
     List<Map<String, Integer>> getProductsOfDeliveryById(Integer delivery);
 
     @Modifying
-    @Query(nativeQuery = true, value = "INSERT INTO products_of_delivery VALUE(:product, :delivery, :quantity) ")
+    @Query(nativeQuery = true, value = "INSERT INTO products_of_delivery VALUE(:delivery, :product, :quantity) ")
     void addProductToDelivery(Integer delivery, Integer product, Integer quantity);
 
     @Modifying(clearAutomatically = true)
