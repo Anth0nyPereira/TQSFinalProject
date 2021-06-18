@@ -11,12 +11,7 @@ import tqs.proudpapers.repository.CartRepository;
 import tqs.proudpapers.service.CartService;
 import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
-
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
@@ -43,6 +38,8 @@ public class CartServiceImpl implements CartService {
         List<ProductOfCartDTO> results = productsOfCart.stream()
                 .map(p ->{
                     ProductOfCartDTO productOfCartDTO = new ProductOfCartDTO();
+                    productOfCartDTO.setCart(cartId);
+                    productOfCartDTO.setQuantity(p.getQuantity());
                     productOfCartDTO.setProduct(productService.searchById(p.getProductId()));
                     BeanUtils.copyProperties(p, productOfCartDTO);
                     return productOfCartDTO;

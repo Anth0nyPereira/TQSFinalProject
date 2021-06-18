@@ -1,11 +1,11 @@
 package tqs.proudpapers.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author wy

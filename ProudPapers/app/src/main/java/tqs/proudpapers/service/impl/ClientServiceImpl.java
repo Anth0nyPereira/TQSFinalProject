@@ -43,13 +43,9 @@ public class ClientServiceImpl implements ClientService {
         client.setAddress(clientDTO.getZip() + "," + clientDTO.getCity());
 
 
-        try {
-            Client saved = clientRepository.save(client);
-            cartRepository.createCart(saved.getId());
-            return saved;
-        }catch (Exception e){
-            return null;
-        }
+        Client saved = clientRepository.save(client);
+        cartRepository.createCart(saved.getId());
+        return saved;
     }
 
     @Override
