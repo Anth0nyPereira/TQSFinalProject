@@ -106,6 +106,7 @@ public class EasyDeliversService {
     private void postToApi(String state, int store, int delivery_id) throws Exception {
         initializer(); // For now, this will be updated
         //Fazer um get da store e do seu url
+        //Mandamos as coisas por Json de modo a que se possa usar diferents links
 
         URL my_final_url = new URL(store + "/update/" + delivery_id + "/state/" + state);
         HttpURLConnection con = (HttpURLConnection) my_final_url.openConnection(); // open HTTP connection
