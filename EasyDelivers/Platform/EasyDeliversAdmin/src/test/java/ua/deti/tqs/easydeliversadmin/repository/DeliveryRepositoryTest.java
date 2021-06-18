@@ -83,8 +83,8 @@ class DeliveryRepositoryTest {
     }
     */
     @Test
-    @DisplayName("Tests a valid Find Rider By Email")
-    void whenValidFindRiderByEmail_thenReturnRider(){
+    @DisplayName("Tests a valid Find Delivery By ID")
+    void whenValidFindDeliveryById_thenReturnRider(){
         deliveryRepository.save(del1);
 
         Delivery fromDB = deliveryRepository.findDeliveryById(del1.getId());
