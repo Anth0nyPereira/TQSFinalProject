@@ -64,7 +64,6 @@ class StoreRepositoryTest {
     void whenValidFindStoreByID_thenReturnStore(){
         storeRepository.save(store);
         Store fromDB = storeRepository.findStoreById(store.getId());
-        assertThat(fromDB).isNull();
         assertThat(fromDB).isNotNull();
         assertEquals(fromDB.getName(),store.getName());
         assertEquals(fromDB.getAddress(),store.getAddress());
