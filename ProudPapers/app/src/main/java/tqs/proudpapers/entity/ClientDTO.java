@@ -5,6 +5,7 @@ import lombok.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author wy
@@ -12,7 +13,6 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@EqualsAndHashCode
 @NoArgsConstructor
 public class ClientDTO implements Serializable {
     @NotBlank

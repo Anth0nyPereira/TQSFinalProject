@@ -1,6 +1,5 @@
 package tqs.proudpapers.controller;
 
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +13,8 @@ import tqs.proudpapers.service.ClientService;
 import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
 
-import javax.persistence.Column;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 /**

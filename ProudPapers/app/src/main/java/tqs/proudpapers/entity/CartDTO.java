@@ -2,7 +2,6 @@ package tqs.proudpapers.entity;
 
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 

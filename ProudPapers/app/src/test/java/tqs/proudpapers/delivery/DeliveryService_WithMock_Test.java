@@ -7,19 +7,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tqs.proudpapers.entity.*;
-import tqs.proudpapers.repository.CartRepository;
 import tqs.proudpapers.repository.DeliveryRepository;
 import tqs.proudpapers.repository.ProductRepository;
-import tqs.proudpapers.service.ProductService;
-import tqs.proudpapers.service.impl.CartServiceImpl;
 import tqs.proudpapers.service.impl.DeliveryServiceImpl;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**

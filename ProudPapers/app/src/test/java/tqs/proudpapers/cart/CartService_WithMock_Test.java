@@ -8,11 +8,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tqs.proudpapers.entity.*;
 import tqs.proudpapers.repository.CartRepository;
-import tqs.proudpapers.repository.ProductRepository;
 import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
 import tqs.proudpapers.service.impl.CartServiceImpl;
-import tqs.proudpapers.service.impl.ProductServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;

@@ -2,8 +2,6 @@ package tqs.proudpapers.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
-
 /**
  * @author wy
  * @date 2021/6/13 9:59

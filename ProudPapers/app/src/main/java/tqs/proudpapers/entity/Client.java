@@ -1,7 +1,6 @@
 package tqs.proudpapers.entity;
 
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
