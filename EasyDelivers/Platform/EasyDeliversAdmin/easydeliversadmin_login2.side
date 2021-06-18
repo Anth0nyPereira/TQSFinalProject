@@ -1,0 +1,204 @@
+{
+  "id": "08b0c607-907c-4874-9411-d621cce00cad",
+  "version": "2.0",
+  "name": "easydeliversadmin_login",
+  "url": "http://localhost:8080",
+  "tests": [{
+    "id": "da96c157-ec43-4fde-abc1-2831d7a6b486",
+    "name": "sucessful_login",
+    "commands": [{
+      "id": "0b751879-7585-4fb9-8baf-601fac8aadfd",
+      "comment": "",
+      "command": "open",
+      "target": "/login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8017e20c-c43f-4d74-b72c-aae6d9ede254",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "550x691",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ee5fddbf-e899-4bba-95a3-12dcbf49b500",
+      "comment": "",
+      "command": "click",
+      "target": "name=email",
+      "targets": [
+        ["name=email", "name"],
+        ["css=input:nth-child(1)", "css:finder"],
+        ["xpath=//input[@name='email']", "xpath:attributes"],
+        ["xpath=//div[@id='login-box']/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5435f91c-9170-4265-b51b-c4e9c40169df",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [
+        ["name=email", "name"],
+        ["css=input:nth-child(1)", "css:finder"],
+        ["xpath=//input[@name='email']", "xpath:attributes"],
+        ["xpath=//div[@id='login-box']/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "jaguiar2@gmail.com"
+    }, {
+      "id": "118bbfbb-0119-46ac-b040-4484be89e304",
+      "comment": "",
+      "command": "click",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[@id='login-box']/div/form/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1e96c45c-fbea-48b8-a7a1-4a3d30dc7c2d",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[@id='login-box']/div/form/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "admin"
+    }, {
+      "id": "5f811666-8066-4eef-ba2e-12b17674da5a",
+      "comment": "",
+      "command": "click",
+      "target": "name=signup_submit",
+      "targets": [
+        ["name=signup_submit", "name"],
+        ["css=input:nth-child(3)", "css:finder"],
+        ["xpath=//input[@name='signup_submit']", "xpath:attributes"],
+        ["xpath=//div[@id='login-box']/div/form/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "01c5b0b9-05e2-49a4-98f8-72c3dfb40e11",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=.simple-text",
+      "targets": [
+        ["css=.simple-text", "css:finder"],
+        ["xpath=//a[contains(text(),'Easy Delivers')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/dashboard')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "d7a42d0a-28c4-43a8-bf49-65cbc9da80e1",
+    "name": "unsuccessful_login",
+    "commands": [{
+      "id": "1e902624-ed85-499b-b496-90e3e09fd03d",
+      "comment": "",
+      "command": "open",
+      "target": "/login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b8e4d258-9972-4bdb-af21-0d9ca2b454e8",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "783x691",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f7ecffb1-55d2-4281-88d9-14467c8ec5ce",
+      "comment": "",
+      "command": "click",
+      "target": "name=email",
+      "targets": [
+        ["name=email", "name"],
+        ["css=input:nth-child(1)", "css:finder"],
+        ["xpath=//input[@name='email']", "xpath:attributes"],
+        ["xpath=//div[@id='login-box']/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f6725bba-6885-4722-bf73-cd051f736a33",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [
+        ["name=email", "name"],
+        ["css=input:nth-child(1)", "css:finder"],
+        ["xpath=//input[@name='email']", "xpath:attributes"],
+        ["xpath=//div[@id='login-box']/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "wrongmail@ua.pt"
+    }, {
+      "id": "5e11fbcc-8bff-4e69-9081-8345ef341d0e",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[@id='login-box']/div/form/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "wrongpass"
+    }, {
+      "id": "f9f79900-3926-4d81-b8be-abce5f3d9ed5",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[@id='login-box']/div/form/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "5b67b891-16d2-4adf-9a17-f41e90a95f5c",
+      "comment": "",
+      "command": "click",
+      "target": "css=h1",
+      "targets": [
+        ["css=h1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Whitelabel Error Page')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b628befa-25ba-4476-866d-e61868c975f4",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=h1",
+      "targets": [
+        ["css=h1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Whitelabel Error Page')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "def4f131-3cef-4fd3-a5ac-be8245476d04",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["da96c157-ec43-4fde-abc1-2831d7a6b486"]
+  }],
+  "urls": ["http://localhost:8080/"],
+  "plugins": []
+}

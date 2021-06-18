@@ -2,7 +2,7 @@ name: CI for EasyDeliversAdmin
 on:
   push:
     branches:
-    - feature/ci
+    - feature/adminaccess
   pull_request:
     branches:
     - develop 
