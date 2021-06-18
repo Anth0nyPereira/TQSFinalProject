@@ -11,14 +11,12 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.entities.Rider;
-import ua.deti.tqs.easydeliversadmin.entities.State;
 import ua.deti.tqs.easydeliversadmin.entities.Store;
 import ua.deti.tqs.easydeliversadmin.repository.DeliveryRepository;
 import ua.deti.tqs.easydeliversadmin.repository.RiderRepository;
 import ua.deti.tqs.easydeliversadmin.repository.StateRepository;
 import ua.deti.tqs.easydeliversadmin.repository.StoreRepository;
 
-import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +28,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class EasyDeliversServiceTest {
+class RiderService_UnitTest {
 
     @Mock(lenient = true)
     private RiderRepository riderRepository;
@@ -39,10 +37,10 @@ class EasyDeliversServiceTest {
     private DeliveryRepository deliveryRepository;
 
     @Mock(lenient = true)
-    private StateRepository stateRepository;
+    private StoreRepository storeRepository;
 
     @Mock(lenient = true)
-    private StoreRepository storeRepository;
+    private StateRepository stateRepository;
 
     @InjectMocks
     private EasyDeliversService easyDeliversService;
@@ -54,7 +52,6 @@ class EasyDeliversServiceTest {
     Delivery del2;
     Delivery del3;
     List<Delivery> allDeliversAwaitingProcessing;
-    State newState;
     Store newStore;
 
     @BeforeEach
@@ -64,16 +61,13 @@ class EasyDeliversServiceTest {
         newRider = new Rider("firstname","lastname","notfake@email.com","password","telephone","transportation");
 
         del1= new Delivery(1,2,"awaiting_processing","919292112","DETI","Bairro de Santiago");
-        del2= new Delivery(2,2,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu");
-        del3= new Delivery(3,2,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
-        del1.setId(1);
-        del2.setId(-1);
-        allDeliversAwaitingProcessing = Arrays.asList(del1, del2, del3);
+        del2= new Delivery(2,4,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu");
+        del3= new Delivery(3,4,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
 
-        newState = new State("awaiting_processing", del1.getId(), new Timestamp(System.currentTimeMillis()));
         newStore = new Store("PP", "localhost:8081");
         newStore.setId(1);
 
+        allDeliversAwaitingProcessing = Arrays.asList(del1, del2, del3);
         Mockito.when(deliveryRepository.findDeliveryById(Integer.parseInt("1"))).thenReturn(del1);
         Mockito.when(deliveryRepository.findDeliveryById(Integer.parseInt("20"))).thenReturn(null);
         Mockito.when(riderRepository.findRiderByEmail("hugo@email.com")).thenReturn(rider1);
@@ -82,6 +76,7 @@ class EasyDeliversServiceTest {
         Mockito.when(riderRepository.save(eq(newRider))).thenReturn(newRider);
         Mockito.when(riderRepository.save(eq(invalid))).thenReturn(null);
         Mockito.when(deliveryRepository.findDeliveriesByState("awaiting_processing")).thenReturn(allDeliversAwaitingProcessing);
+        Mockito.when(storeRepository.findStoreById(any())).thenReturn(newStore);
     }
 
     @AfterEach
@@ -181,7 +176,6 @@ class EasyDeliversServiceTest {
     @Test
     @DisplayName("Tests a successful Update Delivery")
     void whenSuccessfulUpdateDeliveryTest(){
-        Mockito.when(storeRepository.findStoreById(any())).thenReturn(newStore);
         String x = easyDeliversService.updateDeliveryStateByRider("1","1","done");
         assertEquals("Delivery State Changed",x);
         verify(deliveryRepository,times(1))
@@ -201,7 +195,6 @@ class EasyDeliversServiceTest {
     @Test
     @DisplayName("Tests a Successful Assign Rider to Deliver")
     void whenSuccessfulAssignRiderDeliver(){
-        Mockito.when(storeRepository.findStoreById(any())).thenReturn(newStore);
         String x = easyDeliversService.assignRiderDeliver("1","1");
         assertEquals("Delivery Assigned",x);
         verify(deliveryRepository,times(1))
@@ -216,74 +209,6 @@ class EasyDeliversServiceTest {
         verify(deliveryRepository,times(1))
                 .findDeliveryById(20);
     }
-
-    @Test
-    @DisplayName("Tests a invalid Assign Rider to Deliver")
-    void whenSuccefullAssignRiderDeliver(){
-        String x = easyDeliversService.assignRiderDeliver("20","1");
-        assertEquals("error",x);
-        verify(deliveryRepository,times(1))
-                .findDeliveryById(20);
-    }
-
-    @Test
-    @DisplayName("Tests a Successful Create Deliver")
-    void whenSuccessfulCreateDelivery(){
-        Mockito.when(deliveryRepository.save(any())).thenReturn(del1);
-        Integer x = easyDeliversService.createDelivery(1, "919292112", "DETI Aveiro", "Bairro de Santiago Aveiro");
-        assertEquals(1,x);
-        verify(deliveryRepository,times(1))
-                .save(any());
-    }
-
-    @Test
-    @DisplayName("Tests a Successful Create State")
-    void whenSuccessfulCreateState(){
-        Mockito.when(deliveryRepository.save(any())).thenReturn(del1);
-        Mockito.when(stateRepository.save(any())).thenReturn(newState);
-        easyDeliversService.createDelivery(1, "919292112", "DETI Aveiro", "Bairro de Santiago Aveiro");
-        verify(stateRepository,times(1))
-                .save(any());
-    }
-
-    @Test
-    @DisplayName("Tests a invalid Create Deliver")
-    void whenInvalidCreateDelivery(){
-        Mockito.when(deliveryRepository.save(any())).thenReturn(del2);
-        Integer x = easyDeliversService.createDelivery(3,"949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
-        assertEquals(-1,x);
-        verify(deliveryRepository,times(1))
-                .save(any());
-    }
-
-    @Test
-    @DisplayName("Tests a invalid Create Deliver")
-    void whenInvalidCreateState(){
-        Mockito.when(deliveryRepository.save(any())).thenReturn(del2);
-        Mockito.when(stateRepository.save(any())).thenReturn(newState);
-        easyDeliversService.createDelivery(1, "919292112", "DETI Aveiro", "Bairro de Santiago Aveiro");
-        verify(stateRepository,times(1))
-                .save(any());
-    }
-
-    @Test
-    @DisplayName(" Tests a Successfully Send Update Delivery to Store")
-    void whenSuccessfullySendUpdateDelivery(){
-
-    }
-
-    @Test
-    @DisplayName(" Tests a Invalid Send Update Delivery to Store")
-    void whenInvalidSendUpdateDelivery(){
-
-    }
-
-
-
-
-
-
-
 
 
 }

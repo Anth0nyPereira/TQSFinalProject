@@ -22,7 +22,7 @@ public class EasyDeliversService {
     Date date = new Date();
 
     @Autowired
-    public AdminRepository adminRepository;
+    AdminRepository adminRepository;
 
     @Autowired
     RiderRepository riderRepository;
@@ -123,14 +123,14 @@ public class EasyDeliversService {
     // EasyDelivers -> ProudPapers
     private void postToApi(String state, int store, int delivery_id) throws Exception {
         Store store_from_db = storeRepository.findStoreById(store);
-        String address = store_from_db.getAddress();
+        String address = "http://" + store_from_db.getAddress();
 
-        URL my_final_url = new URL(address + "/update/" + delivery_id + "/state/" + state);
+        URL my_final_url = new URL(address + "/delivery/" + delivery_id + "/state/" + state);
         HttpURLConnection con = (HttpURLConnection) my_final_url.openConnection(); // open HTTP connection
         con.setRequestMethod("POST");
 
-        if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+        /*if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
             logger.info(state);
-        }
+        }*/
     }
 }
