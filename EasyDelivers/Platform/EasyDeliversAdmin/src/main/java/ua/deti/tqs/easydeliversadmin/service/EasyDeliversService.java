@@ -58,6 +58,7 @@ public class EasyDeliversService {
 
         try {
             n= deliveryRepository.save( new Delivery(store,2,"awaiting_processing",client_telephone,start,destination));
+            //ADD STATE WITH FOR TimeStampValues
             return n.getId();
         }
         catch (Exception e){
@@ -75,6 +76,7 @@ public class EasyDeliversService {
             Delivery x = deliveryRepository.findDeliveryById(Integer.parseInt(deliverID));
             x.setRider(Integer.parseInt(riderID));
             x.setState("accepted");
+            //ADD STATE WITH FOR TimeStampValues
             deliveryRepository.save(x);
             postToApi("accepted",x.getId(),Integer.parseInt(deliverID));
             return "Delivery Assigned";
@@ -90,6 +92,7 @@ public class EasyDeliversService {
             Delivery x = deliveryRepository.findDeliveryById(Integer.parseInt(deliverID));
             x.setState(state);
             deliveryRepository.save(x);
+            //ADD STATE WITH FOR TimeStampValues
             postToApi(state,x.getId(),Integer.parseInt(deliverID));
             return "Delivery State Changed";
         }
@@ -102,6 +105,8 @@ public class EasyDeliversService {
 
     private void postToApi(String state, int store, int delivery_id) throws Exception {
         initializer(); // For now, this will be updated
+        //Fazer um get da store e do seu url
+
         URL my_final_url = new URL(store + "/update/" + delivery_id + "/state/" + state);
         HttpURLConnection con = (HttpURLConnection) my_final_url.openConnection(); // open HTTP connection
         con.setRequestMethod("POST");
