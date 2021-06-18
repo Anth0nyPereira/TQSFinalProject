@@ -78,6 +78,4 @@ public class EasyDeliversRestController {
         return service.createDelivery(store, client_telephone, start, destination);
     }
 
-
-
 }
