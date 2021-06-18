@@ -11,8 +11,7 @@ import java.util.Objects;
  * @author wy
  * @date 2021/6/3 15:50
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class ClientDTO implements Serializable {
     @NotBlank

@@ -11,7 +11,8 @@ import java.io.Serializable;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name="cart_products")
 @IdClass(ProductOfCartId.class)
