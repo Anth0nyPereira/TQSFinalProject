@@ -22,11 +22,11 @@ public class EasyDeliversRestController {
     // EndPoint for Rider Login
 
     @PostMapping(value = "/rider/login", consumes = "application/json", produces = "application/json")
-    public Rider login(@RequestBody Map<String, Object> request){
+    public Rider login(@RequestBody Map<String, Object> request) throws Exception {
         String email = (String) request.get("email");
         String password = (String) request.get("password");
 
-        if (service.authenticateRider(email,password)) {
+        if (service.authenticateRider(email, password)) {
             return service.getRider(email);
         }
         else {

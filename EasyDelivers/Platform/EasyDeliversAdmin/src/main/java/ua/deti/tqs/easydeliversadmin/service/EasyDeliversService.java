@@ -46,9 +46,11 @@ public class EasyDeliversService {
         return user;
     }
 
-    public boolean authenticateRider(String email, String password) {
+    public boolean authenticateRider(String email, String password) throws Exception {
         // Hash Password to consider
+        PasswordEncryption enc = new PasswordEncryption();
         Rider x = riderRepository.findRiderByEmail(email);
+        password = enc.encrypt(password);
         if(x!=null && x.getPassword().equals(password)) {
             return true;
         }

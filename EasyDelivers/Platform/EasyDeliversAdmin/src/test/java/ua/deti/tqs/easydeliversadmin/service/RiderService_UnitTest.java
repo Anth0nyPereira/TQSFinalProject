@@ -16,6 +16,7 @@ import ua.deti.tqs.easydeliversadmin.repository.DeliveryRepository;
 import ua.deti.tqs.easydeliversadmin.repository.RiderRepository;
 import ua.deti.tqs.easydeliversadmin.repository.StateRepository;
 import ua.deti.tqs.easydeliversadmin.repository.StoreRepository;
+import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,9 +55,12 @@ class RiderService_UnitTest {
     List<Delivery> allDeliversAwaitingProcessing;
     Store newStore;
 
+    PasswordEncryption enc;
+
     @BeforeEach
-    void setUp() {
-        rider1 = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
+    void setUp() throws Exception {
+        enc = new PasswordEncryption();
+        rider1 = new Rider("hugo","ferreira","hugo@email.com", enc.encrypt("12345"), "930921312","car");
         invalid = new Rider("firstname","lastname","email","password","telephone","transportation");
         newRider = new Rider("firstname","lastname","notfake@email.com","password","telephone","transportation");
 
@@ -85,7 +89,7 @@ class RiderService_UnitTest {
 
     @Test
     @DisplayName("Tests a valid authentication rider")
-    void whenValidAuthenticateRider(){
+    void whenValidAuthenticateRider() throws Exception {
         Boolean x = easyDeliversService.authenticateRider("hugo@email.com","12345");
         assertEquals(true,x);
         verify(riderRepository,times(1))
@@ -94,7 +98,7 @@ class RiderService_UnitTest {
 
     @Test
     @DisplayName("Tests a invalid authentication rider (bad email)")
-    void whenInvalidEmailAuthenticateRider(){
+    void whenInvalidEmailAuthenticateRider() throws Exception {
         Boolean x = easyDeliversService.authenticateRider("no@email.com","12345");
         assertEquals(false,x);
         verify(riderRepository,times(1))
@@ -104,7 +108,7 @@ class RiderService_UnitTest {
 
     @Test
     @DisplayName("Tests a invalid authentication rider (bad password)")
-    void whenInvalidPassAuthenticateRider(){
+    void whenInvalidPassAuthenticateRider() throws Exception {
         Boolean x = easyDeliversService.authenticateRider("hugo@email.com","54321");
         assertEquals(false,x);
         verify(riderRepository,times(1))
@@ -141,7 +145,8 @@ class RiderService_UnitTest {
     @Test
     @DisplayName("Tests a valid create rider")
     void whenValidCreateRider(){
-        Rider x = easyDeliversService.createRider("firstname","lastname","notfake@email.com","password","telephone","transportation");        assertEquals(newRider.getEmail(),x.getEmail());
+        Rider x = easyDeliversService.createRider("firstname","lastname","notfake@email.com","password","telephone","transportation");
+        assertEquals(newRider.getEmail(),x.getEmail());
         assertEquals(newRider.getFirstname(),x.getFirstname());
         assertEquals(newRider.getLastname(),x.getLastname());
         assertEquals(newRider.getPassword(),x.getPassword());
