@@ -17,6 +17,7 @@ import ua.deti.tqs.easydeliversadmin.repository.DeliveryRepository;
 import ua.deti.tqs.easydeliversadmin.repository.RiderRepository;
 import ua.deti.tqs.easydeliversadmin.repository.StateRepository;
 import ua.deti.tqs.easydeliversadmin.repository.StoreRepository;
+import ua.deti.tqs.easydeliversadmin.utils.CouldNotEncryptException;
 import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 
 import java.sql.Timestamp;
@@ -94,7 +95,7 @@ class EasyDeliversServiceTest {
 
     @Test
     @DisplayName("Tests a valid authentication rider")
-    void whenValidAuthenticateRider() throws Exception {
+    void whenValidAuthenticateRider() throws CouldNotEncryptException {
         Boolean x = easyDeliversService.authenticateRider("hugo@email.com","12345");
         assertEquals(true, x);
         verify(riderRepository,times(1))
@@ -103,7 +104,7 @@ class EasyDeliversServiceTest {
 
     @Test
     @DisplayName("Tests a invalid authentication rider (bad email)")
-    void whenInvalidEmailAuthenticateRider() throws Exception {
+    void whenInvalidEmailAuthenticateRider() throws CouldNotEncryptException {
         Boolean x = easyDeliversService.authenticateRider("no@email.com","12345");
         assertEquals(false,x);
         verify(riderRepository,times(1))
@@ -113,7 +114,7 @@ class EasyDeliversServiceTest {
 
     @Test
     @DisplayName("Tests a invalid authentication rider (bad password)")
-    void whenInvalidPassAuthenticateRider() throws Exception {
+    void whenInvalidPassAuthenticateRider() throws CouldNotEncryptException {
         Boolean x = easyDeliversService.authenticateRider("hugo@email.com","54321");
         assertEquals(false,x);
         verify(riderRepository,times(1))

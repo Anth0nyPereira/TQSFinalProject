@@ -1,7 +1,10 @@
 package ua.deti.tqs.easydeliversadmin.utils;
+import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
+
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.logging.Logger;
 
 public class PasswordEncryption {
     public static String encrypt(String plain_pass) throws Exception {

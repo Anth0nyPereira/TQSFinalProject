@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.entities.Rider;
 import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
+import ua.deti.tqs.easydeliversadmin.utils.CouldNotEncryptException;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class EasyDeliversRestController {
     // EndPoint for Rider Login
 
     @PostMapping(value = "/rider/login", consumes = "application/json", produces = "application/json")
-    public Rider login(@RequestBody Map<String, Object> request) throws Exception {
+    public Rider login(@RequestBody Map<String, Object> request) throws CouldNotEncryptException {
         String email = (String) request.get("email");
         String password = (String) request.get("password");
 

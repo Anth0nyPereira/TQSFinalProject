@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.deti.tqs.easydeliversadmin.entities.*;
 import ua.deti.tqs.easydeliversadmin.repository.*;
 import org.springframework.transaction.annotation.Transactional;
+import ua.deti.tqs.easydeliversadmin.utils.CouldNotEncryptException;
 import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 
 import java.net.HttpURLConnection;
@@ -46,15 +47,19 @@ public class EasyDeliversService {
         return user;
     }
 
-    public boolean authenticateRider(String email, String password) throws Exception {
+    public boolean authenticateRider(String email, String password) throws CouldNotEncryptException{
         // Hash Password to consider
-        PasswordEncryption enc = new PasswordEncryption();
-        Rider x = riderRepository.findRiderByEmail(email);
-        password = enc.encrypt(password);
-        if(x!=null && x.getPassword().equals(password)) {
-            return true;
+        try {
+            PasswordEncryption enc = new PasswordEncryption();
+            Rider x = riderRepository.findRiderByEmail(email);
+            password = enc.encrypt(password);
+            if (x!=null && x.getPassword().equals(password)) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            throw new CouldNotEncryptException();
         }
-        return false;
     }
 
     public Rider getRider(String email) {

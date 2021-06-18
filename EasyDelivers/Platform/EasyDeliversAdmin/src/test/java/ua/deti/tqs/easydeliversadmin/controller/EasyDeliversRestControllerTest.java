@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.entities.Rider;
 import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
+import ua.deti.tqs.easydeliversadmin.utils.CouldNotEncryptException;
 import ua.deti.tqs.easydeliversadmin.utils.JsonUtil;
 
 import java.util.Arrays;
@@ -72,7 +73,7 @@ class EasyDeliversRestControllerTest {
 
     @Test
     @DisplayName("Tests a successful login with a rider")
-    void successfulLoginTest() throws Exception {
+    void successfulLoginTest() throws CouldNotEncryptException, Exception  {
         when(service.authenticateRider("hugo@email.com","12345"))
                 .thenReturn(true);
         when(service.getRider("hugo@email.com")).thenReturn(rider);
@@ -96,7 +97,7 @@ class EasyDeliversRestControllerTest {
 
     @Test
     @DisplayName("Tests an invalid login with a rider")
-    void invalidLoginTest() throws Exception {
+    void invalidLoginTest() throws CouldNotEncryptException, Exception {
         when(service.authenticateRider("hugo@email.com","12345"))
                 .thenReturn(false);
 
