@@ -1,8 +1,22 @@
 version: "3.9"
 
 services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./DBProudPapers/data:/var/lib/mysql
+      - ./DBProudPapers/init:/docker-entrypoint-initdb.d/:ro
+    environment:
+      MYSQL_ROOT_PASSWORD: abcABC123!!!
+      MYSQL_DATABASE: proudpapers
+      MYSQL_USER: root
+      MYSQL_PASSWORD: abcABC123!!!
+    ports:
+    - "3307:3306"
+
   proudpapers:
-    build: app
+    depends_on:
+      - db
+    build: app/
     ports:
     - "8085:8080"
-
