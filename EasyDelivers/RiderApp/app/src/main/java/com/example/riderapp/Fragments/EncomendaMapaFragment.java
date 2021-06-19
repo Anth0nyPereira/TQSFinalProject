@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
@@ -27,8 +30,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -139,7 +146,6 @@ public class EncomendaMapaFragment extends Fragment {
                 .getMapAsync(new OnMapReadyCallback() {
                     @Override
                     public void onMapReady(GoogleMap googleMap) {
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.64, -8.65), 11.95f));
                         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                             // TODO: Consider calling
                             //    ActivityCompat#requestPermissions
@@ -151,6 +157,30 @@ public class EncomendaMapaFragment extends Fragment {
                             return;
                         }
                         googleMap.setMyLocationEnabled(true);
+
+                        Geocoder geocoder = new Geocoder(getContext());
+                        LatLng startcoords = null;
+                        LatLng destinationcoords = null;
+                        try {
+                            Address startaddress= geocoder.getFromLocationName(mstart,1).get(0);
+                            startcoords = new LatLng(startaddress.getLatitude(),startaddress.getLongitude());
+                            googleMap.addMarker(new MarkerOptions().position(startcoords));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            Address destinationaddress= geocoder.getFromLocationName(mdestination,1).get(0);
+                            destinationcoords = new LatLng(destinationaddress.getLatitude(),destinationaddress.getLongitude());
+                            googleMap.addMarker(new MarkerOptions().position(destinationcoords).icon(BitmapDescriptorFactory.defaultMarker(138)));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        LatLngBounds latLngBounds = new LatLngBounds.Builder()
+                                .include(startcoords)
+                                .include(destinationcoords)
+                                .build();
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
+
                     }
                 });
         //mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();

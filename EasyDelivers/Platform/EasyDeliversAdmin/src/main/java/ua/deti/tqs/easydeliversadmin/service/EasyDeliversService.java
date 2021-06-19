@@ -38,6 +38,7 @@ public class EasyDeliversService {
 
         return user;
     }
+    @Autowired
     RiderRepository riderRepository;
 
     @Autowired
