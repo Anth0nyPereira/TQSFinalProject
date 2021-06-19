@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: org.hibernate:hibernate-core:5.4.31.Final">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../../../../../../Java/JavaEE/frameworks/apache-maven-3.6.1/repository/org/hibernate/hibernate-core/5.4.31.Final/hibernate-core-5.4.31.Final.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/5.4.31.Final/hibernate-core-5.4.31.Final.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/../../../../../../../Java/JavaEE/frameworks/apache-maven-3.6.1/repository/org/hibernate/hibernate-core/5.4.31.Final/hibernate-core-5.4.31.Final-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/5.4.31.Final/hibernate-core-5.4.31.Final-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../../../../../../Java/JavaEE/frameworks/apache-maven-3.6.1/repository/org/hibernate/hibernate-core/5.4.31.Final/hibernate-core-5.4.31.Final-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/5.4.31.Final/hibernate-core-5.4.31.Final-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

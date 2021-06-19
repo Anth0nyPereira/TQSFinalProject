@@ -9,7 +9,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class API_Service {
 
     private static API_Connection api_connection = null;
-    private static String BaseUrl =""; //http://192.168.68.113:8080
+    private static String BaseUrl ="http://192.168.1.32:8080"; //http://192.168.68.113:8080
 
    public static API_Connection getClient() {
 
