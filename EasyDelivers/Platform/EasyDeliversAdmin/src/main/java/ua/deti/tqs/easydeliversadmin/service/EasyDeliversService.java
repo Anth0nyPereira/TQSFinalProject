@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 
@@ -146,26 +147,93 @@ public class EasyDeliversService {
     // ADMIN STATISTICS
 
     public int numberDeliveriesMadeForLast24Hours() {
-        return 0;
+        long currentTime = System.currentTimeMillis();
+        List<State> completedDeliveriesLast24Hours = stateRepository.findStatesByDescriptionAndTimestampBetween(
+                "completed", new Timestamp(currentTime - 86400000), new Timestamp(currentTime));
+        for(int i=0; i<completedDeliveriesLast24Hours.size();i++){
+            System.out.println(completedDeliveriesLast24Hours.get(i));
+        }
+        return completedDeliveriesLast24Hours.size();
     }
 
     public List<Integer> numberDeliveriesMadeForLast13Days(){
-        return Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0);
+        List<Integer> allDeliveriesOfLast13Days = Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0);
+        long stoptime = System.currentTimeMillis();
+        long starttime = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1);
+
+        for(int i=0; i<13; i++){
+            allDeliveriesOfLast13Days.set(i, stateRepository.findStatesByDescriptionAndTimestampBetween(
+                    "completed", new Timestamp(starttime), new Timestamp(stoptime)).size());
+
+            starttime -= TimeUnit.DAYS.toMillis(1);
+            stoptime -= TimeUnit.DAYS.toMillis(1);
+        }
+        return allDeliveriesOfLast13Days;
     }
 
     public double averageTimeDeliveries() {
-        return 0;
+        Long totalTime = Long.valueOf(0);
+        List<Long> listOfTimes = new ArrayList<>() ;
+        long currentTime = System.currentTimeMillis();
+        List<State> completedDeliveriesLast24Hours = stateRepository.findStatesByDescriptionAndTimestampBetween(
+                "completed", new Timestamp(currentTime - TimeUnit.DAYS.toMillis(1)), new Timestamp(currentTime));
+        for(State state : completedDeliveriesLast24Hours){
+            long accepted_time = stateRepository.findStateByDeliveryAndDescription(
+                    state.getDelivery(), "accepted").getTimestamp().getTime();
+            long completed_time = state.getTimestamp().getTime();
+            long iteration_result = completed_time - accepted_time;
+            listOfTimes.add(iteration_result);
+            totalTime += iteration_result;
+        }
+        return TimeUnit.MILLISECONDS.toMinutes(totalTime  / listOfTimes.size());
+    }
+
+
+    public List<Double> averageDeliveryTimeForLast13Days(){
+        List<Integer> numberOfDeliveriesOfLast13Days = Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0);
+        List<Double> sumTimesOfDeliveriesOfLast13Days = Arrays.asList(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+        long stoptime = System.currentTimeMillis();
+        long starttime = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1);
+
+        for(int i=0; i<13; i++){
+            List<State> deliveriesOfThatDay = stateRepository.findStatesByDescriptionAndTimestampBetween(
+                    "completed", new Timestamp(starttime), new Timestamp(stoptime));
+
+            for(State state : deliveriesOfThatDay){
+                long accepted_time = stateRepository.findStateByDeliveryAndDescription(
+                        state.getDelivery(), "accepted").getTimestamp().getTime();
+                long completed_time = state.getTimestamp().getTime();
+                sumTimesOfDeliveriesOfLast13Days.set(i, sumTimesOfDeliveriesOfLast13Days.get(i) + Double.valueOf(completed_time-accepted_time));
+                numberOfDeliveriesOfLast13Days.set(i, numberOfDeliveriesOfLast13Days.get(i) + 1);
+            }
+            starttime -= TimeUnit.DAYS.toMillis(1);
+            stoptime -= TimeUnit.DAYS.toMillis(1);
+        }
+
+        for(int i=0; i<13; i++){
+            sumTimesOfDeliveriesOfLast13Days.set(i, sumTimesOfDeliveriesOfLast13Days.get(i)/numberOfDeliveriesOfLast13Days.get(i));
+        }
+        return sumTimesOfDeliveriesOfLast13Days;
     }
 
     public double averageRidersScore(){
-        return 0.0;
+        double sumOfScores = Double.valueOf(0);
+        List<Delivery> allDeliveries = deliveryRepository.findDeliveriesByState("completed");
+        for(Delivery delivery : allDeliveries){
+            sumOfScores += delivery.getScore();
+        }
+        return sumOfScores / allDeliveries.size();
     }
 
     public List<Rider> getAllRiders(){
-        return new ArrayList<Rider>();
+        return riderRepository.findAll();
     }
 
-    public double sumOfKmCoveredInLast24Hours() {
-        return 0.0;
+    public List<Delivery> getAllCompletedDeliveries(){
+        return deliveryRepository.findDeliveriesByState("completed");
     }
+
+    /*public double sumOfKmCoveredInLast24Hours() {
+        return 0.0;
+    }*/
 }
