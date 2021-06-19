@@ -1,0 +1,17 @@
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/entities/Rider.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/entities/Delivery.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/repository/StateRepository.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/utils/JsonUtil.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/controller/EasyDeliversController.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/repository/StoreRepository.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/entities/Store.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/service/EasyDeliversService.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/entities/Admin.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/repository/DeliveryRepository.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/repository/AdminRepository.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/EasyDeliversAdminApplication.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/utils/PasswordEncryption.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/repository/RiderRepository.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/utils/CouldNotEncryptException.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/entities/State.java
+/home/anth0nypereira/Desktop/LEI/TQS/TQSFinalProject/EasyDelivers/Platform/EasyDeliversAdminUITests/src/main/java/ua/deti/tqs/easydeliversadmin/controller/EasyDeliversRestController.java
