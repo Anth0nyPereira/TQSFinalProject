@@ -147,7 +147,7 @@ class ClientController_IT_Test {
                 .param("email", alexDTO.getEmail())
                 .param("password", alexDTO.getPassword()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:index"));
+                .andExpect(view().name("redirect:/index"));
 
     }
 

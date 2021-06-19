@@ -123,7 +123,7 @@ public class ClientController_WithMock_Test {
 
 
     @Test
-    public void loginWithAlex_thenIndexPageContainsUsernameAndButtons() throws Exception {
+    public void loginWithAlex_thenRedirectToIndex() throws Exception {
         Mockito.when(clientService.getClientByEmailAndPass(alexDTO.getEmail(), alexDTO.getPassword())).thenReturn(alexDTO);
 
         CartDTO cart = new CartDTO();
@@ -135,7 +135,7 @@ public class ClientController_WithMock_Test {
                     .param("email", alex.getEmail())
                     .param("password", alex.getPassword()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:index"));
+                .andExpect(view().name("redirect:/index"));
     }
 
     @Test
