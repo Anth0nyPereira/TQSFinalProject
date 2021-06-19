@@ -57,7 +57,7 @@ class EasyDeliversRestControllerTest {
         signUpRequest.put("telephone","930921312");
         signUpRequest.put("transportation","car");
 
-        rider = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
+        rider = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car", 1000.00);
 
         newDeliveryRequest = new HashMap<>();
         newDeliveryRequest.put("store",1);
@@ -180,9 +180,9 @@ class EasyDeliversRestControllerTest {
     @Test
     @DisplayName("Tests request all available Deliveries")
     void getAllAvailableDeliveriesTest() throws Exception{
-        Delivery del1= new Delivery(1,2,"awaiting_processing","919292112","DETI","Bairro de Santiago");
-        Delivery del2= new Delivery(2,4,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu");
-        Delivery del3= new Delivery(3,4,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
+        Delivery del1= new Delivery(1,2,"awaiting_processing","919292112","DETI","Bairro de Santiago", 0);
+        Delivery del2= new Delivery(2,4,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu", 0);
+        Delivery del3= new Delivery(3,4,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ", 0);
         List<Delivery> allDeliversAwaitingProcessing = Arrays.asList(del1, del2, del3);
 
         when(service.getAvailableDeliveries()).thenReturn(allDeliversAwaitingProcessing);

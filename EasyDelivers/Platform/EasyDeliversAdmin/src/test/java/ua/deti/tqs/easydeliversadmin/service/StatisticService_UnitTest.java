@@ -8,12 +8,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.entities.State;
+import ua.deti.tqs.easydeliversadmin.entities.Store;
 import ua.deti.tqs.easydeliversadmin.repository.DeliveryRepository;
 import ua.deti.tqs.easydeliversadmin.repository.StateRepository;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,6 +50,16 @@ public class StatisticService_UnitTest {
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("accepted", 4, new Timestamp(actualLong - 9010000)));
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("accepted", 6, new Timestamp(actualLong - 86304000)));
         when(stateRepository.findStatesByDescriptionAndTimestampBetween(eq("accepted"), any(Timestamp.class), any(Timestamp.class))).thenReturn(listOfStatesByDescriptionAcceptedAndTimestamp);
+
+        List<Delivery> listOfCompletedDeliveries = new ArrayList<>();
+
+        Delivery del1= new Delivery(1,2,"completed","919292112","DETI","Bairro de Santiago", 5);
+        Delivery del2= new Delivery(2,4,"completed","919292941","Staples Aveiro","Bairro do Liceu", 3);
+        Delivery del3= new Delivery(3,4,"completed","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ", 3);
+
+        listOfCompletedDeliveries = Arrays.asList(del1, del2, del3);
+
+        when(deliveryRepository.findDeliveriesByState(any())).thenReturn(listOfCompletedDeliveries);
     }
 
     @Test
@@ -71,6 +84,13 @@ public class StatisticService_UnitTest {
         verify(stateRepository, times(1))
                 .findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
     }
+
+    @Test
+    public void averageScoreTest() {
+        double averageScore = service.averageRidersScore();
+        assertEquals((11/3),averageScore);
+    }
+
 
     @AfterEach
     public void tearDown() {

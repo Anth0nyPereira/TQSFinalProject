@@ -37,13 +37,18 @@ public class Delivery {
     @Column(name="rider")
     private int rider;
 
-    public Delivery(int store,int rider_fee, String state, String client_telephone, String start, String destination) {
+    @Column(name="score")
+    @NotBlank
+    private int score;
+
+    public Delivery(int store,int rider_fee, String state, String client_telephone, String start, String destination, int score) {
         this.store = store;
         this.rider_fee = rider_fee;
         this.state = state;
         this.client_telephone = client_telephone;
         this.start = start;
         this.destination = destination;
+        this.score = score;
     }
 
     public Delivery() {
@@ -112,6 +117,14 @@ public class Delivery {
 
     public void setRider(int rider) {
         this.rider = rider;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
 }

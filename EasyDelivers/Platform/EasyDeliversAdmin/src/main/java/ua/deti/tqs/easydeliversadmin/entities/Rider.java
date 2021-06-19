@@ -30,8 +30,11 @@ public class Rider {
         @Column(name="transportation")
         @NotBlank
         private String transportation;
+        @Column(name="salary")
+        @NotBlank
+        private Double salary;
 
-        public Rider(String firstname, String lastname, String email, String password, String telephone, String transportation) {
+        public Rider(String firstname, String lastname, String email, String password, String telephone, String transportation, Double salary) {
                 this.firstname = firstname;
                 this.lastname = lastname;
                 this.email = email;
@@ -39,6 +42,7 @@ public class Rider {
                 this.telephone = telephone;
                 this.transportation = transportation;
                 this.delivery_radius = 50;
+                this.salary = salary;
         }
 
         public Rider() {
@@ -109,16 +113,25 @@ public class Rider {
                 this.transportation = transportation;
         }
 
+        public Double getSalary() {
+                return salary;
+        }
+
+        public void setSalary(Double salary) {
+                this.salary = salary;
+        }
+
+
         @Override
         public boolean equals(Object o) {
                 if (this == o) return true;
                 if (o == null || getClass() != o.getClass()) return false;
                 Rider rider = (Rider) o;
-                return delivery_radius == rider.delivery_radius && Objects.equals(firstname, rider.firstname) && Objects.equals(lastname, rider.lastname) && Objects.equals(email, rider.email) && Objects.equals(password, rider.password) && Objects.equals(telephone, rider.telephone) && Objects.equals(transportation, rider.transportation);
+                return delivery_radius == rider.delivery_radius && Objects.equals(firstname, rider.firstname) && Objects.equals(lastname, rider.lastname) && Objects.equals(email, rider.email) && Objects.equals(password, rider.password) && Objects.equals(telephone, rider.telephone) && Objects.equals(transportation, rider.transportation) && Objects.equals(salary, rider.salary);
         }
 
         @Override
         public int hashCode() {
-                return Objects.hash(firstname, lastname, email, password, telephone, delivery_radius, transportation);
+                return Objects.hash(firstname, lastname, email, password, telephone, delivery_radius, transportation, salary);
         }
 }

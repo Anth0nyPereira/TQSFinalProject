@@ -69,14 +69,14 @@ public class EasyDeliversService {
     public Rider createRider(String firstname, String lastname, String email, String password, String telephone, String transportation) {
         if (riderRepository.findRiderByEmail(email)!=null)
             return null;
-        return riderRepository.save(new Rider(firstname,lastname,email,password,telephone,transportation));
+        return riderRepository.save(new Rider(firstname,lastname,email,password,telephone,transportation, 1000.00));
     }
 
     public Integer createDelivery(int store, String client_telephone, String start, String destination) {
         Delivery n;
 
         try {
-            n= deliveryRepository.save( new Delivery(store,2,"awaiting_processing",client_telephone,start,destination));
+            n= deliveryRepository.save( new Delivery(store,2,"awaiting_processing",client_telephone,start,destination, 0));
             State s = stateRepository.save(new State("awaiting_processing", n.getId(), new Timestamp(System.currentTimeMillis())));
             return n.getId();
         }
@@ -149,5 +149,9 @@ public class EasyDeliversService {
 
     public double averageTimeDeliveries() {
         return 0;
+    }
+
+    public double averageRidersScore(){
+        return 0.0;
     }
 }
