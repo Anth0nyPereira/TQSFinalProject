@@ -121,12 +121,23 @@ class ClientController_IT_Test {
 
     @Order(2)
     @Test
-    public void signUpWithUsedEmail_thenSignUpPageWithErrorMessage(){
+    public void signUpWithUsedEmail_thenSignUpPageWithErrorMessage() throws Exception {
         ClientDTO copyed = new ClientDTO();
         BeanUtils.copyProperties(alexDTO, copyed);
         copyed.setEmail(alexDTO.getEmail());  // this email is already used by alex
 
-        assertThrows(Exception.class, ()->mvc.perform(post("/signup")));
+        mvc.perform(post("/signup")
+                .param("name", copyed.getName())
+                .param("email", copyed.getEmail())
+                .param("password", copyed.getPassword())
+                .param("city", copyed.getCity())
+                .param("zip", copyed.getZip())
+                .param("telephone", copyed.getTelephone())
+                .param("cardNumber", "1234567891234567")
+                .param("cardExpirationMonth", "11")
+                .param("cvc", "123"))
+            .andExpect(view().name("signUp"))
+            .andExpect(xpath("//h5[@id='error-msg']").exists());
     }
 
     @Order(3)
