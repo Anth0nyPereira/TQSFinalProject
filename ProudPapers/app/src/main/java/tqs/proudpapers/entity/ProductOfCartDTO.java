@@ -1,25 +1,30 @@
 package tqs.proudpapers.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Setter;
 
 /**
  * @author wy
  * @date 2021/6/13 9:59
  */
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@EqualsAndHashCode
 public class ProductOfCartDTO {
     private Integer cart;
 
     private Product product;
 
     private Integer quantity;
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
 }

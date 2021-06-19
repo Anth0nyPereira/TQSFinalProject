@@ -1,6 +1,5 @@
 package tqs.proudpapers.controller;
 
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +13,8 @@ import tqs.proudpapers.service.ClientService;
 import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
 
-import javax.persistence.Column;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -138,7 +134,8 @@ public class ClientController {
 
     @PostMapping("/account/{clientId}/purchase")
     @Transactional
-    public ResponseEntity<ProductOfCart> purchase(@PathVariable("clientId") Integer clientId, ClientDTO clientDTO,
+    public ResponseEntity<Integer> purchase(@PathVariable("clientId") Integer clientId,
+                                                  ClientDTO clientDTO,
                                                   String cardNumber,
                                                   String cardExpirationMonth,
                                                   String cvc){
@@ -152,12 +149,12 @@ public class ClientController {
         clientDTO.setId(clientId);
         Integer deliveryId = cartService.buyAllProductsInTheCart(clientDTO);
         sendDeliveryToEasyDelivery(deliveryId, clientDTO);
-
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @PostMapping("/update/{id}/state/{state}")
-    public ResponseEntity<Object> changeState(@PathVariable("id") Integer id,
+    @Transactional
+    public ResponseEntity<Object> updateState(@PathVariable("id") Integer id,
                                               @PathVariable("state") String state){
 
         deliveryService.changeStateOfDelivery(id, state);

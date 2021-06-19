@@ -6,18 +6,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tqs.proudpapers.entity.CartDTO;
-import tqs.proudpapers.entity.Product;
-import tqs.proudpapers.entity.ProductOfCart;
-import tqs.proudpapers.entity.ProductOfCartDTO;
+import tqs.proudpapers.entity.*;
 import tqs.proudpapers.repository.CartRepository;
-import tqs.proudpapers.repository.ProductRepository;
+import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
 import tqs.proudpapers.service.impl.CartServiceImpl;
-import tqs.proudpapers.service.impl.ProductServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +32,9 @@ public class CartService_WithMock_Test {
 
     @Mock(lenient = true)
     private ProductService productService;
+
+    @Mock(lenient = true)
+    private DeliveryService deliveryService;
 
     @InjectMocks
     private CartServiceImpl cartService;
@@ -55,13 +56,13 @@ public class CartService_WithMock_Test {
         b2.setName("Book B");
         b2.setPrice(12.0);
         b2.setId(2);
-        ProductOfCartDTO dto2 = new ProductOfCartDTO(cartId, b1, quantity);
+        ProductOfCartDTO dto2 = new ProductOfCartDTO(cartId, b2, quantity);
 
         Product b3 = new Product();
         b3.setName("Book C");
         b3.setPrice(13.0);
         b3.setId(3);
-        ProductOfCartDTO dto3 = new ProductOfCartDTO(cartId, b1, quantity);
+        ProductOfCartDTO dto3 = new ProductOfCartDTO(cartId, b3, quantity);
 
         CartDTO cart = new CartDTO();
         cart.setCartId(cartId);
@@ -86,6 +87,18 @@ public class CartService_WithMock_Test {
                 .contains(dto1)
                 .contains(dto2)
                 .contains(dto3);
+    }
+
+    @Test
+    void buyAllProductInTheCart_thenReturnIdDeliveryStore(){
+        int clientId = 1;
+        int idDelivryStore = 1;
+        Mockito.when(deliveryService.addProductToDelivery(clientId, new ArrayList<>())).thenReturn(idDelivryStore);
+
+        ClientDTO dto = new ClientDTO();
+        dto.setId(clientId);
+        Integer returnedId = cartService.buyAllProductsInTheCart(dto);
+        assertEquals(idDelivryStore, returnedId);
     }
 
 }
