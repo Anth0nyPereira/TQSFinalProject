@@ -100,6 +100,7 @@ public class StatisticService_UnitTest {
         assertEquals(24.0, kmsCovered);
 
         verify(stateRepository, times(1)).findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
+        verify(deliveryRepository, times(4)).findDeliveryById(any(Integer.class));
         verify(geocoder, times(1)).getDistanceBetweenTwoAddressesWithExternalApi(any(String.class), any(String.class));
     }
 
