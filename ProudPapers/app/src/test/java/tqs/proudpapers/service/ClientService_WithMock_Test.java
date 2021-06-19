@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.util.DigestUtils;
+import tqs.proudpapers.component.PasswordEncryption;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.entity.ClientDTO;
 import tqs.proudpapers.repository.ClientRepository;
@@ -25,6 +25,9 @@ public class ClientService_WithMock_Test {
 
     @Mock(lenient = true)
     private ClientRepository repository;
+
+    @Mock(lenient = true)
+    private PasswordEncryption encryption;
 
     @InjectMocks
     private ClientServiceImpl service;
@@ -64,8 +67,9 @@ public class ClientService_WithMock_Test {
     }
 
     @Test
-    public void whenAlexEmailAndPassword_thenReturnAlex() {
-        Mockito.when(repository.getClientByEmailAndPassword(alex.getEmail(), DigestUtils.md5DigestAsHex(alex.getPassword().getBytes()))).thenReturn(alex);
+    public void whenAlexEmailAndPassword_thenReturnAlex() throws Exception {
+        Mockito.when(encryption.encrypt(alex.getPassword())).thenReturn("encrypted");
+        Mockito.when(repository.getClientByEmailAndPassword(alex.getEmail(), encryption.encrypt(alex.getPassword()))).thenReturn(alex);
 
         ClientDTO alex = service.getClientByEmailAndPass("alex@ua.pt", "alexS3cr3t");
 
@@ -75,8 +79,9 @@ public class ClientService_WithMock_Test {
     }
 
     @Test
-    public void whenAlexEmailAndInvalidPassword_thenReturnNull() {
-        Mockito.when(repository.getClientByEmailAndPassword(alex.getEmail(), "invalid")).thenReturn(null);
+    public void whenAlexEmailAndInvalidPassword_thenReturnNull() throws Exception {
+        Mockito.when(encryption.encrypt(alex.getPassword())).thenReturn("encrypted");
+        Mockito.when(repository.getClientByEmailAndPassword(alex.getEmail(), encryption.encrypt(alex.getPassword()))).thenReturn(null);
 
         ClientDTO found = service.getClientByEmailAndPass("alex@ua.pt", "invalid");
 

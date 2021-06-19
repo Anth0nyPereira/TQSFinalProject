@@ -24,7 +24,6 @@ import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -122,7 +121,7 @@ class ClientController_IT_Test {
 
     @Order(2)
     @Test
-    public void signUpWithUsedEmail_thenSignUpPageWithErrorMessage() throws Exception {
+    public void signUpWithUsedEmail_thenSignUpPageWithErrorMessage(){
         ClientDTO copyed = new ClientDTO();
         BeanUtils.copyProperties(alexDTO, copyed);
         copyed.setEmail(alexDTO.getEmail());  // this email is already used by alex
@@ -197,49 +196,6 @@ class ClientController_IT_Test {
                 .andExpect(xpath("//h5[contains(@class, 'cart-product-name')]").string(p.getName()))
                 .andExpect(xpath("//div[contains(@class, 'cart-product-price')]").string("€ " + p.getPrice()))
                 .andExpect(xpath("//p[contains(@class, 'cart-product-desc')]    ").string(p.getDescription()));
-    }
-
-
-    // waiting for deployment
-    public void buyProductsInTheCart_thenCartEmptyAndDeliveryWithProducts() throws Exception {
-        Product atmamun = new Product();
-        atmamun.setName("Atmamun");
-        atmamun.setDescription("The Path To Achieving The Blis Of The Himalayan Swamis. And The Freedom Of A Living God");
-        atmamun.setPrice(15.99);
-        atmamun.setQuantity(13);
-        atmamun = productService.save(atmamun);
-        cartService.save(alex.getId(), atmamun.getId(), 1);
-
-        MockHttpSession session = new MockHttpSession();
-        session.setAttribute("client", alexDTO);
-
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
-                .post("/account/" + alex.getId() + "/purchase")
-                .param("name", alexDTO.getName())
-                .param("email", alexDTO.getEmail())
-                .param("password", alexDTO.getPassword())
-                .param("city", alexDTO.getCity())
-                .param("zip", alexDTO.getZip())
-                .param("telephone", alexDTO.getTelephone())
-                .param("cardNumber", alexDTO.getPaymentMethod().getCardNumber())
-                .param("cardExpirationMonth", alexDTO.getPaymentMethod().getCardExpirationMonth())
-                .param("cvc", alexDTO.getPaymentMethod().getCvc())
-                .session(session);
-
-        mvc.perform(builder)
-                .andExpect(status().isOk())
-                .andExpect(view().name("account"))
-                .andExpect(xpath("//h5[contains(@class, 'cart-product-name']").doesNotExist())
-                .andExpect(xpath("//div[contains(@class, 'cart-product-price')]").doesNotExist())
-                .andExpect(xpath("//p[contains(@class, 'cart-product-desc')]").doesNotExist());
-
-        CartDTO cartDTO = cartService.getCartByClientID(alex.getId());
-        assertEquals(0, cartDTO.getProductOfCarts().size());
-
-        List<DeliveryDTO> deliveries = deliveryService.getDeliveries(alex.getId());
-        assertEquals(1, deliveries.size());
-        assertEquals(1, deliveries.get(0).getProductsOfDelivery().size());
-        assertEquals(atmamun, deliveries.get(0).getProductsOfDelivery().get(0).getProduct());
     }
 
 

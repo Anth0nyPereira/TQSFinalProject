@@ -3,7 +3,7 @@ package tqs.proudpapers.service.impl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
+import tqs.proudpapers.component.PasswordEncryption;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.entity.ClientDTO;
 import tqs.proudpapers.entity.PaymentMethod;
@@ -11,7 +11,6 @@ import tqs.proudpapers.repository.CartRepository;
 import tqs.proudpapers.repository.ClientRepository;
 import tqs.proudpapers.repository.PaymentMethodRepository;
 import tqs.proudpapers.service.ClientService;
-
 import javax.transaction.Transactional;
 
 /**
@@ -30,6 +29,8 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private PasswordEncryption encryption;
 
     @Override
     @Transactional
@@ -45,18 +46,25 @@ public class ClientServiceImpl implements ClientService {
         client.setAddress(clientDTO.getZip() + "," + clientDTO.getCity());
 
 
-        client.setPassword(DigestUtils.md5DigestAsHex(client.getPassword().getBytes()));
-        Client saved = clientRepository.save(client);
-        cartRepository.createCart(saved.getId());
-        return saved;
+        try {
+            client.setPassword(encryption.encrypt(client.getPassword()));
+
+            Client saved = clientRepository.save(client);
+            cartRepository.createCart(saved.getId());
+            return saved;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public ClientDTO getClientByEmailAndPass(String email, String password) {
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
-        Client client = clientRepository.getClientByEmailAndPassword(email, password);
-
-        return getClientDTO(client);
+        try {
+            Client client = clientRepository.getClientByEmailAndPassword(email, encryption.encrypt(password));
+            return getClientDTO(client);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
