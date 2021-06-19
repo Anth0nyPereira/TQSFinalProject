@@ -26,6 +26,7 @@ import com.example.riderapp.Connections.API_Connection;
 import com.example.riderapp.Connections.API_Service;
 import com.example.riderapp.MainActivity;
 import com.example.riderapp.R;
+import com.example.riderapp.Utils.GeoUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -180,7 +181,8 @@ public class EncomendaMapaFragment extends Fragment {
                                 .include(destinationcoords)
                                 .build();
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
-
+                        double distanceStartDest = GeoUtils.distanceBetween2Points(startcoords,destinationcoords);
+                        distance.setText("Remaining Distance: " + Math.round(distanceStartDest*10.0)/10.0 + " km");
                     }
                 });
         //mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
