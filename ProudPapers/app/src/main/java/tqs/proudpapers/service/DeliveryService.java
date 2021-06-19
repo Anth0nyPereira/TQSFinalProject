@@ -17,5 +17,5 @@ public interface DeliveryService {
 
     void setDeliveryIdInStore(Integer delivery, Integer id);
 
-    List<Delivery> getDeliveries(Integer clientId);
+    List<DeliveryDTO> getDeliveries(Integer clientId);
 }
