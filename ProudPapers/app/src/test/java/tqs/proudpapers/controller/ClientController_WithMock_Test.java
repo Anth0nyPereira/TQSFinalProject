@@ -1,4 +1,4 @@
-package tqs.proudpapers.client;
+package tqs.proudpapers.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import org.junit.jupiter.api.BeforeEach;
@@ -95,9 +95,8 @@ public class ClientController_WithMock_Test {
                     .param("cardNumber", alexDTO.getPaymentMethod().getCardNumber())
                     .param("cardExpirationMonth", alexDTO.getPaymentMethod().getCardExpirationMonth())
                     .param("cvc", alexDTO.getPaymentMethod().getCvc()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("login"))
-                .andExpect(xpath("//input[@id='email']").string(alex.getEmail()));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:login"));
     }
 
     @Test
@@ -135,10 +134,8 @@ public class ClientController_WithMock_Test {
         mvc.perform(post("/login")
                     .param("email", alex.getEmail())
                     .param("password", alex.getPassword()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"))
-                .andExpect(xpath("//div[contains(@class, 'username')]").string(alex.getName()))
-                .andExpect(xpath("//div[contains(@class, 'cartDiv')]").exists());
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:index"));
     }
 
     @Test

@@ -1,4 +1,4 @@
-package tqs.proudpapers.product;
+package tqs.proudpapers.repository;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

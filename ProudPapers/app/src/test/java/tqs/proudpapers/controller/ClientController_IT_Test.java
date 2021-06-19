@@ -1,4 +1,4 @@
-package tqs.proudpapers.client;
+package tqs.proudpapers.controller;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.BeanUtils;
@@ -110,9 +110,8 @@ class ClientController_IT_Test {
                 .param("cardNumber", "1234567891234567")
                 .param("cardExpirationMonth", "11")
                 .param("cvc", "123"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("login"))
-                .andExpect(xpath("//input[@id='email']").string(alex.getEmail()));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:login"));
 
         ClientDTO result = clientService.getClientByEmail(alex.getEmail());
         alex.setId(result.getId());
@@ -137,10 +136,8 @@ class ClientController_IT_Test {
         mvc.perform(post("/login")
                 .param("email", alex.getEmail())
                 .param("password", alex.getPassword()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"))
-                .andExpect(xpath("//div[contains(@class, 'username')]").string(alex.getName()))
-                .andExpect(xpath("//div[contains(@class, 'cartDiv')]").exists());
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:index"));
 
     }
 

@@ -1,4 +1,4 @@
-package tqs.proudpapers.product;
+package tqs.proudpapers.service;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
