@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface RiderRepository extends JpaRepository<Rider,Integer> {
     Rider findRiderByEmail(String email);
+    List<Rider> findAll();
 }

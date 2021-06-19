@@ -6,19 +6,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ua.deti.tqs.easydeliversadmin.entities.Delivery;
+import ua.deti.tqs.easydeliversadmin.entities.Rider;
 import ua.deti.tqs.easydeliversadmin.entities.State;
-import ua.deti.tqs.easydeliversadmin.entities.Store;
 import ua.deti.tqs.easydeliversadmin.repository.DeliveryRepository;
+import ua.deti.tqs.easydeliversadmin.repository.RiderRepository;
 import ua.deti.tqs.easydeliversadmin.repository.StateRepository;
+import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -31,11 +33,14 @@ public class StatisticService_UnitTest {
     @Mock(lenient = true)
     private StateRepository stateRepository;
 
+    @Mock(lenient = true)
+    private RiderRepository riderRepository;
+
     @InjectMocks
     private EasyDeliversService service;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
         long actualLong = System.currentTimeMillis();
         List<State> listOfStatesByDescriptionCompletedAndTimestamp = new ArrayList<>();
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("completed", 2, new Timestamp(actualLong - 2000)));
@@ -60,6 +65,17 @@ public class StatisticService_UnitTest {
         listOfCompletedDeliveries = Arrays.asList(del1, del2, del3);
 
         when(deliveryRepository.findDeliveriesByState(any())).thenReturn(listOfCompletedDeliveries);
+
+        List<Rider> listOfAllRiders = new ArrayList<>();
+        PasswordEncryption enc = new PasswordEncryption();
+        Rider r1= new Rider("hugo","ferreira","hugo@email.com", enc.encrypt("12345"), "930921312","car", 1000.00);
+        Rider r2= new Rider("clara","sousa","csousa@email.com", enc.encrypt("anvd"), "911551312","car", 1000.00);
+        Rider r3= new Rider("pedro","teixeira","teixeira@email.com", enc.encrypt("12345"), "930921312","car", 1000.00);
+
+        listOfAllRiders = Arrays.asList(r1, r2, r3);
+
+        when(riderRepository.findAll()).thenReturn(listOfAllRiders);
+
     }
 
     @Test
@@ -89,8 +105,35 @@ public class StatisticService_UnitTest {
     public void averageScoreTest() {
         double averageScore = service.averageRidersScore();
         assertEquals((11/3),averageScore);
+        verify(deliveryRepository, times(1))
+                .findDeliveriesByState(eq("completed"));
     }
 
+    @Test
+    public void getAllRidersTest(){
+        List<Rider> allRidersList = service.getAllRiders();
+        assertThat(allRidersList.size()).isEqualTo(3);
+        verify(riderRepository, times(1))
+                .findAll();
+    }
+
+    @Test
+    public void getNumberDeliveriesInTheLast13DaysTest(){
+        List<Integer> alldeliveriesin13days = service.numberDeliveriesMadeForLast13Days();
+        assertThat(alldeliveriesin13days.size()).isEqualTo(13);
+        verify(stateRepository, times(13))
+                .findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
+    }
+
+    @Test
+    public void getAverageDeliveryTimesInTheLast13DaysTest(){
+        List<Integer> alldeliveryTimesin13days = service.numberDeliveriesMadeForLast13Days();
+        assertThat(alldeliveryTimesin13days.size()).isEqualTo(13);
+        // First, we'll fetch all deliveries that were completed in the day we want.
+        // We want to do this 13 times (one for each day)
+        verify(stateRepository, times(13))
+                .findStatesByDescriptionAndTimestampBetween(eq("completed"), any(), any());
+    }
 
     @AfterEach
     public void tearDown() {

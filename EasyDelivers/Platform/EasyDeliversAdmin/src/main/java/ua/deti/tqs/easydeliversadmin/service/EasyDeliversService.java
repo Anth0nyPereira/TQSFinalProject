@@ -11,6 +11,8 @@ import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -147,11 +149,19 @@ public class EasyDeliversService {
         return 0;
     }
 
+    public List<Integer> numberDeliveriesMadeForLast13Days(){
+        return Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0);
+    }
+
     public double averageTimeDeliveries() {
         return 0;
     }
 
     public double averageRidersScore(){
         return 0.0;
+    }
+
+    public List<Rider> getAllRiders(){
+        return new ArrayList<Rider>();
     }
 }

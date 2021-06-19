@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface StateRepository extends JpaRepository<State,Integer> {
-    State findStateByDelivery(Delivery delivery);
+    State findStateByDeliveryAndDescription(Integer delivery, String description);
     List<State> findAll();
     List<State> findStatesByDescriptionAndTimestampBetween(String description, Timestamp begin, Timestamp end);
 }
