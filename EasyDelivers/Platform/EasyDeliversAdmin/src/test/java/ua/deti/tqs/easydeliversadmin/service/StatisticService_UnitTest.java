@@ -39,14 +39,14 @@ public class StatisticService_UnitTest {
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("completed", 3, new Timestamp(actualLong - 200000)));
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("completed", 4, new Timestamp(actualLong - 9000000)));
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("completed", 6, new Timestamp(actualLong - 86300000)));
-        when(stateRepository.findStatesByDescriptionAndTimestampBetween("completed", Mockito.any(), Mockito.any())).thenReturn(listOfStatesByDescriptionCompletedAndTimestamp);
+        when(stateRepository.findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class))).thenReturn(listOfStatesByDescriptionCompletedAndTimestamp);
 
         List<State> listOfStatesByDescriptionAcceptedAndTimestamp = new ArrayList<>();
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("accepted", 2, new Timestamp(actualLong - 7000)));
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("accepted", 3, new Timestamp(actualLong - 205000)));
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("accepted", 4, new Timestamp(actualLong - 9010000)));
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("accepted", 6, new Timestamp(actualLong - 86304000)));
-        when(stateRepository.findStatesByDescriptionAndTimestampBetween("accepted", Mockito.any(), Mockito.any())).thenReturn(listOfStatesByDescriptionAcceptedAndTimestamp);
+        when(stateRepository.findStatesByDescriptionAndTimestampBetween(eq("accepted"), any(Timestamp.class), any(Timestamp.class))).thenReturn(listOfStatesByDescriptionAcceptedAndTimestamp);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class StatisticService_UnitTest {
         int numberDeliveriesMadeForLast24Hours = service.numberDeliveriesMadeForLast24Hours();
         assertEquals(4, numberDeliveriesMadeForLast24Hours);
         verify(stateRepository, times(1))
-                .findStatesByDescriptionAndTimestampBetween("completed", Mockito.any(), Mockito.any());
+                .findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
     }
 
     @Test
@@ -67,9 +67,9 @@ public class StatisticService_UnitTest {
         double averageTime = service.averageTimeDeliveries();
         assertEquals(6000, averageTime);
         verify(stateRepository, times(1))
-                .findStatesByDescriptionAndTimestampBetween("accepted", Mockito.any(), Mockito.any());
+                .findStatesByDescriptionAndTimestampBetween(eq("accepted"), any(Timestamp.class), any(Timestamp.class));
         verify(stateRepository, times(1))
-                .findStatesByDescriptionAndTimestampBetween("completed", Mockito.any(), Mockito.any());
+                .findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
     }
 
     @AfterEach
