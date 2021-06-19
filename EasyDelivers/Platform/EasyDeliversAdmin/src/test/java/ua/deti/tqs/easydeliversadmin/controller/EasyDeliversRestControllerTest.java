@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.entities.Rider;
 import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
+import ua.deti.tqs.easydeliversadmin.utils.CouldNotEncryptException;
 import ua.deti.tqs.easydeliversadmin.utils.JsonUtil;
 
 import java.util.Arrays;
@@ -72,7 +73,7 @@ class EasyDeliversRestControllerTest {
 
     @Test
     @DisplayName("Tests a successful login with a rider")
-    void successfulLoginTest() throws Exception {
+    void successfulLoginTest() throws CouldNotEncryptException, Exception  {
         when(service.authenticateRider("hugo@email.com","12345"))
                 .thenReturn(true);
         when(service.getRider("hugo@email.com")).thenReturn(rider);
@@ -96,7 +97,7 @@ class EasyDeliversRestControllerTest {
 
     @Test
     @DisplayName("Tests an invalid login with a rider")
-    void invalidLoginTest() throws Exception {
+    void invalidLoginTest() throws CouldNotEncryptException, Exception {
         when(service.authenticateRider("hugo@email.com","12345"))
                 .thenReturn(false);
 
@@ -151,12 +152,11 @@ class EasyDeliversRestControllerTest {
     @DisplayName("Tests receiving a new successful delivery")
     void successfulReceiveNewDeliveryTest() throws Exception {
         when(service.createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro"))
-                .thenReturn("Delivery accepted");
-
+                .thenReturn(1);
         mvc.perform(MockMvcRequestBuilders.post("/api/delivery")
                 .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(newDeliveryRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").value("Delivery accepted"));
+                .andExpect(jsonPath("$").value(1));
 
         verify(service,times(1))
                 .createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro");
@@ -166,12 +166,12 @@ class EasyDeliversRestControllerTest {
     @DisplayName("Tests receiving a new invalid delivery")
     void invalidReceiveNewDeliveryTest() throws Exception {
         when(service.createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro"))
-                .thenReturn("Delivery refused");
+                .thenReturn(-1);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/delivery")
                 .contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(newDeliveryRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").value("Delivery refused"));
+                .andExpect(jsonPath("$").value(-1));
 
         verify(service,times(1))
                 .createDelivery(1, "9393920", "DETI Aveiro", "Bairro de Santiago Aveiro");

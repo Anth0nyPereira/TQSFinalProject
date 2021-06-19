@@ -54,7 +54,7 @@ class RiderRepositoryTest {
 
     @Test
     @DisplayName("Tests invalid Find Rider By Email")
-    void whenInvalidFindRiderByEmail_thenReturnRider(){
+    void whenInvalidFindRiderByEmail_thenReturnNull(){
         rider = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
 
         Rider fromDB = riderRepository.findRiderByEmail("hugo@email.com");
