@@ -98,7 +98,7 @@ class ClientController_IT_Test {
 
     @Order(1)
     @Test
-    public void signUpWithAlex_thenLoginPageWithAlexEmail() throws Exception {
+    public void signUpWithAlex_thenRedirectedToLoginPage() throws Exception {
         mvc.perform(post("/signup")
                 .param("name", alexDTO.getName())
                 .param("email", alexDTO.getEmail())
@@ -142,10 +142,10 @@ class ClientController_IT_Test {
 
     @Order(3)
     @Test
-    public void loginWithAlex_thenIndexPageContainsUsernameAndButtons() throws Exception {
+    public void loginWithAlex_thenRedirectedToIndex() throws Exception {
         mvc.perform(post("/login")
-                .param("email", alex.getEmail())
-                .param("password", alex.getPassword()))
+                .param("email", alexDTO.getEmail())
+                .param("password", alexDTO.getPassword()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:index"));
 

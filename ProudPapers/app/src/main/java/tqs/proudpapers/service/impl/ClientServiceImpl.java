@@ -48,6 +48,9 @@ public class ClientServiceImpl implements ClientService {
 
         try {
             client.setPassword(encryption.encrypt(client.getPassword()));
+            Client clientByEmail = clientRepository.getClientByEmail(client.getEmail());
+            if (clientByEmail != null)
+                 return null;
 
             Client saved = clientRepository.save(client);
             cartRepository.createCart(saved.getId());
