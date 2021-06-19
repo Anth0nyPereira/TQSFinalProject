@@ -63,4 +63,14 @@ public class State {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return "State{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", delivery=" + delivery +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

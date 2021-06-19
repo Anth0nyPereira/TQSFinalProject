@@ -1,7 +1,9 @@
 package ua.deti.tqs.easydeliversadmin.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.stereotype.Service;
+import ua.deti.tqs.easydeliversadmin.component.Geocoder;
 import ua.deti.tqs.easydeliversadmin.entities.*;
 import ua.deti.tqs.easydeliversadmin.repository.*;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 
@@ -38,6 +41,9 @@ public class EasyDeliversService {
 
     @Autowired
     StoreRepository storeRepository;
+
+    @Autowired
+    Geocoder geocoder;
 
     public Admin getAdminByEmail(String email) throws AdminNotFoundException {
         Admin user = adminRepository.findAdminByEmail(email);
@@ -165,9 +171,22 @@ public class EasyDeliversService {
         return new ArrayList<Rider>();
     }
 
-    public double sumOfKmCoveredInLast24Hours() {
+    public double sumOfKmCoveredInLast24Hours() throws JSONException {
+        long currentTime = System.currentTimeMillis();
         // findStateByDescription (completed) andTimestamp (last 24h)
+        List<State> listOfCompletedStates = stateRepository.findStatesByDescriptionAndTimestampBetween("completed", new Timestamp(currentTime - TimeUnit.DAYS.toMillis(1)), new Timestamp(currentTime));
+
         // findDelivery by id
+        double totalDistance = 0;
+        for (int i = 0; i<listOfCompletedStates.size(); i++) {
+            State iteratedState = listOfCompletedStates.get(i);
+            System.out.println(iteratedState);
+            Delivery foundDelivery = deliveryRepository.findDeliveryById(iteratedState.getDelivery());
+            String departure = foundDelivery.getStart();
+            String destination = foundDelivery.getDestination();
+            double distance = geocoder.getDistanceBetweenTwoAddressesWithExternalApi(departure, destination);
+            totalDistance += distance;
+        }
         // api get (delivery.end) e api get (delivery.start)
         // conta(operacao) qualquer(??) delivery.end - delivery.start
         //double kmsCovered = service.sumOfKmCoveredInLast24Hours();
@@ -181,6 +200,6 @@ public class EasyDeliversService {
         //double distance_del1 = Math.sqrt(Math.pow(40.6331731 - 40.6278521) + Math.pow(-8.661682, -8.6526136));
         //assertThat();
 
-        return 0.0;
+        return totalDistance;
     }
 }
