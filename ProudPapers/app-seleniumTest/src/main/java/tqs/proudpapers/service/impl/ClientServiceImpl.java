@@ -89,7 +89,7 @@ public class ClientServiceImpl implements ClientService {
 
         if (client.getPaymentMethodId() != null){
             PaymentMethod paymentMethod = paymentMethodRepository.getById(client.getPaymentMethodId());
-            System.out.println(paymentMethod); //load paymentMethod
+            System.out.println(paymentMethod);
             dto.setPaymentMethod(paymentMethod);
         }
 

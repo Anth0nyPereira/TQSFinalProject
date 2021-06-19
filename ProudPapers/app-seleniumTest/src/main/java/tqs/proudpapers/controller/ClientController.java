@@ -106,6 +106,7 @@ public class ClientController {
         ClientDTO client = clientService.getClientById(id);
         CartDTO cart= cartService.getCartByClientID(id);
         client.setCartDTO(cart);
+        PaymentMethod p = client.getPaymentMethod();
 
         model.addAttribute("client", client);
 

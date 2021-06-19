@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Proud Papers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="/css/main.css" rel="stylesheet"/>
+    <script type="text/javascript" src="/js/main.js"></script>
+</head>
+
+<body>
+    <div th:replace="commons/common::navbar"></div>
+    <div th:replace="commons/common::header"></div>
+
+    <div class="breadcrumb-area">
+        <div class="container">
+            <div class="breadcrumb-content">
+                <ul>
+                    <li><a href="/">ProudPapers</a></li>
+                    <li class="active">Single Product</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <h3 class="no-products" th:if="${product == null}">No product found!</h3>
+        <div class="content-wraper" th:if="${product != null}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-md-6">
+                        <div class="product-details-left">
+                            <div class="product-details-images slider-navigation-1">
+                                <div class="product-image-left">
+                                    <a class="popup-img venobox vbox-item" href="#" data-gall="myGallery">
+                                        <img id="product-img" th:src="${'/img/' + product.name + '.jpg'}" alt="product image"/>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="details-tab">
+                                <div class="tabs">
+                                    <ul class="breadcrumb-content">
+                                        <li><span class="active descr"  onclick="descr()"><span>Description</span></span></li>
+                                        <li><span class="rev" onclick="reviews()"><span>Reviews</span></span></li>
+                                     </ul>     
+                                </div>
+                                <div class="tabs-content">
+                                    <div id="descr" th:text="${product.description}"></div>
+                                    <div id="rev" hidden="hidden">
+                                        my review
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7 col-md-6">
+                        <div class="product-details-view-content pt-60">
+                            <div class="product-info">
+                                <input type="hidden" id="product-id" th:value="${product.id}"/>
+                                <h2 id="product-name" th:text="${product.name}"></h2>
+                                <span class="product-details-ref">Reference: demo_15</span>
+                                <div class="rating-box rr">
+                                    <ul class="rating rating-with-review-item">
+                                        <li><i class="far fa-star"></i></li>
+                                        <li><i class="far fa-star"></i></li>
+                                        <li><i class="far fa-star"></i></li>
+                                        <li class="no-star"><i class="far fa-star"></i></li>
+                                        <li class="no-star"><i class="far fa-star"></i></li>
+                                        <li class="review-item"><i class="fas fa-pen"> Read Review</i></li>
+                                        <li class="review-item"><i class="fas fa-pen"> Write Review</i></li>
+                                    </ul>
+                                </div>
+                                <div class="price-box pt-20">
+                                    <span id="product-price" class="new-price new-price-2" th:text="${product.getPrice()}"></span>
+                                </div>
+                                <div class="single-add-to-cart">
+                                    <div class="cart-quantity">
+                                        <div class="quantity">
+                                            <label>Quantity</label>
+                                            <div class="cart-plus-minus">
+                                                <input class="cart-plus-minus-box" id="current-quantity" value="1" type="text"/>
+                                                <input type="hidden" id="quantity" th:value="${product.quantity}"/>
+                                                <div class="dec qtybutton" onclick="dec()"><i class="fa fa-angle-down"></i></div>
+                                                <div class="inc qtybutton" onclick="inc()"><i class="fa fa-angle-up"></i></div>
+                                            </div>
+                                        </div>
+                                        <a class="add-to-cart add-to-cart-btn">Add to cart</a>
+                                        <button hidden="hidden" class="add-to-cart" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy now</button>
+                                    </div>
+                                </div>
+                                <div class="product-additional-info pt-25">
+                                    <a class="wishlist-btn" href="#"><i class="far fa-heart"></i>Add to wishlist</a>
+                                    <div class="product-social-sharing pt-25">
+                                        <ul>
+                                            <li class="facebook"><a href="#"><i class="fab fa-facebook-f"></i>Facebook</a></li>
+                                            <li class="twitter"><a href="#"><i class="fab fa-twitter"></i>Twitter</a></li>
+                                            <li class="google-plus"><a href="#"><i class="fab fa-google-plus-g"></i>Google +</a></li>
+                                            <li class="instagram"><a href="#"><i class="fab fa-instagram"></i>Instagram</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="block-reassurance">
+                                    <ul>
+                                        <li>
+                                            <div class="reassurance-item">
+                                                <div class="reassurance-icon">
+                                                    <i class="fas fa-check-square"></i>
+                                                </div>
+                                                <p>Security policy (edit with Customer reassurance module)</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="reassurance-item">
+                                                <div class="reassurance-icon">
+                                                    <i class="fa fa-truck"></i>
+                                                </div>
+                                                <p>Delivery policy (edit with Customer reassurance module)</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="reassurance-item">
+                                                <div class="reassurance-icon">
+                                                    <i class="fas fa-exchange-alt"></i>
+                                                </div>
+                                                <p> Return policy (edit with Customer reassurance module)</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="commons/common::footer"></div>
+
+    </div>
+<script>
+    $('.search_box').submit(function (){
+        $('.search_box').attr("action", "/search/" + $('.search-input').val())
+    })
+
+    if($('#user-id').val() === '-1'){
+        localStorage.setItem('totalPrice', 0)
+        localStorage.setItem('cartQuantity', 0)
+    }else{
+        reLoadLocalStorage();
+    }
+
+    $('.add-to-cart-btn').click(function (){
+        if ($('#user-id').val() === '-1'){
+            window.location.href='/login'
+        }else{
+            $.ajax({
+                type : "POST",
+                url : "/account/" +$('#user-id').val() + "/add_to_cart/" + $('#product-id').val() + "?quantity=" + $('#current-quantity').val(),
+                success : function(result) {
+                    var newTotalPrice = parseInt($('#product-price').text()) + parseInt(localStorage.getItem('totalPrice'))
+                    localStorage.setItem('cartQuantity', parseInt(localStorage.getItem('cartQuantity')) + 1)
+                    localStorage.setItem('totalPrice', newTotalPrice)
+                    reLoadLocalStorage();
+                },
+                error: function (result) {
+                    alert("You already have this book in your cart!")
+                }
+            });
+        }
+    })
+
+    function reLoadLocalStorage(){
+        $('#product-total-price').text(localStorage.getItem('totalPrice'))
+        $('#product-cart-quantity').text(parseInt(localStorage.getItem('cartQuantity')))
+    }
+</script>
+</body>
+</html>
