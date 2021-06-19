@@ -4,12 +4,12 @@ services:
   db:
     image: mysql:5.7
     volumes:
-      - ./DBProudPapers/data:/var/lib/mysql
-      - ./DBProudPapers/init:/docker-entrypoint-initdb.d/:ro
+      - ./docker/sql/data:/var/lib/mysql
+      - ./docker/sql/init:/docker-entrypoint-initdb.d/:ro
     environment:
       MYSQL_ROOT_PASSWORD: abcABC123!!!
       MYSQL_DATABASE: proudpapers
-      MYSQL_USER: root
+      MYSQL_USER: proudpapers
       MYSQL_PASSWORD: abcABC123!!!
     ports:
     - "3307:3306"
@@ -17,6 +17,6 @@ services:
   proudpapers:
     depends_on:
       - db
-    build: app/
+    build: ./docker/app/
     ports:
     - "8085:8080"

@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ProductRepository_DockerContainer_Test {
     @Container
     public static MySQLContainer container = new MySQLContainer(DockerImageName.parse("mysql:5.7"))
-            .withUsername("root")
+            .withUsername("proudpapers")
             .withPassword("abcABC123!!!")
             .withDatabaseName("proudpapers");
 
