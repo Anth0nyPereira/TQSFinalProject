@@ -3,6 +3,7 @@ package tqs.proudpapers.service.impl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.entity.ClientDTO;
 import tqs.proudpapers.entity.PaymentMethod;
@@ -29,6 +30,7 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private CartRepository cartRepository;
 
+
     @Override
     @Transactional
     public Client saveClient(ClientDTO clientDTO) {
@@ -43,6 +45,7 @@ public class ClientServiceImpl implements ClientService {
         client.setAddress(clientDTO.getZip() + "," + clientDTO.getCity());
 
 
+        client.setPassword(DigestUtils.md5DigestAsHex(client.getPassword().getBytes()));
         Client saved = clientRepository.save(client);
         cartRepository.createCart(saved.getId());
         return saved;
@@ -50,6 +53,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDTO getClientByEmailAndPass(String email, String password) {
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
         Client client = clientRepository.getClientByEmailAndPassword(email, password);
 
         return getClientDTO(client);

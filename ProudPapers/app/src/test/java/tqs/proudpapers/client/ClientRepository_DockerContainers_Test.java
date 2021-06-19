@@ -31,8 +31,8 @@ public class ClientRepository_DockerContainers_Test {
 
     @Container
     public static MySQLContainer container = new MySQLContainer(DockerImageName.parse("mysql:5.7"))
-            .withUsername("proudpapers")
-            .withPassword("abcABC123!!!")
+            .withUsername("root")
+            .withPassword("123456")
             .withDatabaseName("proudpapers");
 
     @DynamicPropertySource
