@@ -3,6 +3,7 @@ package ua.deti.tqs.easydeliversadmin.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
 @Table(name = "state")
@@ -10,7 +11,6 @@ public class State {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
 
     @Column(name="description")
     @NotBlank
@@ -62,6 +62,19 @@ public class State {
 
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        State state = (State) o;
+        return id == state.id && delivery == state.delivery && Objects.equals(description, state.description) && Objects.equals(timestamp, state.timestamp);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, delivery, timestamp);
     }
 
     @Override

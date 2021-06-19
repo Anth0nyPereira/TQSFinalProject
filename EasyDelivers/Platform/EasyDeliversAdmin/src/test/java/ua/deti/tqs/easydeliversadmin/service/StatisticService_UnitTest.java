@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,6 +29,8 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class StatisticService_UnitTest {
+    private List<State> listOfStatesByDescriptionCompletedAndTimestamp;
+    private long actualLong;
 
     @Mock( lenient = true)
     private DeliveryRepository deliveryRepository;
@@ -46,8 +49,8 @@ public class StatisticService_UnitTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        long actualLong = System.currentTimeMillis();
-        List<State> listOfStatesByDescriptionCompletedAndTimestamp = new ArrayList<>();
+        actualLong = System.currentTimeMillis();
+        listOfStatesByDescriptionCompletedAndTimestamp = new ArrayList<>();
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("completed", 2, new Timestamp(actualLong - 2000)));
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("completed", 3, new Timestamp(actualLong - 200000)));
         listOfStatesByDescriptionCompletedAndTimestamp.add(new State("completed", 4, new Timestamp(actualLong - 9000000)));
@@ -61,6 +64,11 @@ public class StatisticService_UnitTest {
         listOfStatesByDescriptionAcceptedAndTimestamp.add(new State("accepted", 4, new Timestamp(actualLong - 9010000)));
         listOfStatesByDescriptionAcceptedAndTimestamp.add(new State("accepted", 6, new Timestamp(actualLong - 86304000)));
         when(stateRepository.findStatesByDescriptionAndTimestampBetween(eq("accepted"), any(Timestamp.class), any(Timestamp.class))).thenReturn(listOfStatesByDescriptionAcceptedAndTimestamp);
+
+        when(stateRepository.findStateByDeliveryAndDescription(eq(2), eq("accepted"))).thenReturn(listOfStatesByDescriptionAcceptedAndTimestamp.get(0));
+        when(stateRepository.findStateByDeliveryAndDescription(eq(3), eq("accepted"))).thenReturn(listOfStatesByDescriptionAcceptedAndTimestamp.get(1));
+        when(stateRepository.findStateByDeliveryAndDescription(eq(4), eq("accepted"))).thenReturn(listOfStatesByDescriptionAcceptedAndTimestamp.get(2));
+        when(stateRepository.findStateByDeliveryAndDescription(eq(6), eq("accepted"))).thenReturn(listOfStatesByDescriptionAcceptedAndTimestamp.get(3));
 
         List<Delivery> listOfCompletedDeliveries = new ArrayList<>();
 
@@ -87,6 +95,7 @@ public class StatisticService_UnitTest {
         when(deliveryRepository.findDeliveryById(3)).thenReturn(del2);
         when(deliveryRepository.findDeliveryById(4)).thenReturn(del3);
         when(deliveryRepository.findDeliveryById(6)).thenReturn(del4);
+
         when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("DETI","Bairro de Santiago")).thenReturn(4.2);
         when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("Bairro do Liceu", "Glicínias Plaza")).thenReturn(2.8);
         when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("ProudPapers","Avenida Doutor Lourenço Peixinho ")).thenReturn(3.0);
@@ -117,9 +126,7 @@ public class StatisticService_UnitTest {
     @Test
     public void averageTimeTest() {
         double averageTime = service.averageTimeDeliveries();
-        assertEquals(6000, averageTime);
-        verify(stateRepository, times(1))
-                .findStatesByDescriptionAndTimestampBetween(eq("accepted"), any(Timestamp.class), any(Timestamp.class));
+        assertEquals(TimeUnit.MILLISECONDS.toMinutes(6000), averageTime);
         verify(stateRepository, times(1))
                 .findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
     }
@@ -127,7 +134,7 @@ public class StatisticService_UnitTest {
     @Test
     public void averageScoreTest() {
         double averageScore = service.averageRidersScore();
-        assertEquals((11/3),averageScore);
+        assertEquals(Double.valueOf(11.0/3.0),averageScore);
         verify(deliveryRepository, times(1))
                 .findDeliveriesByState(eq("completed"));
     }
@@ -141,6 +148,14 @@ public class StatisticService_UnitTest {
     }
 
     @Test
+    public void getAllCompletedDeliveriesTest(){
+        List<Delivery> allCompletedDeliveriesList = service.getAllCompletedDeliveries();
+        assertThat(allCompletedDeliveriesList.size()).isEqualTo(3);
+        verify(deliveryRepository, times(1)).findDeliveriesByState("completed");
+    }
+
+
+    @Test
     public void getNumberDeliveriesInTheLast13DaysTest(){
         List<Integer> alldeliveriesin13days = service.numberDeliveriesMadeForLast13Days();
         assertThat(alldeliveriesin13days.size()).isEqualTo(13);
@@ -150,16 +165,14 @@ public class StatisticService_UnitTest {
 
     @Test
     public void getAverageDeliveryTimesInTheLast13DaysTest(){
-        List<Integer> alldeliveryTimesin13days = service.numberDeliveriesMadeForLast13Days();
-        assertThat(alldeliveryTimesin13days.size()).isEqualTo(13);
-        // First, we'll fetch all deliveries that were completed in the day we want.
-        // We want to do this 13 times (one for each day)
+        List<Double> averageDeliveryTimesIn13days = service.averageDeliveryTimeForLast13Days();
+        assertThat(averageDeliveryTimesIn13days.size()).isEqualTo(13);
         verify(stateRepository, times(13))
                 .findStatesByDescriptionAndTimestampBetween(eq("completed"), any(), any());
     }
 
     @AfterEach
     public void tearDown() {
-
+        listOfStatesByDescriptionCompletedAndTimestamp.clear();
     }
 }
