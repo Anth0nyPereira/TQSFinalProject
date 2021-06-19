@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.util.DigestUtils;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.entity.ClientDTO;
 import tqs.proudpapers.repository.ClientRepository;
@@ -64,7 +65,7 @@ public class ClientService_WithMock_Test {
 
     @Test
     public void whenAlexEmailAndPassword_thenReturnAlex() {
-        Mockito.when(repository.getClientByEmailAndPassword(alex.getEmail(), alex.getPassword())).thenReturn(alex);
+        Mockito.when(repository.getClientByEmailAndPassword(alex.getEmail(), DigestUtils.md5DigestAsHex(alex.getPassword().getBytes()))).thenReturn(alex);
 
         ClientDTO alex = service.getClientByEmailAndPass("alex@ua.pt", "alexS3cr3t");
 
