@@ -197,6 +197,18 @@
     $('.search_box').submit(function (){
         $('.search_box').attr("action", "/search/" + $('.search-input').val())
     })
+
+    if($('#user-id').val() === '-1'){
+        localStorage.setItem('totalPrice', 0)
+        localStorage.setItem('cartQuantity', 0)
+    }else{
+        reLoadLocalStorage();
+    }
+
+    function reLoadLocalStorage(){
+        $('#product-total-price').text(localStorage.getItem('totalPrice'))
+        $('#product-cart-quantity').text(parseInt(localStorage.getItem('cartQuantity')))
+    }
 </script>
 </body>
 </html>
