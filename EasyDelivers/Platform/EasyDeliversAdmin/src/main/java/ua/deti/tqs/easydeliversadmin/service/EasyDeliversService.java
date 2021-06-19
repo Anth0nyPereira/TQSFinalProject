@@ -73,7 +73,7 @@ public class EasyDeliversService {
     }
 
     public Integer createDelivery(int store, String client_telephone, String start, String destination) {
-       Delivery n;
+        Delivery n;
 
         try {
             n= deliveryRepository.save( new Delivery(store,2,"awaiting_processing",client_telephone,start,destination));
@@ -132,7 +132,7 @@ public class EasyDeliversService {
         Store store_from_db = storeRepository.findStoreById(store);
         String address = "http://" + store_from_db.getAddress();
 
-        URL my_final_url = new URL(address + "/delivery/" + delivery_id + "/state/" + returnState(state));
+        URL my_final_url = new URL(address + "/delivery/" + delivery_id + "/state/" + state);
         HttpURLConnection con = (HttpURLConnection) my_final_url.openConnection(); // open HTTP connection
         con.setRequestMethod("POST");
 
@@ -141,22 +141,13 @@ public class EasyDeliversService {
         }*/
     }
 
-    private String returnState(String state) {
-        String stateResult = null;
-        switch(state) {
-            case "awaiting_processing":
-                stateResult = "awaiting_processing";
-                break;
-            case "accepted":
-                stateResult = "accepted";
-                break;
-            case "in_distribution":
-                stateResult = "in_distribution";
-                break;
-            case "completed":
-                stateResult = "completed";
-                break;
-        }
-        return stateResult;
+    // ADMIN STATISTICS
+
+    public int numberDeliveriesMadeForLast24Hours() {
+        return 0;
+    }
+
+    public double averageTimeDeliveries() {
+        return 0;
     }
 }
