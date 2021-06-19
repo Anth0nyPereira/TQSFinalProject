@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ua.deti.tqs.easydeliversadmin.component.Geocoder;
 import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.entities.Rider;
 import ua.deti.tqs.easydeliversadmin.entities.State;
@@ -36,6 +37,9 @@ public class StatisticService_UnitTest {
     @Mock(lenient = true)
     private RiderRepository riderRepository;
 
+    @Mock(lenient = true)
+    private Geocoder geocoder;
+
     @InjectMocks
     private EasyDeliversService service;
 
@@ -61,6 +65,7 @@ public class StatisticService_UnitTest {
         Delivery del1= new Delivery(1,2,"completed","919292112","DETI","Bairro de Santiago", 5);
         Delivery del2= new Delivery(2,4,"completed","919292941","Staples Aveiro","Bairro do Liceu", 3);
         Delivery del3= new Delivery(3,4,"completed","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ", 3);
+        Delivery del4= new Delivery(3,4,"completed","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ", 3);
 
         listOfCompletedDeliveries = Arrays.asList(del1, del2, del3);
 
@@ -76,11 +81,37 @@ public class StatisticService_UnitTest {
 
         when(riderRepository.findAll()).thenReturn(listOfAllRiders);
 
+        when(deliveryRepository.findDeliveryById(2)).thenReturn(del1);
+        when(deliveryRepository.findDeliveryById(3)).thenReturn(del2);
+        when(deliveryRepository.findDeliveryById(4)).thenReturn(del3);
+        when(deliveryRepository.findDeliveryById(5)).thenReturn(del4);
+        when(geocoder.convertFromAddressToCoordinatesWithApi("Bairro de Santiago")).thenReturn("40.6278521,-8.6526136");
+        when(geocoder.convertFromAddressToCoordinatesWithApi("Bairro do Liceu")).thenReturn("40.6345766,-8.6487619");
+        when(geocoder.convertFromAddressToCoordinatesWithApi("Avenida Doutor Lourenço Peixinho")).thenReturn("40.6430859,-8.6486171");
+        when(geocoder.convertFromAddressToCoordinatesWithApi("DETI")).thenReturn("40.6331731,-8.661682");
+        when(geocoder.convertFromAddressToCoordinatesWithApi("Staples Aveiro")).thenReturn("40.6435735,-8.6076039");
+        when(geocoder.convertFromAddressToCoordinatesWithApi("ProudPapers")).thenReturn("40.6409327,-8.6540674");
+
     }
 
     @Test
     public void kmCoveredTest() {
+        // findStateByDescription (completed) andTimestamp (last 24h)
+        // findDelivery by id
+        // api get (delivery.end) e api get (delivery.start)
+        // conta(operacao) qualquer(??) delivery.end - delivery.start
+        //double kmsCovered = service.sumOfKmCoveredInLast24Hours();
 
+        //http://dev.virtualearth.net/REST/v1/Routes/{travelMode}?wayPoint.1={wayPoint1}&viaWaypoint.2={viaWaypoint2}&waypoint.3={waypoint3}&wayPoint.n={waypointN}&heading={heading}&optimize={optimize}&avoid={avoid}&distanceBeforeFirstTurn={distanceBeforeFirstTurn}&routeAttributes={routeAttributes}&timeType={timeType}&dateTime={dateTime}&maxSolutions={maxSolutions}&tolerances={tolerances}&distanceUnit={distanceUnit}&key={BingMapsKey}
+
+
+        //√((x_2-x_1)²+(y_2-y_1)²)
+        // 40.6278521,-8.6526136
+        // 40.6331731,-8.661682
+        //double distance_del1 = Math.sqrt(Math.pow(40.6331731 - 40.6278521) + Math.pow(-8.661682, -8.6526136));
+        //assertThat();
+        //verify(stateRepository, times(1))
+         //       .findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
     }
 
     @Test

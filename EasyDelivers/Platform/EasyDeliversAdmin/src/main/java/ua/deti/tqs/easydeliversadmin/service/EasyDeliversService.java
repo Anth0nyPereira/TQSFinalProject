@@ -164,4 +164,8 @@ public class EasyDeliversService {
     public List<Rider> getAllRiders(){
         return new ArrayList<Rider>();
     }
+
+    public double sumOfKmCoveredInLast24Hours() {
+        return 0.0;
+    }
 }
