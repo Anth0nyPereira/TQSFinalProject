@@ -1,4 +1,6 @@
-/*package ua.deti.tqs.easydeliversadmin.selenium;
+/*
+package ua.deti.tqs.easydeliversadmin.selenium;
+
 import io.github.bonigarcia.seljup.SeleniumJupiter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
