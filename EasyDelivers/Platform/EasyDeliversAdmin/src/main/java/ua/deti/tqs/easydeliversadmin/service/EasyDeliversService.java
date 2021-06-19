@@ -69,7 +69,12 @@ public class EasyDeliversService {
     public Rider createRider(String firstname, String lastname, String email, String password, String telephone, String transportation) {
         if (riderRepository.findRiderByEmail(email)!=null)
             return null;
-        return riderRepository.save(new Rider(firstname,lastname,email,password,telephone,transportation));
+        try {
+            return riderRepository.save(new Rider(firstname,lastname,email,PasswordEncryption.encrypt(password),telephone,transportation));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Integer createDelivery(int store, String client_telephone, String start, String destination) {
