@@ -21,20 +21,6 @@
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>3.141.59</version>
-        </dependency>
-        <!--
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>selenium-jupiter</artifactId>
-            <version>3.4.0</version>
-            <scope>test</scope>
-        </dependency>
-        -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -132,13 +118,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>**/LoginSuccessfullTest.java</exclude>
-                        <exclude>**/LoginUnsuccessfullTest.java</exclude>
-                        <exclude>**/LogoutSuccessfullTest.java</exclude>
-                    </excludes>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
