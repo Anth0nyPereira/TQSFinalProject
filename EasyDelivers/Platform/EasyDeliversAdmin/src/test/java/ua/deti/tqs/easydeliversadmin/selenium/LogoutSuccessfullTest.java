@@ -6,18 +6,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.interactions.Actions;
 
-import java.util.List;
-
-@ExtendWith(SeleniumJupiter.class)
 public class LogoutSuccessfullTest {
 
+  WebDriver driver;
+
   @BeforeEach
-  public void setUp(FirefoxDriver driver) {
+  public void setUp() {
+    System.setProperty("webdriver.gecko.driver", "src/test/resources/geckodriver");
+    driver = new FirefoxDriver();
     driver.get("http://localhost:8080/login");
     if ((driver.findElements(By.cssSelector(".simple-text")).size() > 0) && (driver.findElement(By.cssSelector(".simple-text")).getText().equals("EASY DELIVERS"))) {
       driver.findElement(By.id("navbarDropdownProfile")).click();
@@ -26,7 +28,7 @@ public class LogoutSuccessfullTest {
   }
 
   @Test
-  public void logoutSuccessfullTest(FirefoxDriver driver) {
+  public void logoutSuccessfullTest() {
     driver.get("http://localhost:8080/login");
     driver.manage().window().setSize(new Dimension(1900, 1000));
     driver.findElement(By.name("email")).click();
