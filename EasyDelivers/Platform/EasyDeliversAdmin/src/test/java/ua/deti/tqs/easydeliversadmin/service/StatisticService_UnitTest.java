@@ -92,35 +92,25 @@ public class StatisticService_UnitTest {
         when(deliveryRepository.findDeliveryById(2)).thenReturn(del1);
         when(deliveryRepository.findDeliveryById(3)).thenReturn(del2);
         when(deliveryRepository.findDeliveryById(4)).thenReturn(del3);
-        when(deliveryRepository.findDeliveryById(5)).thenReturn(del4);
-        when(geocoder.convertFromAddressToCoordinatesWithApi("Bairro de Santiago")).thenReturn("40.6278521,-8.6526136");
-        when(geocoder.convertFromAddressToCoordinatesWithApi("Bairro do Liceu")).thenReturn("40.6345766,-8.6487619");
-        when(geocoder.convertFromAddressToCoordinatesWithApi("Avenida Doutor Lourenço Peixinho")).thenReturn("40.6430859,-8.6486171");
-        when(geocoder.convertFromAddressToCoordinatesWithApi("DETI")).thenReturn("40.6331731,-8.661682");
-        when(geocoder.convertFromAddressToCoordinatesWithApi("Staples Aveiro")).thenReturn("40.6435735,-8.6076039");
-        when(geocoder.convertFromAddressToCoordinatesWithApi("ProudPapers")).thenReturn("40.6409327,-8.6540674");
+        when(deliveryRepository.findDeliveryById(6)).thenReturn(del4);
+        when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("Bairro de Santiago", "Estação de Aveiro")).thenReturn(4.2);
+        when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("Bairro do Liceu", "Glicínias Plaza")).thenReturn(2.8);
+        when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("ProudPapers", "Avenida Doutor Lourenço Peixinho")).thenReturn(3.0);
+        when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("DETI", "DECA")).thenReturn(1.2);
+        when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("Staples Aveiro", "DETI")).thenReturn(7.8);
+        when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("EasyDelivers", "ProudPapers")).thenReturn(5.0);
 
     }
 
-    /*@Test
+    @Test
     public void kmCoveredTest() {
-        // findStateByDescription (completed) andTimestamp (last 24h)
-        // findDelivery by id -> findRider by id
-        // api get (delivery.end) e api get (delivery.start)
-        // conta(operacao) qualquer(??) delivery.end - delivery.start
-        //double kmsCovered = service.sumOfKmCoveredInLast24Hours();
+        double kmsCovered = service.sumOfKmCoveredInLast24Hours();
+        assertEquals(24.0, kmsCovered);
 
-        //http://dev.virtualearth.net/REST/v1/Routes/{travelMode}?wayPoint.1={wayPoint1}&viaWaypoint.2={viaWaypoint2}&waypoint.3={waypoint3}&wayPoint.n={waypointN}&heading={heading}&optimize={optimize}&avoid={avoid}&distanceBeforeFirstTurn={distanceBeforeFirstTurn}&routeAttributes={routeAttributes}&timeType={timeType}&dateTime={dateTime}&maxSolutions={maxSolutions}&tolerances={tolerances}&distanceUnit={distanceUnit}&key={BingMapsKey}
-
-
-        //√((x_2-x_1)²+(y_2-y_1)²)
-        // 40.6278521,-8.6526136
-        // 40.6331731,-8.661682
-        //double distance_del1 = Math.sqrt(Math.pow(40.6331731 - 40.6278521) + Math.pow(-8.661682, -8.6526136));
-        //assertThat();
-        //verify(stateRepository, times(1))
-         //       .findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
-    }        */
+        verify(stateRepository, times(1)).findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
+        verify(deliveryRepository, times(4)).findDeliveryById(any(Integer.class));
+        verify(geocoder, times(1)).getDistanceBetweenTwoAddressesWithExternalApi(any(String.class), any(String.class));
+    }
 
     @Test
     public void nrDeliveriesTest() {

@@ -5,11 +5,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class Geocoder {
 
-    public String convertFromAddressToCoordinatesWithApi(String address){
+    public double getDistanceBetweenTwoAddressesWithExternalApi(String departure, String destination){
         // define URL
         // create connection
         // get
         // parse JSON
-        return "";
+        return 0.0;
     }
 }
