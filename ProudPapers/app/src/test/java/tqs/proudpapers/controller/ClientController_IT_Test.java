@@ -144,7 +144,9 @@ class ClientController_IT_Test {
     @Order(4)
     @Test
     public void loginWithIncorrectPassword_thenLoginPageWithErrorMessage() throws Exception {
-        mvc.perform(post("/login",alexDTO.getEmail(), "invalid"))
+        mvc.perform(post("/login")
+                .param("email", alex.getEmail())
+                .param("password", "invalid"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"))
                 .andExpect(xpath("//h5[@id='error-msg']").exists());
