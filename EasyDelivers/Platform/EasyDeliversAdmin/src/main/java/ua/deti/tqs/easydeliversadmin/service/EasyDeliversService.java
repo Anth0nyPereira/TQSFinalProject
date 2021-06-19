@@ -166,6 +166,21 @@ public class EasyDeliversService {
     }
 
     public double sumOfKmCoveredInLast24Hours() {
+        // findStateByDescription (completed) andTimestamp (last 24h)
+        // findDelivery by id
+        // api get (delivery.end) e api get (delivery.start)
+        // conta(operacao) qualquer(??) delivery.end - delivery.start
+        //double kmsCovered = service.sumOfKmCoveredInLast24Hours();
+
+        //http://dev.virtualearth.net/REST/v1/Routes/{travelMode}?wayPoint.1={wayPoint1}&viaWaypoint.2={viaWaypoint2}&waypoint.3={waypoint3}&wayPoint.n={waypointN}&heading={heading}&optimize={optimize}&avoid={avoid}&distanceBeforeFirstTurn={distanceBeforeFirstTurn}&routeAttributes={routeAttributes}&timeType={timeType}&dateTime={dateTime}&maxSolutions={maxSolutions}&tolerances={tolerances}&distanceUnit={distanceUnit}&key={BingMapsKey}
+
+
+        //√((x_2-x_1)²+(y_2-y_1)²)
+        // 40.6278521,-8.6526136
+        // 40.6331731,-8.661682
+        //double distance_del1 = Math.sqrt(Math.pow(40.6331731 - 40.6278521) + Math.pow(-8.661682, -8.6526136));
+        //assertThat();
+
         return 0.0;
     }
 }
