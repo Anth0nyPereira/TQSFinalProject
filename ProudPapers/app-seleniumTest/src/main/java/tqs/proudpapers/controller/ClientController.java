@@ -38,7 +38,7 @@ public class ClientController {
     @Autowired
     RestTemplate restTemplate;
 
-    @GetMapping(value = {"/", "/index"})
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = {"/", "/index"})
     public String index(Model model){
         model.addAttribute("products", productService.getAll());
         return "index";
@@ -106,6 +106,7 @@ public class ClientController {
         ClientDTO client = clientService.getClientById(id);
         CartDTO cart= cartService.getCartByClientID(id);
         client.setCartDTO(cart);
+        PaymentMethod p = client.getPaymentMethod();
 
         model.addAttribute("client", client);
 
