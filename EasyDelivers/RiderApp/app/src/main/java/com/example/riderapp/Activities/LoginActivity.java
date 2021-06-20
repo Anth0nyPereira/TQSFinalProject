@@ -58,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("Email", logged.getEmail());
                     editor.putString("Telephone", logged.getTelephone());
                     editor.putString("Transportation", logged.getTransportation());
+                    //editor.putString("rating", logged.getRating());
+                    //editor.putString("salary", logged.getSalary());
                     editor.putInt("Delivery_radius", logged.getDelivery_radius());
                     editor.apply();
                     Log.w("LoginProcess", "Sucess:"+ logged.toString());

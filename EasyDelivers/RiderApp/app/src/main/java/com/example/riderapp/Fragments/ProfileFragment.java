@@ -1,5 +1,6 @@
 package com.example.riderapp.Fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -8,8 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.riderapp.MainActivity;
 import com.example.riderapp.R;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -69,8 +72,29 @@ public class ProfileFragment extends Fragment {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("UserData",MODE_PRIVATE);
         String firstname = sharedPreferences.getString("FirstName","");
         String lastname = sharedPreferences.getString("LastName","");
+        //Quando se passar o rating
+        //String ratingText = sharedPreferences.getString("rating","");
+        //String salaryText = sharedPreferences.getString("salary","");
         TextView username = view.findViewById(R.id.user_profile_name);
+        TextView rating = view.findViewById(R.id.user_rating);
+        TextView salary = view.findViewById(R.id.textviewsalary);
         username.setText(firstname + " "+ lastname);
+        //Quando se passar o salary
+        //rating.setText(ratingText);
+        //salary.setText("Salary: " + salaryText)
+
+        Button buttonout = view.findViewById(R.id.logoutIcon);
+        buttonout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), MainActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
+
+
         return view;
 
     }
