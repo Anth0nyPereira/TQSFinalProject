@@ -58,9 +58,9 @@ class DeliveryRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        del1= new Delivery(1,2,"awaiting_processing","919292112","DETI","Bairro de Santiago", 0);
-        del2= new Delivery(2,4,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu", 0);
-        del3= new Delivery(3,4,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ", 0);
+        del1= new Delivery(1,2,"awaiting_processing","919292112","DETI","Bairro de Santiago");
+        del2= new Delivery(2,4,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu");
+        del3= new Delivery(3,4,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
     }
 
     @AfterEach

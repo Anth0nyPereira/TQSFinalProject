@@ -64,13 +64,13 @@ class EasyDeliversServiceTest {
     @BeforeEach
     void setUp() throws Exception {
         enc = new PasswordEncryption();
-        rider1 = new Rider("hugo","ferreira","hugo@email.com", enc.encrypt("12345"), "930921312","car", 1000.00);
-        invalid = new Rider("firstname","lastname","email","password","telephone","transportation", 1000.00);
-        newRider = new Rider("firstname","lastname","notfake@email.com","password","telephone","transportation", 1000.00);
+        rider1 = new Rider("hugo","ferreira","hugo@email.com", enc.encrypt("12345"), "930921312","car");
+        invalid = new Rider("firstname","lastname","email","password","telephone","transportation");
+        newRider = new Rider("firstname","lastname","notfake@email.com","password","telephone","transportation");
 
-        del1= new Delivery(1,2,"awaiting_processing","919292112","DETI","Bairro de Santiago", 0);
-        del2= new Delivery(2,2,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu", 0);
-        del3= new Delivery(3,2,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ", 0);
+        del1= new Delivery(1,2,"awaiting_processing","919292112","DETI","Bairro de Santiago");
+        del2= new Delivery(2,2,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu");
+        del3= new Delivery(3,2,"awaiting_processing","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
         del1.setId(1);
         del2.setId(-1);
         allDeliversAwaitingProcessing = Arrays.asList(del1, del2, del3);

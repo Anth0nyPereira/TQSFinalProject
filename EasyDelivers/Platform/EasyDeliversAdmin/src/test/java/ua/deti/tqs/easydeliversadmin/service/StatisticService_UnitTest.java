@@ -72,20 +72,24 @@ public class StatisticService_UnitTest {
 
         List<Delivery> listOfCompletedDeliveries = new ArrayList<>();
 
-        Delivery del1= new Delivery(1,2,"completed","919292112","DETI","Bairro de Santiago", 5);
-        Delivery del2= new Delivery(2,4,"completed","919292941","Staples Aveiro","Bairro do Liceu", 3);
-        Delivery del3= new Delivery(3,4,"completed","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ", 3);
-        Delivery del4= new Delivery(3,4,"completed","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ", 3);
+        Delivery del1= new Delivery(1,2,"completed","919292112","DETI","Bairro de Santiago");
+        Delivery del2= new Delivery(2,4,"completed","919292941","Staples Aveiro","Bairro do Liceu");
+        Delivery del3= new Delivery(3,4,"completed","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
+        Delivery del4= new Delivery(3,4,"completed","949292921","ProudPapers","Avenida Doutor Lourenço Peixinho ");
 
+        del1.setScore(5);
+        del2.setScore(3);
+        del3.setScore(3);
+        del4.setScore(3);
         listOfCompletedDeliveries = Arrays.asList(del1, del2, del3);
 
         when(deliveryRepository.findDeliveriesByState(any())).thenReturn(listOfCompletedDeliveries);
 
         List<Rider> listOfAllRiders = new ArrayList<>();
         PasswordEncryption enc = new PasswordEncryption();
-        Rider r1= new Rider("hugo","ferreira","hugo@email.com", enc.encrypt("12345"), "930921312","car", 1000.00);
-        Rider r2= new Rider("clara","sousa","csousa@email.com", enc.encrypt("anvd"), "911551312","car", 1000.00);
-        Rider r3= new Rider("pedro","teixeira","teixeira@email.com", enc.encrypt("12345"), "930921312","car", 1000.00);
+        Rider r1= new Rider("hugo","ferreira","hugo@email.com", enc.encrypt("12345"), "930921312","car");
+        Rider r2= new Rider("clara","sousa","csousa@email.com", enc.encrypt("anvd"), "911551312","car");
+        Rider r3= new Rider("pedro","teixeira","teixeira@email.com", enc.encrypt("12345"), "930921312","car");
 
         listOfAllRiders = Arrays.asList(r1, r2, r3);
 

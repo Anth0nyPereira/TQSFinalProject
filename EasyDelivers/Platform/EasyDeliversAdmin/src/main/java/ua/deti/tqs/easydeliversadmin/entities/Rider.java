@@ -34,7 +34,7 @@ public class Rider {
         @NotBlank
         private Double salary;
 
-        public Rider(String firstname, String lastname, String email, String password, String telephone, String transportation, Double salary) {
+        public Rider(String firstname, String lastname, String email, String password, String telephone, String transportation) {
                 this.firstname = firstname;
                 this.lastname = lastname;
                 this.email = email;
@@ -42,7 +42,7 @@ public class Rider {
                 this.telephone = telephone;
                 this.transportation = transportation;
                 this.delivery_radius = 50;
-                this.salary = salary;
+                this.salary = 0.0;
         }
 
         public Rider() {

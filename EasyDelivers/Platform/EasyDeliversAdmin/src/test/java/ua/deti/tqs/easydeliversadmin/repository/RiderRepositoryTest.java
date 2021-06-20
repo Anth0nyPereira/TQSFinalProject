@@ -44,7 +44,7 @@ class RiderRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        rider = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car", 1000.00);
+        rider = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
     }
 
     @AfterEach
@@ -55,7 +55,7 @@ class RiderRepositoryTest {
     @Test
     @DisplayName("Tests invalid Find Rider By Email")
     void whenInvalidFindRiderByEmail_thenReturnNull(){
-        rider = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car", 1000.00);
+        rider = new Rider("hugo","ferreira","hugo@email.com", "12345", "930921312","car");
 
         Rider fromDB = riderRepository.findRiderByEmail("hugo@email.com");
 

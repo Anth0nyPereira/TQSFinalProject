@@ -41,14 +41,14 @@ public class Delivery {
     @NotBlank
     private int score;
 
-    public Delivery(int store,int rider_fee, String state, String client_telephone, String start, String destination, int score) {
+    public Delivery(int store,int rider_fee, String state, String client_telephone, String start, String destination) {
         this.store = store;
         this.rider_fee = rider_fee;
         this.state = state;
         this.client_telephone = client_telephone;
         this.start = start;
         this.destination = destination;
-        this.score = score;
+        this.score = 0;
     }
 
     public Delivery() {
