@@ -105,6 +105,7 @@ public class StatisticService_UnitTest {
         del1.setRider(r1.getId());
         del2.setRider(r2.getId());
         del3.setRider(r3.getId());
+        del4.setRider(r2.getId());
 
         when(riderRepository.findAll()).thenReturn(listOfAllRiders);
         when(riderRepository.findRiderById(r1.getId())).thenReturn(r1);
@@ -206,7 +207,7 @@ public class StatisticService_UnitTest {
         assertEquals(4.2, kmsCovered);
 
         verify(stateRepository, times(1)).findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
-        verify(deliveryRepository, times(4)).findDeliveryById(id);
+        verify(deliveryRepository, times(4)).findDeliveryById(any(Integer.class));
         verify(geocoder, times(1)).getDistanceInKmsBetweenTwoAddressesWithExternalApi(any(String.class), any(String.class));
     }
 
