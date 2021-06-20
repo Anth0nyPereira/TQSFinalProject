@@ -20,6 +20,8 @@ public class User {
     private int delivery_radius;
     @SerializedName("transportation")
     private String transportation;
+    @SerializedName("salary")
+    private Double salary;
 
     public User(String firstname, String lastname, String email, String password, String telephone, String transportation) {
         this.firstname = firstname;
@@ -93,6 +95,14 @@ public class User {
 
     public void setTransportation(String transportation) {
         this.transportation = transportation;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
     }
 
     @Override
