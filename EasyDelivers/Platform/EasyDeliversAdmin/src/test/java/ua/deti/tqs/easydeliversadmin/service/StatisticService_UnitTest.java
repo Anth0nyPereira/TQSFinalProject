@@ -96,23 +96,23 @@ public class StatisticService_UnitTest {
         when(deliveryRepository.findDeliveryById(4)).thenReturn(del3);
         when(deliveryRepository.findDeliveryById(6)).thenReturn(del4);
 
-        when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("DETI","Bairro de Santiago")).thenReturn(4.2);
-        when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("Bairro do Liceu", "Glicínias Plaza")).thenReturn(2.8);
-        when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("ProudPapers","Avenida Doutor Lourenço Peixinho ")).thenReturn(3.0);
-        when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("DETI", "DECA")).thenReturn(1.2);
-        when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("Staples Aveiro","Bairro do Liceu")).thenReturn(7.8);
-        when(geocoder.getDistanceBetweenTwoAddressesWithExternalApi("EasyDelivers", "ProudPapers")).thenReturn(5.0);
+        when(geocoder.getDistanceInKmsBetweenTwoAddressesWithExternalApi("DETI","Bairro de Santiago")).thenReturn(4.2);
+        when(geocoder.getDistanceInKmsBetweenTwoAddressesWithExternalApi("Bairro do Liceu", "Glicínias Plaza")).thenReturn(2.8);
+        when(geocoder.getDistanceInKmsBetweenTwoAddressesWithExternalApi("ProudPapers","Avenida Doutor Lourenço Peixinho ")).thenReturn(3.0);
+        when(geocoder.getDistanceInKmsBetweenTwoAddressesWithExternalApi("DETI", "DECA")).thenReturn(1.2);
+        when(geocoder.getDistanceInKmsBetweenTwoAddressesWithExternalApi("Staples Aveiro","Bairro do Liceu")).thenReturn(7.8);
+        when(geocoder.getDistanceInKmsBetweenTwoAddressesWithExternalApi("EasyDelivers", "ProudPapers")).thenReturn(5.0);
 
     }
 
     @Test
-    public void kmCoveredTest() throws JSONException {
+    public void kmCoveredTest() {
         double kmsCovered = service.sumOfKmCoveredInLast24Hours();
         assertEquals(18.0, kmsCovered);
 
         verify(stateRepository, times(1)).findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
         verify(deliveryRepository, times(4)).findDeliveryById(any(Integer.class));
-        verify(geocoder, times(4)).getDistanceBetweenTwoAddressesWithExternalApi(any(String.class), any(String.class));
+        verify(geocoder, times(4)).getDistanceInKmsBetweenTwoAddressesWithExternalApi(any(String.class), any(String.class));
     }
 
     @Test

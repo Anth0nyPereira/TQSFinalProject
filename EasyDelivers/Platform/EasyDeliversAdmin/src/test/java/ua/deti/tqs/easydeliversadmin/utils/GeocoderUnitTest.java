@@ -18,9 +18,9 @@ public class GeocoderUnitTest {
     private Geocoder geocoder;
 
     @Test
-    public void checkDistanceTest() throws JSONException {
-        double expectedDistance = 38739.0;
-        assertEquals(expectedDistance, geocoder.getDistanceBetweenTwoAddressesWithExternalApi("Rua Carvalho de Baixo", "Universidade de Aveiro"));
+    public void checkDistanceTest() {
+        double expectedDistance = 38.739;
+        assertEquals(expectedDistance, geocoder.getDistanceInKmsBetweenTwoAddressesWithExternalApi("Rua Carvalho de Baixo", "Universidade de Aveiro"));
     }
 
 }

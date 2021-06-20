@@ -15,18 +15,22 @@ public class Geocoder {
 
     private static RestTemplate restTemplate = new RestTemplate();
 
-    public double getDistanceBetweenTwoAddressesWithExternalApi(String departure, String destination) throws JSONException {
-        RestTemplate restTemplate = getRestTemplate();
-        String apiResult = restTemplate.getForObject("https://api.distancematrix.ai/maps/api/distancematrix/json?origins=" + departure + "&destinations=" + destination + "&key=" + apiKey, String.class);
-        JSONObject json = new JSONObject(apiResult);
-        JSONArray rowsArray = json.getJSONArray("rows");
-        JSONObject rowsObject = rowsArray.getJSONObject(0);
-        JSONArray elementsArray = rowsObject.getJSONArray("elements");
-        JSONObject distanceObject = elementsArray.getJSONObject(0);
-        JSONObject valuesObject = distanceObject.getJSONObject("distance");
-        double distance = valuesObject.getDouble("value");
-
-        return distance;
+    public double getDistanceInKmsBetweenTwoAddressesWithExternalApi(String departure, String destination) {
+        try {
+            RestTemplate restTemplate = getRestTemplate();
+            String apiResult = restTemplate.getForObject("https://api.distancematrix.ai/maps/api/distancematrix/json?origins=" + departure + "&destinations=" + destination + "&key=" + apiKey, String.class);
+            JSONObject json = new JSONObject(apiResult);
+            JSONArray rowsArray = json.getJSONArray("rows");
+            JSONObject rowsObject = rowsArray.getJSONObject(0);
+            JSONArray elementsArray = rowsObject.getJSONArray("elements");
+            JSONObject distanceObject = elementsArray.getJSONObject(0);
+            JSONObject valuesObject = distanceObject.getJSONObject("distance");
+            double distance = valuesObject.getDouble("value")/1000;
+            return distance;
+        } catch (JSONException e) {
+            double distance = 0.0;
+            return distance;
+        }
     }
 
     public static RestTemplate getRestTemplate() {

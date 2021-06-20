@@ -238,7 +238,7 @@ public class EasyDeliversService {
         return deliveryRepository.findDeliveriesByState("completed");
     }
 
-    public double sumOfKmCoveredInLast24Hours() throws JSONException {
+    public double sumOfKmCoveredInLast24Hours() {
         long currentTime = System.currentTimeMillis();
         // findStateByDescription (completed) andTimestamp (last 24h)
         List<State> listOfCompletedStates = stateRepository.findStatesByDescriptionAndTimestampBetween("completed", new Timestamp(currentTime - TimeUnit.DAYS.toMillis(1)), new Timestamp(currentTime));
@@ -251,7 +251,7 @@ public class EasyDeliversService {
             Delivery foundDelivery = deliveryRepository.findDeliveryById(iteratedState.getDelivery());
             String departure = foundDelivery.getStart();
             String destination = foundDelivery.getDestination();
-            double distance = geocoder.getDistanceBetweenTwoAddressesWithExternalApi(departure, destination);
+            double distance = geocoder.getDistanceInKmsBetweenTwoAddressesWithExternalApi(departure, destination);
             totalDistance += distance;
         }
         // api get (delivery.end) e api get (delivery.start)
