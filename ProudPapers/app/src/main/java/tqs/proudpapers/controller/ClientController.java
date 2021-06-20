@@ -38,7 +38,7 @@ public class ClientController {
     @Autowired
     RestTemplate restTemplate;
 
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = {"/", "/index"})
+    @GetMapping(value = {"/", "/index"})
     public String index(Model model){
         model.addAttribute("products", productService.getAll());
         return "index";
