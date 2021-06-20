@@ -10,7 +10,7 @@ Coded by Creative Tim
 =========================================================
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" th:href="@{/img/apple-icon.png}">
@@ -142,11 +142,6 @@ The above copyright notice and this permission notice shall be included in all c
 <body class="">
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="white" data-image="@{/img/sidebar-1.jpg}">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-        Tip 2: you can also add an image using data-image tag
-    -->
       <div class="logo"><a th:href="@{/dashboard}" class="simple-text logo-normal">
           Easy Delivers
         </a></div>
@@ -259,7 +254,7 @@ The above copyright notice and this permission notice shall be included in all c
                     <i class="material-icons">done_all</i>
                   </div>
                   <p class="card-category">Deliveries</p>
-                  <h3 class="card-title">24 </h3>
+                  <h3 class="card-title" th:text="${numdeliveries}"></h3>
                   <small>  Easy Delivers</small>
                 </div>
                 <div class="card-footer">
@@ -276,8 +271,8 @@ The above copyright notice and this permission notice shall be included in all c
                     <i class="material-icons">watch_later</i>
                   </div>
                   <p class="card-category">Average Delivery Time</p>
-                  <h3 class="card-title">35</h3>
-                  <small style="color: #3C4858;">Kms</small>
+                  <h3 class="card-title" th:text="${avgtime}"></h3>
+                  <small style="color: #3C4858;">mins</small>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -293,7 +288,7 @@ The above copyright notice and this permission notice shall be included in all c
                     <i class="material-icons">star_half</i>
                   </div>
                   <p class="card-category">Global Score</p>
-                  <h3 class="card-title">4.0</h3>
+                  <h3 class="card-title" th:text="${avgScore}"></h3>
                   <small>  Easy Delivers</small>
                 </div>
                 <div class="card-footer">
@@ -358,41 +353,16 @@ The above copyright notice and this permission notice shall be included in all c
                     <thead class="text-warning">
                       <th>ID</th>
                       <th>Name</th>
-                      <th>Location</th>
-                      <th>Score</th>
+                      <!--<th>Score</th>-->
                       <th>Salary</th>
 
                     </thead>
-                    <tbody>
+                    <tbody th:each="employee : ${employees}">
                       <tr>
-                        <td>1</td>
-                        <td><a th:href="@{/employee?id=1}">Mateus Aleixo</a> </td>
-                        <td>Aveiro</td>
-                        <td>3.6</td>
-                        <td>673€</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td><a th:href="@{/employee?id=2}">Bruna Cruz</a></td>
-                        <td>Aveiro</td>
-                        <td>3.3</td>
-                        <td>378€</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td><a th:href="@{/employee?id=3}">Catarina Branco</a></td>
-                        <td>Porto</td>
-                        <td>4.6</td>
-                        <td>614</td>
-
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td><a th:href="@{/employee?id=4}">Joana Jorge</a></td>
-                        <td>Vila Nova de Gaia</td>
-                        <td>4.9</td>
-                        <td>873€</td>
-
+                        <td th:text="${employee.id}"></td>
+                        <td><a th:href="@{/employee?id=1}" th:text="${employee.firstname}+''+${employee.lastname}"></a> </td>
+                        <!--<td th:text="${employee.score}"></td>-->
+                        <td th:text="${employee.salary}">673€</td>
                       </tr>
                     </tbody>
                   </table>

@@ -185,7 +185,10 @@ public class EasyDeliversService {
             listOfTimes.add(iteration_result);
             totalTime += iteration_result;
         }
-        return TimeUnit.MILLISECONDS.toMinutes(totalTime  / listOfTimes.size());
+        if(listOfTimes.size() > 0)
+            return TimeUnit.MILLISECONDS.toMinutes(totalTime  / listOfTimes.size());
+        else
+            return 0.0;
     }
 
 
@@ -222,11 +225,22 @@ public class EasyDeliversService {
         for(Delivery delivery : allDeliveries){
             sumOfScores += delivery.getScore();
         }
-        return sumOfScores / allDeliveries.size();
+        if(allDeliveries.size() > 0)
+            return sumOfScores / allDeliveries.size();
+        else
+            return 0.0;
     }
 
     public List<Rider> getAllRiders(){
         return riderRepository.findAll();
+    }
+
+    public List<Rider> getTopRiders(){
+        List<Rider> allRiders = getAllRiders();
+        if(allRiders.size() <= 4)
+            return allRiders;
+        else
+            return allRiders.subList(allRiders.size() -3, allRiders.size());
     }
 
     public List<Delivery> getAllCompletedDeliveries() {

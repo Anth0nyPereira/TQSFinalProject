@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ua.deti.tqs.easydeliversadmin.entities.Admin;
+import ua.deti.tqs.easydeliversadmin.entities.Rider;
 import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
 import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -78,8 +80,13 @@ public class EasyDeliversController {
     @GetMapping("/dashboard")
     public ModelAndView dash(ModelMap model){
         log.info(session);
-        if(!session.equals(""))
+        if(!session.equals("")){
+            model.addAttribute("numdeliveries", service.numberDeliveriesMadeForLast24Hours());
+            model.addAttribute("avgtime", service.averageTimeDeliveries());
+            model.addAttribute("avgScore", service.averageRidersScore());
+            model.addAttribute("employees", service.getTopRiders());
             return new ModelAndView("dashboard", model);
+        }
         else
             return new ModelAndView("redirect:/login", model);
     }
