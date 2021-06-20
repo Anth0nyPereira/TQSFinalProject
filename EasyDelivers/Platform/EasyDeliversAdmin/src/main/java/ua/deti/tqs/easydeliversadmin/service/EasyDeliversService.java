@@ -224,8 +224,8 @@ public class EasyDeliversService {
 
     public List<Integer> numberDeliveriesMadeForLast13Days(){
         List<Integer> allDeliveriesOfLast13Days = Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0);
-        long stoptime = System.currentTimeMillis();
-        long starttime = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1);
+        long stoptime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);;
+        long starttime = stoptime - TimeUnit.DAYS.toMillis(1);
 
         for(int i=0; i<13; i++){
             allDeliveriesOfLast13Days.set(i, stateRepository.findStatesByDescriptionAndTimestampBetween(
@@ -305,8 +305,8 @@ public class EasyDeliversService {
     public List<Double> averageDeliveryTimeForLast13Days(){
         List<Integer> numberOfDeliveriesOfLast13Days = Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0);
         List<Double> sumTimesOfDeliveriesOfLast13Days = Arrays.asList(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
-        long stoptime = System.currentTimeMillis();
-        long starttime = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1);
+        long stoptime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);;
+        long starttime = stoptime - TimeUnit.DAYS.toMillis(1);
 
         for(int i=0; i<13; i++){
             List<State> deliveriesOfThatDay = stateRepository.findStatesByDescriptionAndTimestampBetween(
@@ -322,10 +322,15 @@ public class EasyDeliversService {
             starttime -= TimeUnit.DAYS.toMillis(1);
             stoptime -= TimeUnit.DAYS.toMillis(1);
         }
-
+        // 1 millisecond = 1.66666667 × 10-5 minutes
         for(int i=0; i<13; i++){
-            sumTimesOfDeliveriesOfLast13Days.set(i, sumTimesOfDeliveriesOfLast13Days.get(i)/numberOfDeliveriesOfLast13Days.get(i));
+            if (sumTimesOfDeliveriesOfLast13Days.get(i) == 0.0) {
+                sumTimesOfDeliveriesOfLast13Days.set(i, 0.0);
+            } else {
+                sumTimesOfDeliveriesOfLast13Days.set(i, (sumTimesOfDeliveriesOfLast13Days.get(i)/numberOfDeliveriesOfLast13Days.get(i))/1000/60);
+            }
         }
+
         return sumTimesOfDeliveriesOfLast13Days;
     }
 

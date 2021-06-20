@@ -28,7 +28,14 @@ The above copyright notice and this permission notice shall be included in all c
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link th:href="@{/demo/demo.css}" rel="stylesheet" />
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
+  <script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+
+    var nrDeliveries13Days = /*[[${nrDeliveries13Days}]]*/
+    var averageDeliveryTime13Days = /*[[${averageTime13Days}]]*/
+
+    /*]]>*/
+
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChartAverageKms);
 
@@ -36,24 +43,61 @@ The above copyright notice and this permission notice shall be included in all c
 
     google.charts.setOnLoadCallback(drawChartAverageTime);
 
+    function drawChartNumberDeliveries() {
+      var data = new google.visualization.DataTable();
+      var today = new Date();
+      data.addColumn('date', 'Day');
+      data.addColumn('number', 'Number of Deliveries');
+
+      data.addRows([
+        [ new Date(today - 86400000), nrDeliveries13Days[0]],
+        [ new Date(today - 2*86400000), nrDeliveries13Days[1]],
+        [ new Date(today - 3*86400000), nrDeliveries13Days[2]],
+        [ new Date(today - 4*86400000), nrDeliveries13Days[3]],
+        [ new Date(today - 5*86400000), nrDeliveries13Days[4]],
+        [ new Date(today - 6*86400000), nrDeliveries13Days[5]],
+        [ new Date(today - 86400000*7), nrDeliveries13Days[6]],
+        [ new Date(today - 86400000*8), nrDeliveries13Days[7]],
+        [ new Date(today - 86400000*9), nrDeliveries13Days[8]],
+        [ new Date(today - 86400000*10), nrDeliveries13Days[9]],
+        [ new Date(today - 86400000*11), nrDeliveries13Days[10]],
+        [ new Date(today - 86400000*12), nrDeliveries13Days[11]],
+        [ new Date(today - 86400000*13), nrDeliveries13Days[12]]
+      ]);
+
+      var options = {
+        title: 'Number of Deliveries Made By Day',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        width :1000,
+        height:700,
+        hAxis: {title: "Day" , direction:-1, slantedText:true, slantedTextAngle:90 },
+      };
+
+      var chart = new google.visualization.ColumnChart(document.getElementById('messages'));
+
+      chart.draw(data, options);
+    }
+
     function drawChartAverageTime() {
       var data = new google.visualization.DataTable();
+      var today = new Date();
       data.addColumn('date', 'Day');
       data.addColumn('number', 'Average Time in mins');
       data.addRows([
-        [ new Date(2021, 3, 13), 30],
-        [ new Date(2021, 3, 14), 23],
-        [ new Date(2021, 3, 15), 12],
-        [ new Date(2021, 3, 16), 25],
-        [ new Date(2021, 3, 17), 13],
-        [ new Date(2021, 3, 18), 10 ],
-        [ new Date(2021, 3, 19), 20 ],
-        [ new Date(2021, 3, 20), 17 ],
-        [ new Date(2021, 3, 21), 34 ],
-        [ new Date(2021, 3, 22), 28 ],
-        [ new Date(2021, 3, 23), 13 ],
-        [ new Date(2021, 3, 24), 14 ],
-        [ new Date(2021, 3, 25), 17 ]
+        [ new Date(today - 86400000), averageDeliveryTime13Days[0]],
+        [ new Date(today - 2*86400000), averageDeliveryTime13Days[1]],
+        [ new Date(today - 3*86400000), averageDeliveryTime13Days[2]],
+        [ new Date(today - 4*86400000), averageDeliveryTime13Days[3]],
+        [ new Date(today - 5*86400000), averageDeliveryTime13Days[4]],
+        [ new Date(today - 6*86400000), averageDeliveryTime13Days[5]],
+        [ new Date(today - 86400000*7), averageDeliveryTime13Days[6]],
+        [ new Date(today - 86400000*8), averageDeliveryTime13Days[7]],
+        [ new Date(today - 86400000*9), averageDeliveryTime13Days[8]],
+        [ new Date(today - 86400000*10), averageDeliveryTime13Days[9]],
+        [ new Date(today - 86400000*11), averageDeliveryTime13Days[10]],
+        [ new Date(today - 86400000*12), averageDeliveryTime13Days[11]],
+        [ new Date(today - 86400000*13), averageDeliveryTime13Days[12]]
       ]);
 
       var options = {
@@ -69,57 +113,7 @@ The above copyright notice and this permission notice shall be included in all c
       chart.draw(data, options);
     }
 
-    function drawChartNumberDeliveries() {
-      var data = new google.visualization.DataTable();
-      var today = new Date();
-      console.log(/*[[${nrDeliveries13Days}]]*/ 1)
-      data.addColumn('date', 'Day');
-      data.addColumn('number', 'Number of Deliveries');
-      /*<![CDATA[*/
-        var day0 = /*[[${nrDeliveries13Days[0]}]]*/ 0;
-        var day1 = /*[[${nrDeliveries13Days[1]}]]*/ 0;
-        var day2 = /*[[${nrDeliveries13Days[2]}]]*/ 0;
-        var day3 = /*[[${nrDeliveries13Days[3]}]]*/ 0;
-        var day4 = /*[[${nrDeliveries13Days[4]}]]*/ 0;
-        var day5 = /*[[${nrDeliveries13Days[5]}]]*/ 0;
-        var day6 = /*[[${nrDeliveries13Days[6]}]]*/ 0;
-        var day7 = /*[[${nrDeliveries13Days[7]}]]*/ 0;
-        var day8 = /*[[${nrDeliveries13Days[8]}]]*/ 0;
-        var day9 = /*[[${nrDeliveries13Days[9]}]]*/ 0;
-        var day10 = /*[[${nrDeliveries13Days[10]}]]*/ 0;
-        var day11 = /*[[${nrDeliveries13Days[11]}]]*/ 0;
-        var day12 = /*[[${nrDeliveries13Days[12]}]]*/ 0;
-      /*]]>*/
-      data.addRows([
-        [ new Date(today - 86400000), day0],
-        [ new Date(today - 2*86400000), day1],
-        [ new Date(today - 3*86400000), day2],
-        [ new Date(today - 4*86400000), day3],
-        [ new Date(today - 5*86400000), day4],
-        [ new Date(today - 6*86400000), day5],
-        [ new Date(today - 86400000*7), day6],
-        [ new Date(today - 86400000*8), day7],
-        [ new Date(today - 86400000*9), day8],
-        [ new Date(today - 86400000*10), day9],
-        [ new Date(today - 86400000*11), day10],
-        [ new Date(today - 86400000*12), day11],
-        [ new Date(today - 86400000*13), day12]
-      ]);
-      /*]]>*/
 
-      var options = {
-        title: 'Number of Deliveries Made By Day',
-        curveType: 'function',
-        legend: { position: 'bottom' },
-        width :1000,
-        height:700,
-        hAxis: {title: "Day" , direction:-1, slantedText:true, slantedTextAngle:90 },
-      };
-
-      var chart = new google.visualization.ColumnChart(document.getElementById('messages'));
-
-      chart.draw(data, options);
-    }
 
     function drawChartAverageKms() {
       var data = new google.visualization.DataTable();
@@ -154,7 +148,6 @@ The above copyright notice and this permission notice shall be included in all c
       chart.draw(data, options);
     }
   </script>
-
 </head>
 
 <body class="">
