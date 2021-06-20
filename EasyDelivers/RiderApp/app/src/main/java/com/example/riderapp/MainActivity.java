@@ -5,10 +5,15 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import android.os.Bundle;
 
+import com.example.riderapp.Workers.CheckDeliveriesWorker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     boolean t=true;
@@ -37,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+        PeriodicWorkRequest periodicWorkRequest= new PeriodicWorkRequest
+                .Builder(CheckDeliveriesWorker.class, 15, TimeUnit.MINUTES)
+                .build();
+        WorkManager workManager = WorkManager.getInstance(this);
+        workManager.enqueue(periodicWorkRequest);
+
     }
     public String getAuth() {return "adasdsa";}
 }
