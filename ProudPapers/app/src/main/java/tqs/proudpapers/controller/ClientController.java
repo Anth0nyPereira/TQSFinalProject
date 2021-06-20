@@ -66,7 +66,7 @@ public class ClientController {
 
         if(client != null){
             model.addAttribute("email", client.getEmail());
-            return "login";
+            return "redirect:login";
         }
 
         model.addAttribute("emailDuplicated", true);
@@ -93,7 +93,7 @@ public class ClientController {
         session.setAttribute("client", client);
 
         model.addAttribute("products", productService.getAll());
-        return "index";
+        return "redirect:index";
     }
 
 

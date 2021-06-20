@@ -1,4 +1,4 @@
-package tqs.proudpapers.client;
+package tqs.proudpapers.controller;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.BeanUtils;
@@ -24,7 +24,6 @@ import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -64,8 +63,8 @@ class ClientController_IT_Test {
 
     @Container
     public static MySQLContainer container = new MySQLContainer(DockerImageName.parse("mysql:5.7"))
-            .withUsername("proudpapers")
-            .withPassword("abcABC123!!!")
+            .withUsername("root")
+            .withPassword("123456")
             .withDatabaseName("proudpapers");
 
     @DynamicPropertySource
@@ -99,7 +98,7 @@ class ClientController_IT_Test {
 
     @Order(1)
     @Test
-    public void signUpWithAlex_thenLoginPageWithAlexEmail() throws Exception {
+    public void signUpWithAlex_thenRedirectedToLoginPage() throws Exception {
         mvc.perform(post("/signup")
                 .param("name", alexDTO.getName())
                 .param("email", alexDTO.getEmail())
@@ -110,9 +109,8 @@ class ClientController_IT_Test {
                 .param("cardNumber", "1234567891234567")
                 .param("cardExpirationMonth", "11")
                 .param("cvc", "123"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("login"))
-                .andExpect(xpath("//input[@id='email']").string(alex.getEmail()));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:login"));
 
         ClientDTO result = clientService.getClientByEmail(alex.getEmail());
         alex.setId(result.getId());
@@ -128,26 +126,37 @@ class ClientController_IT_Test {
         BeanUtils.copyProperties(alexDTO, copyed);
         copyed.setEmail(alexDTO.getEmail());  // this email is already used by alex
 
-        assertThrows(Exception.class, ()->mvc.perform(post("/signup")));
+        mvc.perform(post("/signup")
+                .param("name", copyed.getName())
+                .param("email", copyed.getEmail())
+                .param("password", copyed.getPassword())
+                .param("city", copyed.getCity())
+                .param("zip", copyed.getZip())
+                .param("telephone", copyed.getTelephone())
+                .param("cardNumber", "1234567891234567")
+                .param("cardExpirationMonth", "11")
+                .param("cvc", "123"))
+            .andExpect(view().name("signUp"))
+            .andExpect(xpath("//h5[@id='error-msg']").exists());
     }
 
     @Order(3)
     @Test
-    public void loginWithAlex_thenIndexPageContainsUsernameAndButtons() throws Exception {
+    public void loginWithAlex_thenRedirectedToIndex() throws Exception {
         mvc.perform(post("/login")
-                .param("email", alex.getEmail())
-                .param("password", alex.getPassword()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"))
-                .andExpect(xpath("//div[contains(@class, 'username')]").string(alex.getName()))
-                .andExpect(xpath("//div[contains(@class, 'cartDiv')]").exists());
+                .param("email", alexDTO.getEmail())
+                .param("password", alexDTO.getPassword()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:index"));
 
     }
 
     @Order(4)
     @Test
     public void loginWithIncorrectPassword_thenLoginPageWithErrorMessage() throws Exception {
-        mvc.perform(post("/login",alexDTO.getEmail(), "invalid"))
+        mvc.perform(post("/login")
+                .param("email", alex.getEmail())
+                .param("password", "invalid"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"))
                 .andExpect(xpath("//h5[@id='error-msg']").exists());
@@ -198,49 +207,6 @@ class ClientController_IT_Test {
                 .andExpect(xpath("//h5[contains(@class, 'cart-product-name')]").string(p.getName()))
                 .andExpect(xpath("//div[contains(@class, 'cart-product-price')]").string("€ " + p.getPrice()))
                 .andExpect(xpath("//p[contains(@class, 'cart-product-desc')]    ").string(p.getDescription()));
-    }
-
-
-    // waiting for deployment
-    public void buyProductsInTheCart_thenCartEmptyAndDeliveryWithProducts() throws Exception {
-        Product atmamun = new Product();
-        atmamun.setName("Atmamun");
-        atmamun.setDescription("The Path To Achieving The Blis Of The Himalayan Swamis. And The Freedom Of A Living God");
-        atmamun.setPrice(15.99);
-        atmamun.setQuantity(13);
-        atmamun = productService.save(atmamun);
-        cartService.save(alex.getId(), atmamun.getId(), 1);
-
-        MockHttpSession session = new MockHttpSession();
-        session.setAttribute("client", alexDTO);
-
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
-                .post("/account/" + alex.getId() + "/purchase")
-                .param("name", alexDTO.getName())
-                .param("email", alexDTO.getEmail())
-                .param("password", alexDTO.getPassword())
-                .param("city", alexDTO.getCity())
-                .param("zip", alexDTO.getZip())
-                .param("telephone", alexDTO.getTelephone())
-                .param("cardNumber", alexDTO.getPaymentMethod().getCardNumber())
-                .param("cardExpirationMonth", alexDTO.getPaymentMethod().getCardExpirationMonth())
-                .param("cvc", alexDTO.getPaymentMethod().getCvc())
-                .session(session);
-
-        mvc.perform(builder)
-                .andExpect(status().isOk())
-                .andExpect(view().name("account"))
-                .andExpect(xpath("//h5[contains(@class, 'cart-product-name']").doesNotExist())
-                .andExpect(xpath("//div[contains(@class, 'cart-product-price')]").doesNotExist())
-                .andExpect(xpath("//p[contains(@class, 'cart-product-desc')]").doesNotExist());
-
-        CartDTO cartDTO = cartService.getCartByClientID(alex.getId());
-        assertEquals(0, cartDTO.getProductOfCarts().size());
-
-        List<DeliveryDTO> deliveries = deliveryService.getDeliveries(alex.getId());
-        assertEquals(1, deliveries.size());
-        assertEquals(1, deliveries.get(0).getProductsOfDelivery().size());
-        assertEquals(atmamun, deliveries.get(0).getProductsOfDelivery().get(0).getProduct());
     }
 
 

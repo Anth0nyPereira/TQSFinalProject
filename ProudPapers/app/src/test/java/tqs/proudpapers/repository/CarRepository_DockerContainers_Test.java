@@ -1,4 +1,4 @@
-package tqs.proudpapers.cart;
+package tqs.proudpapers.repository;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +34,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CarRepository_DockerContainers_Test {
     @Container
     public static MySQLContainer container = new MySQLContainer(DockerImageName.parse("mysql:5.7"))
-            .withUsername("proudpapers")
-            .withPassword("abcABC123!!!")
+            .withUsername("root")
+            .withPassword("123456")
             .withDatabaseName("proudpapers");
 
     @DynamicPropertySource

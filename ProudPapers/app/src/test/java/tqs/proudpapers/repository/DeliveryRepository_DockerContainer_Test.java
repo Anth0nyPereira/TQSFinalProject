@@ -1,4 +1,4 @@
-package tqs.proudpapers.delivery;
+package tqs.proudpapers.repository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,8 +35,8 @@ public class DeliveryRepository_DockerContainer_Test {
 
     @Container
     public static MySQLContainer container = new MySQLContainer(DockerImageName.parse("mysql:5.7"))
-            .withUsername("proudpapers")
-            .withPassword("abcABC123!!!")
+            .withUsername("root")
+            .withPassword("123456")
             .withDatabaseName("proudpapers");
 
     @DynamicPropertySource

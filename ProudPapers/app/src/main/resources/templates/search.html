@@ -47,6 +47,18 @@
     $('.product-form').click(function (){
         $(this).submit()
     })
+
+    if($('#user-id').val() === '-1'){
+        localStorage.setItem('totalPrice', 0)
+        localStorage.setItem('cartQuantity', 0)
+    }else{
+        reLoadLocalStorage();
+    }
+
+    function reLoadLocalStorage(){
+        $('#product-total-price').text(localStorage.getItem('totalPrice'))
+        $('#product-cart-quantity').text(parseInt(localStorage.getItem('cartQuantity')))
+    }
 </script>
 </body>
 </html>

@@ -17,7 +17,7 @@
         <form method="post" action="/login">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" th:text="${email}" class="form-control emailInput" id="email" rows="3" name="email" placeholder="email"/>
+                <input type="email" th:value="${email}" class="form-control emailInput" id="email" rows="3" name="email" placeholder="email"/>
             </div>
             <div class="mb-3">
                 <label for="Password" class="form-label">Password</label>
