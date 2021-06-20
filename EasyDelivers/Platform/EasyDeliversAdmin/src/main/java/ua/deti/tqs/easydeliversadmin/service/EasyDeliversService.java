@@ -193,8 +193,8 @@ public class EasyDeliversService {
 
     public List<Integer> numberDeliveriesMadeForLast13Days(){
         List<Integer> allDeliveriesOfLast13Days = Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0);
-        long stoptime = System.currentTimeMillis();
-        long starttime = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1);
+        long stoptime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);;
+        long starttime = stoptime - TimeUnit.DAYS.toMillis(1);
 
         for(int i=0; i<13; i++){
             allDeliveriesOfLast13Days.set(i, stateRepository.findStatesByDescriptionAndTimestampBetween(
@@ -231,8 +231,8 @@ public class EasyDeliversService {
     public List<Double> averageDeliveryTimeForLast13Days(){
         List<Integer> numberOfDeliveriesOfLast13Days = Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0);
         List<Double> sumTimesOfDeliveriesOfLast13Days = Arrays.asList(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
-        long stoptime = System.currentTimeMillis();
-        long starttime = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1);
+        long stoptime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);;
+        long starttime = stoptime - TimeUnit.DAYS.toMillis(1);
 
         for(int i=0; i<13; i++){
             List<State> deliveriesOfThatDay = stateRepository.findStatesByDescriptionAndTimestampBetween(
@@ -248,10 +248,15 @@ public class EasyDeliversService {
             starttime -= TimeUnit.DAYS.toMillis(1);
             stoptime -= TimeUnit.DAYS.toMillis(1);
         }
-
+        // 1 millisecond = 1.66666667 × 10-5 minutes
         for(int i=0; i<13; i++){
-            sumTimesOfDeliveriesOfLast13Days.set(i, sumTimesOfDeliveriesOfLast13Days.get(i)/numberOfDeliveriesOfLast13Days.get(i));
+            if (sumTimesOfDeliveriesOfLast13Days.get(i) == 0.0) {
+                sumTimesOfDeliveriesOfLast13Days.set(i, 0.0);
+            } else {
+                sumTimesOfDeliveriesOfLast13Days.set(i, (sumTimesOfDeliveriesOfLast13Days.get(i)/numberOfDeliveriesOfLast13Days.get(i))/1000/60);
+            }
         }
+
         return sumTimesOfDeliveriesOfLast13Days;
     }
 
@@ -299,19 +304,6 @@ public class EasyDeliversService {
             double distance = geocoder.getDistanceInKmsBetweenTwoAddressesWithExternalApi(departure, destination);
             totalDistance += distance;
         }
-        // api get (delivery.end) e api get (delivery.start)
-        // conta(operacao) qualquer(??) delivery.end - delivery.start
-        //double kmsCovered = service.sumOfKmCoveredInLast24Hours();
-
-        //http://dev.virtualearth.net/REST/v1/Routes/{travelMode}?wayPoint.1={wayPoint1}&viaWaypoint.2={viaWaypoint2}&waypoint.3={waypoint3}&wayPoint.n={waypointN}&heading={heading}&optimize={optimize}&avoid={avoid}&distanceBeforeFirstTurn={distanceBeforeFirstTurn}&routeAttributes={routeAttributes}&timeType={timeType}&dateTime={dateTime}&maxSolutions={maxSolutions}&tolerances={tolerances}&distanceUnit={distanceUnit}&key={BingMapsKey}
-
-
-        //√((x_2-x_1)²+(y_2-y_1)²)
-        // 40.6278521,-8.6526136
-        // 40.6331731,-8.661682
-        //double distance_del1 = Math.sqrt(Math.pow(40.6331731 - 40.6278521) + Math.pow(-8.661682, -8.6526136));
-        //assertThat();
-
         return totalDistance;
     }
 }

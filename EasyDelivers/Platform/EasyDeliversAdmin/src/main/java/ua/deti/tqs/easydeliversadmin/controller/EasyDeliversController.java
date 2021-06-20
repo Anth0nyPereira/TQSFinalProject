@@ -87,6 +87,7 @@ public class EasyDeliversController {
             model.addAttribute("avgScore", service.averageRidersScore());
             model.addAttribute("employees", service.getTopRiders());
             model.addAttribute("nrDeliveries13Days", service.numberDeliveriesMadeForLast13Days());
+            model.addAttribute("averageTime13Days", service.averageDeliveryTimeForLast13Days());
             return new ModelAndView("dashboard", model);
         }
         else
