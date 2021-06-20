@@ -2,7 +2,6 @@ package ua.deti.tqs.easydeliversadmin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ua.deti.tqs.easydeliversadmin.entities.Admin;
-import ua.deti.tqs.easydeliversadmin.entities.Rider;
+import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
 import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 
@@ -95,50 +94,64 @@ public class EasyDeliversController {
     }
 
     @GetMapping("/account")
-    public String account(){
+    public ModelAndView account(ModelMap model){
         log.info(session);
         if(!session.equals(""))
-            return "user";
+            return new ModelAndView("user", model);
         else
-            return "login";
+            return new ModelAndView("redirect:/login", model);
     }
 
-    @GetMapping("/employees")
-    public String tables(){
+    @PostMapping("/account")
+    public ModelAndView postAccountDetails(@RequestParam(value = "first_name")String first_name, @RequestParam(value = "last_name")String last_name,  @RequestParam(value = "email")String email,  @RequestParam(value = "password")String password, @RequestParam(value = "position")String position, @RequestParam(value = "about")String about, ModelMap model) throws EasyDeliversService.AdminNotFoundException, Exception {
         log.info(session);
-        if(!session.equals(""))
-            return "employees";
+        if(!session.equals("")){
+            service.updateAdmin(session,first_name,last_name,email,password,position,about);
+            return new ModelAndView("user", model);
+        }
         else
-            return "login";
+            return new ModelAndView("redirect:/login", model);
+    }
+
+
+    @GetMapping("/employees")
+    public ModelAndView tables(ModelMap model){
+        log.info(session);
+        if(!session.equals("")){
+            model.addAttribute("employees", service.getAllRiders());
+            return new ModelAndView("employees", model);
+        }
+        else
+            return new ModelAndView("redirect:/login", model);
     }
 
     @GetMapping("/deliveries")
-    public String deliveries(){
+    public ModelAndView deliveries(ModelMap model){
         log.info(session);
-        if(!session.equals(""))
-            return "deliveries";
-        else
-            return "login";
+        if(!session.equals("")) {
+            List<Delivery> deliveries = service.getAllCompletedDeliveries();
+            model.addAttribute("allDeliveries", deliveries);
+            model.addAttribute("employeesNames", service.allRidersNamesByDeliveries(deliveries));
+            model.addAttribute("waitingTimes", service.allWaitingTimesByDeliveries(deliveries));
+            return new ModelAndView("deliveries", model);
+        } else
+            return new ModelAndView("redirect:/login", model);
     }
 
     @GetMapping("/employee")
-    public String singular(@RequestParam(value="id") int id, Model model){
-        log.info(session);
+    public ModelAndView singular(@RequestParam(value="id") int id, ModelMap model){
         if(!session.equals("")){
-            Random randomNumb = new Random();
-            int kms = randomNumb.nextInt(40);
-            int deliveries = randomNumb.nextInt(40);
-            int time = randomNumb.nextInt(40);
-            DecimalFormat df = new DecimalFormat("#.#");
-            double score = 5 * randomNumb.nextDouble();
-            model.addAttribute("kms", kms);
-            model.addAttribute("deliveries", deliveries);
-            model.addAttribute("time", time);
-            model.addAttribute("score", df.format(score));
-            return "riderDashboard";
+            model.addAttribute("personalKmsCovered", service.personalSumOfKmCoveredInLast24Hours(id));
+            model.addAttribute("numdeliveries", service.personalDeliveriesMadeForLast24Hours(id));
+            model.addAttribute("avgtime", service.personalAverageTimeDeliveries(id));
+            model.addAttribute("avgScore", service.personalScore(id));
+            model.addAttribute("nrDeliveries13Days", service.personalDeliveriesMadeForLast13Days(id));
+            model.addAttribute("avgTime13Days", service.personalAverageDeliveryTimeForLast13Days(id));
+
+            return new ModelAndView("dashboard", model);
         }
         else{
-            return "login";
+            return new ModelAndView("redirect:/login", model);
         }
 
 

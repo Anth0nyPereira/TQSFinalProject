@@ -13,6 +13,7 @@ import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -51,6 +52,29 @@ public class EasyDeliversService {
         }
 
         return user;
+    }
+
+    public void updateAdmin(String session, String first_name, String last_name, String email, String password, String position, String about) throws AdminNotFoundException, Exception {
+        Admin logged_in_admin = adminRepository.findAdminByEmail(session);
+        if (logged_in_admin == null) {
+            throw new AdminNotFoundException("Admin not found.");
+        }
+        if(!first_name.equals(""))
+            logged_in_admin.setFirst_name(first_name);
+        if(!last_name.equals(""))
+            logged_in_admin.setLast_name(last_name);
+        if(!email.equals(""))
+            logged_in_admin.setEmail(email);
+        if(!password.equals("")){
+            PasswordEncryption enc = new PasswordEncryption();
+            logged_in_admin.setPassword(enc.encrypt(password));
+        }
+        if(!position.equals(""))
+            logged_in_admin.setPosition(position);
+        if(!about.equals(""))
+            logged_in_admin.setDescription(about);
+
+        adminRepository.save(logged_in_admin);
     }
 
     public boolean authenticateRider(String email, String password) throws CouldNotEncryptException{
@@ -147,8 +171,6 @@ public class EasyDeliversService {
                         int delivery_score = thisdelivery.getScore();
                         score += delivery_score;
                     }
-
-
                 }
                 rider.setSalary(Double.valueOf(salary));
                 rider.setScore(score/counter);
@@ -191,6 +213,10 @@ public class EasyDeliversService {
         return completedDeliveriesLast24Hours.size();
     }
 
+    public int personalDeliveriesMadeForLast24Hours(int id){
+        return 0;
+    }
+
     public List<Integer> numberDeliveriesMadeForLast13Days(){
         List<Integer> allDeliveriesOfLast13Days = Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0);
         long stoptime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);;
@@ -204,6 +230,10 @@ public class EasyDeliversService {
             stoptime -= TimeUnit.DAYS.toMillis(1);
         }
         return allDeliveriesOfLast13Days;
+    }
+
+    public List<Integer> personalDeliveriesMadeForLast13Days(int id){
+        return Arrays.asList(0);
     }
 
     public double averageTimeDeliveries() {
@@ -227,6 +257,9 @@ public class EasyDeliversService {
             return 0.0;
     }
 
+    public double personalAverageTimeDeliveries(int id){
+        return 0.0;
+    }
 
     public List<Double> averageDeliveryTimeForLast13Days(){
         List<Integer> numberOfDeliveriesOfLast13Days = Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0);
@@ -260,6 +293,10 @@ public class EasyDeliversService {
         return sumTimesOfDeliveriesOfLast13Days;
     }
 
+    public List<Double> personalAverageDeliveryTimeForLast13Days(int id){
+        return Arrays.asList(0.0);
+    }
+
     public double averageRidersScore(){
         double sumOfScores = Double.valueOf(0);
         List<Delivery> allDeliveries = deliveryRepository.findDeliveriesByState("completed");
@@ -270,6 +307,10 @@ public class EasyDeliversService {
             return sumOfScores / allDeliveries.size();
         else
             return 0.0;
+    }
+
+    public double personalScore(int id){
+        return 0.0;
     }
 
     public List<Rider> getAllRiders(){
@@ -305,5 +346,34 @@ public class EasyDeliversService {
             totalDistance += distance;
         }
         return totalDistance;
+    }
+
+
+    public double personalSumOfKmCoveredInLast24Hours(int id) {
+        return 0.0;
+    }
+
+
+    public Map<Integer, String> allRidersNamesByDeliveries(List<Delivery> mydeliveries){
+        Map<Integer,String> ridersNames = new HashMap<>();
+        for(Delivery delivery: mydeliveries){
+            Rider deliveryRider = riderRepository.findRiderById(delivery.getRider());
+            String riderName = deliveryRider.getFirstname() + " " + deliveryRider.getLastname();
+            ridersNames.put(delivery.getId(), riderName);
+        }
+        return ridersNames;
+    }
+
+    public Map<Integer, String> allWaitingTimesByDeliveries(List<Delivery> mydeliveries){
+        Map<Integer,String> waitingTimes = new HashMap<>();
+        for(Delivery delivery: mydeliveries){
+            long completedTime = stateRepository.findStateByDeliveryAndDescription(
+                    delivery.getId(), "completed").getTimestamp().getTime();
+            long acceptedTime = stateRepository.findStateByDeliveryAndDescription(
+                    delivery.getId(), "accepted").getTimestamp().getTime();
+
+            waitingTimes.put(delivery.getId(), new SimpleDateFormat("HH:mm:ss").format(new Timestamp(completedTime - acceptedTime)));
+        }
+        return waitingTimes;
     }
 }

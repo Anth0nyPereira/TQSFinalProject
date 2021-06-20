@@ -91,22 +91,6 @@ The above copyright notice and this permission notice shall be included in all c
               </a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="material-icons">notifications</i>
-                <span class="notification">5</span>
-                <p class="d-lg-none d-md-block">
-                  Some Actions
-                </p>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">Mike John completed Order#21</a>
-                <a class="dropdown-item" href="#">Mike John responded to Order#21</a>
-                <a class="dropdown-item" href="#">You have a new employee: Mike John</a>
-                <a class="dropdown-item" href="#">Another Notification</a>
-                <a class="dropdown-item" href="#">Another One</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
               <a class="nav-link" href="" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="material-icons">person</i>
                 <p class="d-lg-none d-md-block">
@@ -115,7 +99,7 @@ The above copyright notice and this permission notice shall be included in all c
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
                 <a class="dropdown-item" th:href="@{/account}">Profile</a>
-                <a class="dropdown-item" href="#">Log out</a>
+                <a class="dropdown-item" th:href="@{/logout}">Log out</a>
               </div>
             </li>
           </ul>
@@ -146,84 +130,19 @@ The above copyright notice and this permission notice shall be included in all c
                       Email
                     </th>
                     <th>
-                      Location
-                    </th>
-                    <th>
                       Score
                     </th>
                     <th>
                       Salary
                     </th>
                     </thead>
-                    <tbody>
+                    <tbody th:each="employee : ${employees}">
                     <tr>
-                      <td>1</td>
-                      <td><a th:href="@{/employee?id=1}">Mateus Aleixo</a> </td>
-                      <td>matalica@gmail.com</td>
-                      <td>Torres Vedras</td>
-                      <td>3.6</td>
-                      <td>673€</td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td><a th:href="@{/employee?id=2}">Bruna Cruz</a> </td>
-                      <td>cruz@gmail.com</td>
-                      <td>Aveiro</td>
-                      <td>3.3</td>
-                      <td>378€</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td><a th:href="@{/employee?id=3}">Catarina Branco</a> </td>
-                      <td>branco.00@gmail.com</td>
-                      <td>Aveiro</td>
-                      <td>4.6</td>
-                      <td>614</td>
-
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td><a th:href="@{/employee?id=4}">Joana Jorge</a> </td>
-                      <td>jorge@gmail.com</td>
-                      <td>Vila Nova de Gaia</td>
-                      <td>4.9</td>
-                      <td>873€</td>
-
-                    </tr>
-                    <tr>
-                      <td>5</td>
-                      <td><a th:href="@{/employee?id=5}">Mariana Rodrigues</a> </td>
-                      <td>marierodrigues@gmail.com</td>
-                      <td>Fafe</td>
-                      <td>4.9</td>
-                      <td>873€</td>
-
-                    </tr>
-                    <tr>
-                      <td>6</td>
-                      <td><a th:href="@{/employee?id=6}">Rita Freitas</a> </td>
-                      <td>ritxi@gmail.com</td>
-                      <td>Ílhavo</td>
-                      <td>4.9</td>
-                      <td>873€</td>
-
-                    </tr>
-                    <tr>
-                      <td>7</td>
-                      <td><a th:href="@{/employee?id=7}">Luís Ribeiro</a> </td>
-                      <td>mrluisribeiro@gmail.com</td>
-                      <td>Viseu</td>
-                      <td>4.9</td>
-                      <td>873€</td>
-
-                    </tr>
-                    <tr>
-                      <td>8</td>
-                      <td><a th:href="@{/employee?id=8}">Maria Bruno</a> </td>
-                      <td>mariabruno@gmail.com</td>
-                      <td>Safara</td>
-                      <td>4.9</td>
-                      <td>873€</td>
+                      <td th:text="${employee.id}"></td>
+                      <td><a th:href="@{/employee(id=${employee.id})}" th:text="|${employee.firstname} ${employee.lastname}|"></a> </td>
+                      <td th:text="${employee.email}"></td>
+                      <td th:text="${employee.score}"></td>
+                      <td th:text="${employee.salary}"></td>
                     </tr>
                     </tbody>
                   </table>
