@@ -2,7 +2,6 @@ package ua.deti.tqs.easydeliversadmin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ua.deti.tqs.easydeliversadmin.entities.Admin;
-import ua.deti.tqs.easydeliversadmin.entities.Rider;
+import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
 import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 
@@ -94,34 +93,52 @@ public class EasyDeliversController {
     }
 
     @GetMapping("/account")
-    public String account(){
+    public ModelAndView account(ModelMap model){
         log.info(session);
         if(!session.equals(""))
-            return "user";
+            return new ModelAndView("user", model);
         else
-            return "login";
+            return new ModelAndView("redirect:/login", model);
     }
 
-    @GetMapping("/employees")
-    public String tables(){
+    @PostMapping("/account")
+    public ModelAndView postAccountDetails(@RequestParam(value = "first_name")String first_name, @RequestParam(value = "last_name")String last_name,  @RequestParam(value = "email")String email,  @RequestParam(value = "password")String password, @RequestParam(value = "position")String position, @RequestParam(value = "about")String about, ModelMap model) throws EasyDeliversService.AdminNotFoundException, Exception {
         log.info(session);
-        if(!session.equals(""))
-            return "employees";
+        if(!session.equals("")){
+            service.updateAdmin(session,first_name,last_name,email,password,position,about);
+            return new ModelAndView("user", model);
+        }
         else
-            return "login";
+            return new ModelAndView("redirect:/login", model);
+    }
+
+
+    @GetMapping("/employees")
+    public ModelAndView tables(ModelMap model){
+        log.info(session);
+        if(!session.equals("")){
+            model.addAttribute("employees", service.getAllRiders());
+            return new ModelAndView("employees", model);
+        }
+        else
+            return new ModelAndView("redirect:/login", model);
     }
 
     @GetMapping("/deliveries")
-    public String deliveries(){
+    public ModelAndView deliveries(ModelMap model){
         log.info(session);
-        if(!session.equals(""))
-            return "deliveries";
-        else
-            return "login";
+        if(!session.equals("")) {
+            List<Delivery> deliveries = service.getAllCompletedDeliveries();
+            model.addAttribute("allDeliveries", deliveries);
+            model.addAttribute("employeesNames", service.allRidersNamesByDeliveries(deliveries));
+            model.addAttribute("waitingTimes", service.allWaitingTimesByDeliveries(deliveries));
+            return new ModelAndView("deliveries", model);
+        } else
+            return new ModelAndView("redirect:/login", model);
     }
 
     @GetMapping("/employee")
-    public String singular(@RequestParam(value="id") int id, Model model){
+    public ModelAndView singular(@RequestParam(value="id") int id, ModelMap model){
         log.info(session);
         if(!session.equals("")){
             Random randomNumb = new Random();
@@ -134,10 +151,10 @@ public class EasyDeliversController {
             model.addAttribute("deliveries", deliveries);
             model.addAttribute("time", time);
             model.addAttribute("score", df.format(score));
-            return "riderDashboard";
+            return new ModelAndView("riderDashboard", model);
         }
         else{
-            return "login";
+            return new ModelAndView("redirect:/login", model);
         }
 
 
