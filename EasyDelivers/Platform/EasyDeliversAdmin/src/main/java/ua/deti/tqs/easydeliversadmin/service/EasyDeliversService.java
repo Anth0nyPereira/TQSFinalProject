@@ -13,10 +13,8 @@ import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -123,7 +121,39 @@ public class EasyDeliversService {
     public String updateDeliveryStateByRider(String deliverID, String riderID, String state) {
         try {
             Delivery x = deliveryRepository.findDeliveryById(Integer.parseInt(deliverID));
+            Rider rider = riderRepository.findRiderById(Integer.parseInt(riderID));
             x.setState(state);
+
+            if(state.equals("completed")){
+                long now = System.currentTimeMillis();
+                long days_to_go_back = TimeUnit.DAYS.toMillis(Calendar.DAY_OF_MONTH - 1);
+                long hours_to_go_back = TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);
+
+                int salary = 0;
+                double score = 0.0;
+
+                x.setScore(ThreadLocalRandom.current().nextInt(0, 6));
+
+                List<State> thisMonthDeliveries = stateRepository.findStatesByDescriptionAndTimestampBetween(
+                        "completed", new Timestamp(now - days_to_go_back - hours_to_go_back), new Timestamp(now));
+
+                int counter = 0;
+                for(State s : thisMonthDeliveries){
+                    Delivery thisdelivery = deliveryRepository.findDeliveryById(s.getDelivery());
+                    if(thisdelivery.getRider() == (Integer.parseInt(riderID))){
+                        counter += 1;
+                        int delivery_fee = thisdelivery.getRider_fee();
+                        salary += delivery_fee;
+                        int delivery_score = thisdelivery.getScore();
+                        score += delivery_score;
+                    }
+
+
+                }
+                rider.setSalary(Double.valueOf(salary));
+                rider.setScore(score/counter);
+            }
+
             deliveryRepository.save(x);
             State s = stateRepository.save(new State(state, x.getId(), new Timestamp(System.currentTimeMillis())));
             postToApi(state,x.getId(),Integer.parseInt(deliverID));
@@ -181,7 +211,8 @@ public class EasyDeliversService {
         List<Long> listOfTimes = new ArrayList<>() ;
         long currentTime = System.currentTimeMillis();
         List<State> completedDeliveriesLast24Hours = stateRepository.findStatesByDescriptionAndTimestampBetween(
-                "completed", new Timestamp(currentTime - TimeUnit.DAYS.toMillis(1)), new Timestamp(currentTime));
+                "completed", new Timestamp(
+                        currentTime - TimeUnit.DAYS.toMillis(1)), new Timestamp(currentTime));
         for(State state : completedDeliveriesLast24Hours){
             long accepted_time = stateRepository.findStateByDeliveryAndDescription(
                     state.getDelivery(), "accepted").getTimestamp().getTime();

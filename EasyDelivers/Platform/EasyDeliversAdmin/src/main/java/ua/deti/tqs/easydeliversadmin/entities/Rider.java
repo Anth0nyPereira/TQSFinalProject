@@ -33,6 +33,9 @@ public class Rider {
         @Column(name="salary")
         @NotBlank
         private Double salary;
+        @Column(name="score")
+        @NotBlank
+        private Double score;
 
         public Rider(String firstname, String lastname, String email, String password, String telephone, String transportation) {
                 this.firstname = firstname;
@@ -43,6 +46,7 @@ public class Rider {
                 this.transportation = transportation;
                 this.delivery_radius = 50;
                 this.salary = 0.0;
+                this.score = 0.0;
         }
 
         public Rider() {
@@ -121,6 +125,13 @@ public class Rider {
                 this.salary = salary;
         }
 
+        public Double getScore() {
+                return score;
+        }
+
+        public void setScore(Double score) {
+                this.score = score;
+        }
 
         @Override
         public boolean equals(Object o) {

@@ -81,10 +81,12 @@ public class EasyDeliversController {
     public ModelAndView dash(ModelMap model){
         log.info(session);
         if(!session.equals("")){
+            model.addAttribute("kmsCovered", service.sumOfKmCoveredInLast24Hours());
             model.addAttribute("numdeliveries", service.numberDeliveriesMadeForLast24Hours());
             model.addAttribute("avgtime", service.averageTimeDeliveries());
             model.addAttribute("avgScore", service.averageRidersScore());
             model.addAttribute("employees", service.getTopRiders());
+            model.addAttribute("nrDeliveries13Days", service.numberDeliveriesMadeForLast13Days());
             return new ModelAndView("dashboard", model);
         }
         else

@@ -71,23 +71,41 @@ The above copyright notice and this permission notice shall be included in all c
 
     function drawChartNumberDeliveries() {
       var data = new google.visualization.DataTable();
+      var today = new Date();
+      console.log(/*[[${nrDeliveries13Days[2]}]]*/ 1)
       data.addColumn('date', 'Day');
       data.addColumn('number', 'Number of Deliveries');
+      /*<![CDATA[*/
+        var day0 = /*[[${nrDeliveries13Days[0]}]]*/ 0;
+        var day1 = /*[[${nrDeliveries13Days[1]}]]*/ 0;
+        var day2 = /*[[${nrDeliveries13Days[2]}]]*/ 0;
+        var day3 = /*[[${nrDeliveries13Days[3]}]]*/ 0;
+        var day4 = /*[[${nrDeliveries13Days[4]}]]*/ 0;
+        var day5 = /*[[${nrDeliveries13Days[5]}]]*/ 0;
+        var day6 = /*[[${nrDeliveries13Days[6]}]]*/ 0;
+        var day7 = /*[[${nrDeliveries13Days[7]}]]*/ 0;
+        var day8 = /*[[${nrDeliveries13Days[8]}]]*/ 0;
+        var day9 = /*[[${nrDeliveries13Days[9]}]]*/ 0;
+        var day10 = /*[[${nrDeliveries13Days[10]}]]*/ 0;
+        var day11 = /*[[${nrDeliveries13Days[11]}]]*/ 0;
+        var day12 = /*[[${nrDeliveries13Days[12]}]]*/ 0;
+      /*]]>*/
       data.addRows([
-        [ new Date(2021, 3, 13), 30],
-        [ new Date(2021, 3, 14), 50],
-        [ new Date(2021, 3, 15), 45],
-        [ new Date(2021, 3, 16), 56],
-        [ new Date(2021, 3, 17), 70],
-        [ new Date(2021, 3, 18), 65 ],
-        [ new Date(2021, 3, 19), 45 ],
-        [ new Date(2021, 3, 20), 57 ],
-        [ new Date(2021, 3, 21), 80 ],
-        [ new Date(2021, 3, 22), 67 ],
-        [ new Date(2021, 3, 23), 77 ],
-        [ new Date(2021, 3, 24), 80 ],
-        [ new Date(2021, 3, 25), 85 ]
+        [ new Date(today - 86400000), day0],
+        [ new Date(today - 2*86400000), day1],
+        [ new Date(today - 3*86400000), day2],
+        [ new Date(today - 4*86400000), day3],
+        [ new Date(today - 5*86400000), day4],
+        [ new Date(today - 6*86400000), day5],
+        [ new Date(today - 86400000*7), day6],
+        [ new Date(today - 86400000*8), day7],
+        [ new Date(today - 86400000*9), day8],
+        [ new Date(today - 86400000*10), day9],
+        [ new Date(today - 86400000*11), day10],
+        [ new Date(today - 86400000*12), day11],
+        [ new Date(today - 86400000*13), day12]
       ]);
+      /*]]>*/
 
       var options = {
         title: 'Number of Deliveries Made By Day',
@@ -195,22 +213,6 @@ The above copyright notice and this permission notice shall be included in all c
                 </a>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="material-icons">notifications</i>
-                  <span class="notification">5</span>
-                  <p class="d-lg-none d-md-block">
-                    Notifications
-                  </p>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Mike John completed Order#21</a>
-                  <a class="dropdown-item" href="#">Mike John responded to Order#21</a>
-                  <a class="dropdown-item" href="#">You have a new employee: Mike John</a>
-                  <a class="dropdown-item" href="#">Another Notification</a>
-                  <a class="dropdown-item" href="#">Another One</a>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
                 <a class="nav-link" href="" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">person</i>
                   <p class="d-lg-none d-md-block">
@@ -237,7 +239,7 @@ The above copyright notice and this permission notice shall be included in all c
                     <i class="material-icons">directions_run</i>
                   </div>
                   <p class="card-category">Kms covered</p>
-                  <h3 class="card-title">49</h3>
+                  <h3 class="card-title" th:text="${kmsCovered}"></h3>
                   <small style="color: #3C4858;">Kms</small>
                 </div>
                 <div class="card-footer">
@@ -353,15 +355,15 @@ The above copyright notice and this permission notice shall be included in all c
                     <thead class="text-warning">
                       <th>ID</th>
                       <th>Name</th>
-                      <!--<th>Score</th>-->
+                      <th>Score</th>
                       <th>Salary</th>
 
                     </thead>
                     <tbody th:each="employee : ${employees}">
                       <tr>
                         <td th:text="${employee.id}"></td>
-                        <td><a th:href="@{/employee?id=1}" th:text="${employee.firstname}+''+${employee.lastname}"></a> </td>
-                        <!--<td th:text="${employee.score}"></td>-->
+                        <td><a th:href="@{/employee(id=${employee.id})}" th:text="${employee.firstname}+''+${employee.lastname}"></a> </td>
+                        <td th:text="${employee.score}"></td>
                         <td th:text="${employee.salary}">673€</td>
                       </tr>
                     </tbody>
