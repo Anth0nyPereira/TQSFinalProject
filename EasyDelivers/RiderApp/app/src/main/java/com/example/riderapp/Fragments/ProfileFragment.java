@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.riderapp.LoginSignUpActivity;
 import com.example.riderapp.MainActivity;
 import com.example.riderapp.R;
 
@@ -88,7 +89,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), MainActivity.class);
+                intent.setClass(getActivity(), LoginSignUpActivity.class);
                 getActivity().startActivity(intent);
             }
         });
