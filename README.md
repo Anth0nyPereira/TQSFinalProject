@@ -7,7 +7,6 @@
 <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
 <br>
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://travis-ci.com/Wei93442/TQSFinalProject.svg?branch=main)](https://travis-ci.com/Wei93442/TQSFinalProject) 
 
 
 
@@ -61,4 +60,4 @@
 
 **Static Analysis** - [SonarCloud](https://sonarcloud.io/organizations/tqsproject/projects)
 
-**CI/CD Environment** - [Travis CI](https://travis-ci.com/github/Wei93442/TQSFinalProject)
+**CI/CD Environment** - [Git Actions](https://github.com/Wei93442/TQSFinalProject/actions)
