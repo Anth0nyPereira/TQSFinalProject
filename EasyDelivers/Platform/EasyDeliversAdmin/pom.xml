@@ -121,9 +121,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>**/LoginSuccessfullTest.java</exclude>
-                        <exclude>**/LoginUnsuccessfullTest.java</exclude>
-                        <exclude>**/LogoutSuccessfullTest.java</exclude>
+                        <exclude>**/GeocoderUnitTest.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
