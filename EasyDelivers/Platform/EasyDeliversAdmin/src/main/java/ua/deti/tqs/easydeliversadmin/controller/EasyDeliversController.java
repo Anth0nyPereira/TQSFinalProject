@@ -139,19 +139,15 @@ public class EasyDeliversController {
 
     @GetMapping("/employee")
     public ModelAndView singular(@RequestParam(value="id") int id, ModelMap model){
-        log.info(session);
         if(!session.equals("")){
-            Random randomNumb = new Random();
-            int kms = randomNumb.nextInt(40);
-            int deliveries = randomNumb.nextInt(40);
-            int time = randomNumb.nextInt(40);
-            DecimalFormat df = new DecimalFormat("#.#");
-            double score = 5 * randomNumb.nextDouble();
-            model.addAttribute("kms", kms);
-            model.addAttribute("deliveries", deliveries);
-            model.addAttribute("time", time);
-            model.addAttribute("score", df.format(score));
-            return new ModelAndView("riderDashboard", model);
+            model.addAttribute("personalKmsCovered", service.personalSumOfKmCoveredInLast24Hours(id));
+            model.addAttribute("numdeliveries", service.personalDeliveriesMadeForLast24Hours(id));
+            model.addAttribute("avgtime", service.personalAverageTimeDeliveries(id));
+            model.addAttribute("avgScore", service.personalScore(id));
+            model.addAttribute("nrDeliveries13Days", service.personalDeliveriesMadeForLast13Days(id));
+            model.addAttribute("avgTime13Days", service.personalAverageDeliveryTimeForLast13Days(id));
+
+            return new ModelAndView("dashboard", model);
         }
         else{
             return new ModelAndView("redirect:/login", model);
