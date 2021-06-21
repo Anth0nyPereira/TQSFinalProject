@@ -128,7 +128,7 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
         TextView start = view.findViewById(R.id.textviewStart);
         TextView destination = view.findViewById(R.id.textviewDestination);
         TextView distance = view.findViewById(R.id.textviewDistance);
-        earning.setText("Earnings: "+mRider_Fee);
+        earning.setText("Earnings: "+mRider_Fee+ " €");
         start.setText("Start: "+mStart);
         destination.setText("Destination:  "+mDestination);
         distance.setText("Distance (a calcular)" );
@@ -203,7 +203,7 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
                                 .build();
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
                         double distanceStartDest = GeoUtils.distanceBetween2Points(startcoords,destinationcoords);
-                        distance.setText("Remaining Distance: " + Math.round(distanceStartDest*10.0)/10.0 + " km");
+                        distance.setText("Distance: " + Math.round(distanceStartDest*10.0)/10.0 + " km");
                     }
                 });
         return view;

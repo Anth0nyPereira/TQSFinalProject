@@ -60,14 +60,13 @@ public class CheckDeliveriesWorker extends Worker {
                 else{
                     Set<Integer> diff = new HashSet<>(newDeliveries);
                     diff.removeAll(oldDeliveries);
-                    Log.w("Worker", "Enter Here");
                     if (diff.size() > 0){
 
-                        Log.w("Worker", "NOTIFICATION");
+                        Log.w("Worker", "Notification launched");
                         NotificationCompat.Builder notificationbuilder = new NotificationCompat.Builder(CheckDeliveriesWorker.super.getApplicationContext())
-                                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-                                .setContentTitle("Rider")
-                                .setContentText("New stuff")
+                                .setSmallIcon(R.drawable.easydelivers)
+                                .setContentTitle("Check your app! Rider")
+                                .setContentText(String.format("You have %d new deliveries available!",diff.size()))
                                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                         NotificationManager mNotificationManager =
                                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -100,20 +99,5 @@ public class CheckDeliveriesWorker extends Worker {
 
 
         return Result.success();
-    }
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "name";
-            String description = "this is a channel";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("1231", name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getApplicationContext().getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
     }
 }
