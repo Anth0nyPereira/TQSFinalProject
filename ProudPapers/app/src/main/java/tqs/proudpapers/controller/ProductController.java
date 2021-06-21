@@ -1,5 +1,6 @@
 package tqs.proudpapers.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ public class ProductController {
     @Autowired
     ProductService service;
 
+    @ApiOperation("Search products by the given keyword")
     @GetMapping("/search/{key}")
     public String search(@PathVariable(name = "key") String key, Model model){
         try{
@@ -40,6 +42,7 @@ public class ProductController {
         return "search";
     }
 
+    @ApiOperation("Get the products by the given id")
     @GetMapping("/product/{id}")
     public String search(@PathVariable(name = "id") Integer key, Model model){
         Product product = service.searchById(key);

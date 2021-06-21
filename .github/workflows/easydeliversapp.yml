@@ -1,11 +1,12 @@
-name: CI for EasyDeliversApp
+name: CI for EasyDeliversApp with Sonarcloud
 on:
   push:
     branches:
-    - feature/ci
+      - main
+
   pull_request:
-    branches:
-    - develop 
+    branches: [ develop ]
+
 jobs:
   run_tests:
     runs-on: self-hosted
@@ -22,5 +23,8 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build & Test
-        run: cd EasyDelivers/RiderApp; chmod +x gradlew; ./gradlew clean test --info
+      - name: Build & Test & Analyze
+        run: cd EasyDelivers/RiderApp; chmod +x gradlew; ./gradlew clean test jacocoTestReport sonarqube --info
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.RIDERAPP }}
