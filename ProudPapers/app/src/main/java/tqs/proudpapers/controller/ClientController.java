@@ -143,7 +143,7 @@ public class ClientController {
     @ApiOperation("Buy all products in the cart of the user with the given id")
     @PostMapping("/account/{clientId}/purchase")
     @Transactional
-    public ResponseEntity<Integer> purchase(@PathVariable("clientId") Integer clientId,
+    public String purchase(@PathVariable("clientId") Integer clientId,
                                                   ClientDTO clientDTO,
                                                   String cardNumber,
                                                   String cardExpirationMonth,
@@ -158,7 +158,7 @@ public class ClientController {
         clientDTO.setId(clientId);
         Integer deliveryId = cartService.buyAllProductsInTheCart(clientDTO);
         sendDeliveryToEasyDelivery(deliveryId, clientDTO);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return "redirect:/account/" + clientId + "/deliveries";
     }
 
     @ApiOperation("Update the indicated delivery's state")

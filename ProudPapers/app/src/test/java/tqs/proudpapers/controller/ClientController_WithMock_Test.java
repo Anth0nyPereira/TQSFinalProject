@@ -220,7 +220,8 @@ public class ClientController_WithMock_Test {
                 .session(session);
 
         mvc.perform(builder)
-                .andExpect(status().isOk());
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/account/" + clientId + "/deliveries"));
 
     }
 }
