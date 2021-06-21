@@ -12,7 +12,6 @@ public class API_Service {
     private static String BaseUrl ="";//https://192.168.1.70:8080
 
    public static API_Connection getClient() {
-
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
@@ -24,5 +23,9 @@ public class API_Service {
                 .build()
                 .create(API_Connection.class);
         return api_connection;
+    }
+
+    public static void setBaseUrl(String url){
+       BaseUrl = url;
     }
 }
