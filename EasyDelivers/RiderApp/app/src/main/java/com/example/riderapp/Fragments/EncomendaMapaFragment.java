@@ -167,14 +167,14 @@ public class EncomendaMapaFragment extends Fragment {
                             startcoords = new LatLng(startaddress.getLatitude(),startaddress.getLongitude());
                             googleMap.addMarker(new MarkerOptions().position(startcoords));
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Log.e("EncomendaMapa",e.getMessage());
                         }
                         try {
                             Address destinationaddress= geocoder.getFromLocationName(mdestination,1).get(0);
                             destinationcoords = new LatLng(destinationaddress.getLatitude(),destinationaddress.getLongitude());
                             googleMap.addMarker(new MarkerOptions().position(destinationcoords).icon(BitmapDescriptorFactory.defaultMarker(138)));
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Log.e("EncomendaMapa",e.getMessage());
                         }
                         LatLngBounds latLngBounds = new LatLngBounds.Builder()
                                 .include(startcoords)
