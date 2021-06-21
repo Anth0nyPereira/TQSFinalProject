@@ -332,7 +332,7 @@ public class EasyDeliversService {
                 long accepted_time = stateRepository.findStateByDeliveryAndDescription(
                         state.getDelivery(), "accepted").getTimestamp().getTime();
                 long completed_time = state.getTimestamp().getTime();
-                sumTimesOfDeliveriesOfLast13Days.set(i, sumTimesOfDeliveriesOfLast13Days.get(i) + Double.valueOf(completed_time-accepted_time));
+                sumTimesOfDeliveriesOfLast13Days.set(i, sumTimesOfDeliveriesOfLast13Days.get(i) + Double.valueOf( (double) completed_time-accepted_time));
                 numberOfDeliveriesOfLast13Days.set(i, numberOfDeliveriesOfLast13Days.get(i) + 1);
             }
             starttime -= TimeUnit.DAYS.toMillis(1);
@@ -366,7 +366,7 @@ public class EasyDeliversService {
                     long accepted_time = stateRepository.findStateByDeliveryAndDescription(
                             state.getDelivery(), "accepted").getTimestamp().getTime();
                     long completed_time = state.getTimestamp().getTime();
-                    sumTimesOfDeliveriesOfLast13Days.set(i, sumTimesOfDeliveriesOfLast13Days.get(i) + Double.valueOf(completed_time-accepted_time));
+                    sumTimesOfDeliveriesOfLast13Days.set(i, sumTimesOfDeliveriesOfLast13Days.get(i) + Double.valueOf( (double) completed_time-accepted_time));
                     numberOfDeliveriesOfLast13Days.set(i, numberOfDeliveriesOfLast13Days.get(i) + 1);
                 }
             }
@@ -386,7 +386,7 @@ public class EasyDeliversService {
     }
 
     public double averageRidersScore(){
-        double sumOfScores = Double.valueOf(0);
+        double sumOfScores = 0.0;
         List<Delivery> allDeliveries = deliveryRepository.findDeliveriesByState("completed");
         for(Delivery delivery : allDeliveries){
             sumOfScores += delivery.getScore();
