@@ -41,11 +41,11 @@ public class Rider {
         @NotBlank
         @ApiModelProperty(value = "Rider's Transportation",example = "5")
         private String transportation;
+        
         @Column(name="salary")
-        @NotBlank
         private Double salary;
+        
         @Column(name="score")
-        @NotBlank
         private Double score;
 
         public Rider(String firstname, String lastname, String email, String password, String telephone, String transportation) {
