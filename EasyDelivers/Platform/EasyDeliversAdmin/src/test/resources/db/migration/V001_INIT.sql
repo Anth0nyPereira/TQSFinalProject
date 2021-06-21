@@ -7,6 +7,9 @@ CREATE TABLE rider  (
   `telephone` char(11) NOT NULL,
   `delivery_radius` int NOT NULL DEFAULT 5,
   `transportation` varchar(255) NOT NULL,
+  `salary` double NOT NULL DEFAULT 0,
+  `score` double NOT NULL DEFAULT 0,
+
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `email`(`email`) USING BTREE,
   UNIQUE INDEX `telephone`(`telephone`) USING BTREE,

@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <title>Easy Deliveries - Login</title>
     <link th:href="@{/css/entering.css}" rel="stylesheet" />
+    <link rel="icon" type="image/png" th:href="@{/img/easy-delivers.png}">
 </head>
 <body>
 <div id="login-box" style="display: flex">
     <div style="margin:auto; align-content: center">
         <h1>Login</h1>
-
         <form th:action="@{/login}" method="post" style="margin: auto">
             <input type="text" name="email" placeholder="E-mail" />
             <input type="password" name="password" placeholder="Password" />

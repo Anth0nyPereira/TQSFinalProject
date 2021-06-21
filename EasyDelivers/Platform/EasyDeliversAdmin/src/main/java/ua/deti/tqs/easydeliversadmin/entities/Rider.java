@@ -41,6 +41,12 @@ public class Rider {
         @NotBlank
         @ApiModelProperty(value = "Rider's Transportation",example = "5")
         private String transportation;
+        
+        @Column(name="salary")
+        private Double salary;
+        
+        @Column(name="score")
+        private Double score;
 
         public Rider(String firstname, String lastname, String email, String password, String telephone, String transportation) {
                 this.firstname = firstname;
@@ -50,6 +56,8 @@ public class Rider {
                 this.telephone = telephone;
                 this.transportation = transportation;
                 this.delivery_radius = 50;
+                this.salary = 0.0;
+                this.score = 0.0;
         }
 
         public Rider() {
@@ -120,16 +128,32 @@ public class Rider {
                 this.transportation = transportation;
         }
 
+        public Double getSalary() {
+                return salary;
+        }
+
+        public void setSalary(Double salary) {
+                this.salary = salary;
+        }
+
+        public Double getScore() {
+                return score;
+        }
+
+        public void setScore(Double score) {
+                this.score = score;
+        }
+
         @Override
         public boolean equals(Object o) {
                 if (this == o) return true;
                 if (o == null || getClass() != o.getClass()) return false;
                 Rider rider = (Rider) o;
-                return delivery_radius == rider.delivery_radius && Objects.equals(firstname, rider.firstname) && Objects.equals(lastname, rider.lastname) && Objects.equals(email, rider.email) && Objects.equals(password, rider.password) && Objects.equals(telephone, rider.telephone) && Objects.equals(transportation, rider.transportation);
+                return delivery_radius == rider.delivery_radius && Objects.equals(firstname, rider.firstname) && Objects.equals(lastname, rider.lastname) && Objects.equals(email, rider.email) && Objects.equals(password, rider.password) && Objects.equals(telephone, rider.telephone) && Objects.equals(transportation, rider.transportation) && Objects.equals(salary, rider.salary);
         }
 
         @Override
         public int hashCode() {
-                return Objects.hash(firstname, lastname, email, password, telephone, delivery_radius, transportation);
+                return Objects.hash(firstname, lastname, email, password, telephone, delivery_radius, transportation, salary);
         }
 }

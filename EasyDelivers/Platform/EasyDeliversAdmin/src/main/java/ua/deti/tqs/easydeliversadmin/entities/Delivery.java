@@ -49,6 +49,9 @@ public class Delivery {
     @ApiModelProperty(value = "Rider's ID",example = "1")
     private int rider;
 
+    @Column(name="score")
+    private int score;
+
     public Delivery(int store,int rider_fee, String state, String client_telephone, String start, String destination) {
         this.store = store;
         this.rider_fee = rider_fee;
@@ -56,6 +59,7 @@ public class Delivery {
         this.client_telephone = client_telephone;
         this.start = start;
         this.destination = destination;
+        this.score = 0;
     }
 
     public Delivery() {
@@ -124,6 +128,14 @@ public class Delivery {
 
     public void setRider(int rider) {
         this.rider = rider;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
 }

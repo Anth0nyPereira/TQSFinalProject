@@ -10,11 +10,11 @@ Coded by Creative Tim
 =========================================================
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" th:href="@{/img/apple-icon.png}">
-  <link rel="icon" type="image/png" th:href="@{/img/favicon.png}">
+  <link rel="icon" type="image/png" th:href="@{/img/easy-delivers.png}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
     Easy Delivers
@@ -28,128 +28,16 @@ The above copyright notice and this permission notice shall be included in all c
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link th:href="@{/demo/demo.css}" rel="stylesheet" />
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChartAverageKms);
-
-    google.charts.setOnLoadCallback(drawChartNumberDeliveries);
-
-    google.charts.setOnLoadCallback(drawChartAverageTime);
-
-    function drawChartAverageTime() {
-      var data = new google.visualization.DataTable();
-      data.addColumn('date', 'Day');
-      data.addColumn('number', 'Average Time in mins');
-      data.addRows([
-        [ new Date(2021, 3, 13), 30],
-        [ new Date(2021, 3, 14), 23],
-        [ new Date(2021, 3, 15), 12],
-        [ new Date(2021, 3, 16), 25],
-        [ new Date(2021, 3, 17), 13],
-        [ new Date(2021, 3, 18), 10 ],
-        [ new Date(2021, 3, 19), 20 ],
-        [ new Date(2021, 3, 20), 17 ],
-        [ new Date(2021, 3, 21), 34 ],
-        [ new Date(2021, 3, 22), 28 ],
-        [ new Date(2021, 3, 23), 13 ],
-        [ new Date(2021, 3, 24), 14 ],
-        [ new Date(2021, 3, 25), 17 ]
-      ]);
-
-      var options = {
-        title: 'Average Time in Minutes',
-        curveType: 'function',
-        legend: { position: 'bottom' },
-        width :1000,
-        height:500,
-      };
-
-      var chart = new google.visualization.LineChart(document.getElementById('settings'));
-
-      chart.draw(data, options);
-    }
-
-    function drawChartNumberDeliveries() {
-      var data = new google.visualization.DataTable();
-      data.addColumn('date', 'Day');
-      data.addColumn('number', 'Number of Deliveries');
-      data.addRows([
-        [ new Date(2021, 3, 13), 30],
-        [ new Date(2021, 3, 14), 50],
-        [ new Date(2021, 3, 15), 45],
-        [ new Date(2021, 3, 16), 56],
-        [ new Date(2021, 3, 17), 70],
-        [ new Date(2021, 3, 18), 65 ],
-        [ new Date(2021, 3, 19), 45 ],
-        [ new Date(2021, 3, 20), 57 ],
-        [ new Date(2021, 3, 21), 80 ],
-        [ new Date(2021, 3, 22), 67 ],
-        [ new Date(2021, 3, 23), 77 ],
-        [ new Date(2021, 3, 24), 80 ],
-        [ new Date(2021, 3, 25), 85 ]
-      ]);
-
-      var options = {
-        title: 'Number of Deliveries Made By Day',
-        curveType: 'function',
-        legend: { position: 'bottom' },
-        width :1000,
-        height:700,
-        hAxis: {title: "Day" , direction:-1, slantedText:true, slantedTextAngle:90 },
-      };
-
-      var chart = new google.visualization.ColumnChart(document.getElementById('messages'));
-
-      chart.draw(data, options);
-    }
-
-    function drawChartAverageKms() {
-      var data = new google.visualization.DataTable();
-      data.addColumn('date', 'Day');
-      data.addColumn('number', 'Average Distance Covered in Kms');
-      data.addRows([
-        [ new Date(2021, 3, 13), 30],
-        [ new Date(2021, 3, 14), 23],
-        [ new Date(2021, 3, 15), 12],
-        [ new Date(2021, 3, 16), 25],
-        [ new Date(2021, 3, 17), 13],
-        [ new Date(2021, 3, 18), 10 ],
-        [ new Date(2021, 3, 19), 20 ],
-        [ new Date(2021, 3, 20), 17 ],
-        [ new Date(2021, 3, 21), 34 ],
-        [ new Date(2021, 3, 22), 28 ],
-        [ new Date(2021, 3, 23), 13 ],
-        [ new Date(2021, 3, 24), 14 ],
-        [ new Date(2021, 3, 25), 17 ]
-      ]);
-
-      var options = {
-        title: 'Average Distance Covered in Kms',
-        curveType: 'function',
-        legend: { position: 'bottom' },
-        width :1000,
-        height:500,
-      };
-
-      var chart = new google.visualization.LineChart(document.getElementById('profile'));
-
-      chart.draw(data, options);
-    }
-  </script>
-
+  <script type="text/javascript" th:src="@{/js/canvasjs.min.js}"></script>
 </head>
 
 <body class="">
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="white" data-image="@{/img/sidebar-1.jpg}">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-        Tip 2: you can also add an image using data-image tag
-    -->
       <div class="logo"><a th:href="@{/dashboard}" class="simple-text logo-normal">
           Easy Delivers
-        </a></div>
+        </a>
+      </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item active">
@@ -200,22 +88,6 @@ The above copyright notice and this permission notice shall be included in all c
                 </a>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="material-icons">notifications</i>
-                  <span class="notification">5</span>
-                  <p class="d-lg-none d-md-block">
-                    Notifications
-                  </p>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Mike John completed Order#21</a>
-                  <a class="dropdown-item" href="#">Mike John responded to Order#21</a>
-                  <a class="dropdown-item" href="#">You have a new employee: Mike John</a>
-                  <a class="dropdown-item" href="#">Another Notification</a>
-                  <a class="dropdown-item" href="#">Another One</a>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
                 <a class="nav-link" href="" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">person</i>
                   <p class="d-lg-none d-md-block">
@@ -242,7 +114,7 @@ The above copyright notice and this permission notice shall be included in all c
                     <i class="material-icons">directions_run</i>
                   </div>
                   <p class="card-category">Kms covered</p>
-                  <h3 class="card-title">49</h3>
+                  <h3 class="card-title" th:text="${kmsCovered}"></h3>
                   <small style="color: #3C4858;">Kms</small>
                 </div>
                 <div class="card-footer">
@@ -259,7 +131,7 @@ The above copyright notice and this permission notice shall be included in all c
                     <i class="material-icons">done_all</i>
                   </div>
                   <p class="card-category">Deliveries</p>
-                  <h3 class="card-title">24 </h3>
+                  <h3 class="card-title" th:text="${numdeliveries}"></h3>
                   <small>  Easy Delivers</small>
                 </div>
                 <div class="card-footer">
@@ -276,8 +148,8 @@ The above copyright notice and this permission notice shall be included in all c
                     <i class="material-icons">watch_later</i>
                   </div>
                   <p class="card-category">Average Delivery Time</p>
-                  <h3 class="card-title">35</h3>
-                  <small style="color: #3C4858;">Kms</small>
+                  <h3 class="card-title" th:text="${avgtime}"></h3>
+                  <small style="color: #3C4858;">mins</small>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -293,7 +165,7 @@ The above copyright notice and this permission notice shall be included in all c
                     <i class="material-icons">star_half</i>
                   </div>
                   <p class="card-category">Global Score</p>
-                  <h3 class="card-title">4.0</h3>
+                  <h3 class="card-title" th:text="${avgScore}"></h3>
                   <small>  Easy Delivers</small>
                 </div>
                 <div class="card-footer">
@@ -306,7 +178,7 @@ The above copyright notice and this permission notice shall be included in all c
           </div>
 
           <div class="row">
-            <div class="col-lg-8 col-md-12">
+            <div th:attr="class=${personal ? 'col-lg-12 col-md-12' : 'col-lg-8 col-md-12'}">
               <div class="card">
                 <div class="card-header card-header-tabs card-header-primary">
                   <div class="nav-tabs-navigation">
@@ -314,19 +186,20 @@ The above copyright notice and this permission notice shall be included in all c
                       <span class="nav-tabs-title">History:</span>
                       <ul class="nav nav-tabs" data-tabs="tabs">
                         <li class="nav-item">
-                          <a class="nav-link active" href="#profile" data-toggle="tab">
+                          <a onclick="showA()" class="nav-link" href="#profile" data-toggle="tab">
                             <i class="material-icons">directions_run</i> Kms Covered
                             <div class="ripple-container"></div>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#messages" data-toggle="tab">
+                          <a onclick="showB()" class="nav-link" href="#messages" data-toggle="tab">
                             <i class="material-icons">done_all</i> # of Deliveries
-                            <div class="ripple-container"></div>
+                            <div class="ripple-container">
+                            </div>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#settings" data-toggle="tab">
+                          <a onclick="showC()" class="nav-link active" href="#settings" data-toggle="tab">
                             <i class="material-icons">watch_later</i> Average Delivery Time
                             <div class="ripple-container"></div>
                           </a>
@@ -337,62 +210,36 @@ The above copyright notice and this permission notice shall be included in all c
                 </div>
                 <div style="height: 40vw;" class="card-body">
                   <div class="tab-content">
-                    <div style="width: 54vw;" class="tab-pane active" id="profile">
+                    <div class="tab-pane active" id="profile">
                     </div>
-                    <div style="width: 54vw;" class="tab-pane" id="messages">
+                    <div class="tab-pane active" id="messages">
                     </div>
-                    <div style="width: 54vw;" class="tab-pane" id="settings">
+                    <div class="tab-pane active" id="settings">
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-md-12">
+            <div class="col-lg-4 col-md-12" th:unless="${personal}">
               <div class="card">
                 <div class="card-header card-header-warning">
                   <h4 class="card-title">Employees Stats</h4>
-                  <p class="card-category">New employees on 15th September, 2016</p>
                 </div>
                 <div class="card-body table-responsive">
                   <table class="table table-hover">
                     <thead class="text-warning">
                       <th>ID</th>
                       <th>Name</th>
-                      <th>Location</th>
                       <th>Score</th>
                       <th>Salary</th>
 
                     </thead>
-                    <tbody>
+                    <tbody th:each="employee : ${employees}">
                       <tr>
-                        <td>1</td>
-                        <td><a th:href="@{/employee?id=1}">Mateus Aleixo</a> </td>
-                        <td>Aveiro</td>
-                        <td>3.6</td>
-                        <td>673€</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td><a th:href="@{/employee?id=2}">Bruna Cruz</a></td>
-                        <td>Aveiro</td>
-                        <td>3.3</td>
-                        <td>378€</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td><a th:href="@{/employee?id=3}">Catarina Branco</a></td>
-                        <td>Porto</td>
-                        <td>4.6</td>
-                        <td>614</td>
-
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td><a th:href="@{/employee?id=4}">Joana Jorge</a></td>
-                        <td>Vila Nova de Gaia</td>
-                        <td>4.9</td>
-                        <td>873€</td>
-
+                        <td th:text="${employee.id}"></td>
+                      <td><a th:href="@{/employee(id=${employee.id})}" th:text="|${employee.firstname} ${employee.lastname}|"></a> </td>
+                        <td th:text="${employee.score}"></td>
+                        <td th:text="${employee.salary}">673€</td>
                       </tr>
                     </tbody>
                   </table>
@@ -448,6 +295,184 @@ The above copyright notice and this permission notice shall be included in all c
   <script th:src="@{/js/material-dashboard.js}" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script th:src="@{/demo/demo.js}"></script>
+  <script>
+    var kmsCovered = document.getElementById("profile");
+    var nrDeliveries = document.getElementById("messages");
+    var averageTime = document.getElementById("settings");
+    function showA() {
+      kmsCovered.classList.add("active");
+      nrDeliveries.classList.remove("active");
+      averageTime.classList.remove("active");
+    }
+
+    function showB() {
+      kmsCovered.classList.remove("active");
+      nrDeliveries.classList.add("active");
+      averageTime.classList.remove("active");
+    }
+
+    function showC() {
+      kmsCovered.classList.remove("active");
+      nrDeliveries.classList.remove("active");
+      averageTime.classList.add("active");
+    }
+  </script>
+  <script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+
+    var nrDeliveries13Days = /*[[${nrDeliveries13Days}]]*/
+    var averageDeliveryTime13Days = /*[[${averageTime13Days}]]*/
+    var kmsCovered13Days = /*[[${kmsCovered13Days}]]*/
+
+            /*]]>*/
+
+    drawChartKmsCoveredCanvas();
+    function drawChartKmsCoveredCanvas() {
+      var element = document.getElementById("profile");
+      var positionInfo = element.getBoundingClientRect();
+      var heightChart = 4*positionInfo.height/25;
+      var widthChart = 4*positionInfo.width/25;
+      var dataPoints = []
+      var today = new Date();
+      for (var i=0; i<kmsCovered13Days.length; i++) {
+        dataPoints.push({ 'y': kmsCovered13Days[i], 'label': new Date(today - (i+1)*86400000)});
+      }
+
+      var chart = new CanvasJS.Chart("profile", {
+        animationEnabled: true,
+        exportEnabled: true,
+        title:{
+          text: "Kms Covered per Day",
+          fontFamily: "arial",
+          fontStyle: "bold",
+        },
+        axisX:{
+          valueFormatString: "YYYY DD MMM",
+          labelFontSize: 15,
+          labelAutoFit: true,
+          scaleBreaks: {
+            autoCalculate: true
+          }
+        },
+        axisY: {
+          labelFontSize: 15,
+          labelAutoFit: true,
+          scaleBreaks: {
+            autoCalculate: true
+          }
+        },
+        data: [{
+          type: "line",
+          xValueFormatString: "YYYY DD MMM",
+          toolTipContent: "<b>{label}</b>: {y} km(s)",
+          color: "#0000ff",
+          dataPoints: dataPoints,
+          width: 400,
+          height: 400,
+        }],
+
+      });
+      chart.render();
+    }
+
+    drawChartNumberDeliveriesCanvas();
+    function drawChartNumberDeliveriesCanvas() {
+      var element = document.getElementById("messages");
+      var positionInfo = element.getBoundingClientRect();
+      var heightChart = 4*positionInfo.height/25;
+      var widthChart = 4*positionInfo.width/25;
+      var dataPoints = []
+      var today = new Date();
+      for (var i=0; i<nrDeliveries13Days.length; i++) {
+        dataPoints.push({ 'y': nrDeliveries13Days[i], 'label': new Date(today - (i+1)*86400000)});
+      }
+
+      var chart = new CanvasJS.Chart("messages", {
+        animationEnabled: true,
+        exportEnabled: true,
+        title:{
+          text: "Number of Deliveries per Day",
+          fontFamily: "arial",
+          fontStyle: "bold",
+        },
+        axisX:{
+          valueFormatString: "YYYY DD MMM",
+          labelFontSize: 15,
+          labelAutoFit: true,
+          scaleBreaks: {
+            autoCalculate: true
+          }
+        },
+        axisY: {
+          labelFontSize: 15,
+          labelAutoFit: true,
+          scaleBreaks: {
+            autoCalculate: true
+          }
+        },
+        data: [{
+          type: "column",
+          xValueFormatString: "YYYY DD MMM",
+          toolTipContent: "<b>{label}</b>: {y} delivery(ies)",
+          color: "#0000ff",
+          dataPoints: dataPoints,
+          width: 400,
+          height: 400,
+        }],
+
+      });
+      chart.render();
+    }
+
+    drawChartAverageTimeCanvas();
+    function drawChartAverageTimeCanvas() {
+      var element = document.getElementById("settings");
+      var positionInfo = element.getBoundingClientRect();
+      var heightChart = 4*positionInfo.height/25;
+      var widthChart = 4*positionInfo.width/25;
+      var dataPoints = []
+      var today = new Date();
+      for (var i=0; i<averageDeliveryTime13Days.length; i++) {
+        dataPoints.push({ 'y': averageDeliveryTime13Days[i], 'label': new Date(today - (i+1)*86400000)});
+      }
+
+      var chart = new CanvasJS.Chart("settings", {
+        animationEnabled: true,
+        exportEnabled: true,
+        title:{
+          text: "Average Time in Minutes Per Day",
+          fontFamily: "arial",
+          fontStyle: "bold",
+        },
+        axisX:{
+          valueFormatString: "YYYY DD MMM",
+          labelFontSize: 15,
+          labelAutoFit: true,
+          scaleBreaks: {
+            autoCalculate: true
+          }
+        },
+        axisY: {
+          labelFontSize: 15,
+          labelAutoFit: true,
+          scaleBreaks: {
+            autoCalculate: true
+          }
+        },
+        data: [{
+          type: "line",
+          xValueFormatString: "YYYY DD MMM",
+          toolTipContent: "<b>{label}</b>: {y} average time",
+          color: "#0000ff",
+          dataPoints: dataPoints,
+          width: 400,
+          height: 400,
+          }],
+
+      });
+      chart.render();
+    }
+  </script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
