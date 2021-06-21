@@ -28,126 +28,7 @@ The above copyright notice and this permission notice shall be included in all c
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link th:href="@{/demo/demo.css}" rel="stylesheet" />
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[*/
-
-    var nrDeliveries13Days = /*[[${nrDeliveries13Days}]]*/
-    var averageDeliveryTime13Days = /*[[${averageTime13Days}]]*/
-
-    /*]]>*/
-
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChartAverageKms);
-
-    google.charts.setOnLoadCallback(drawChartNumberDeliveries);
-
-    google.charts.setOnLoadCallback(drawChartAverageTime);
-
-    function drawChartNumberDeliveries() {
-      var data = new google.visualization.DataTable();
-      var today = new Date();
-      data.addColumn('date', 'Day');
-      data.addColumn('number', 'Number of Deliveries');
-
-      data.addRows([
-        [ new Date(today - 86400000), nrDeliveries13Days[0]],
-        [ new Date(today - 2*86400000), nrDeliveries13Days[1]],
-        [ new Date(today - 3*86400000), nrDeliveries13Days[2]],
-        [ new Date(today - 4*86400000), nrDeliveries13Days[3]],
-        [ new Date(today - 5*86400000), nrDeliveries13Days[4]],
-        [ new Date(today - 6*86400000), nrDeliveries13Days[5]],
-        [ new Date(today - 86400000*7), nrDeliveries13Days[6]],
-        [ new Date(today - 86400000*8), nrDeliveries13Days[7]],
-        [ new Date(today - 86400000*9), nrDeliveries13Days[8]],
-        [ new Date(today - 86400000*10), nrDeliveries13Days[9]],
-        [ new Date(today - 86400000*11), nrDeliveries13Days[10]],
-        [ new Date(today - 86400000*12), nrDeliveries13Days[11]],
-        [ new Date(today - 86400000*13), nrDeliveries13Days[12]]
-      ]);
-
-      var options = {
-        title: 'Number of Deliveries Made By Day',
-        curveType: 'function',
-        legend: { position: 'bottom' },
-        width :1000,
-        height:700,
-        hAxis: {title: "Day" , direction:-1, slantedText:true, slantedTextAngle:90 },
-      };
-
-      var chart = new google.visualization.ColumnChart(document.getElementById('messages'));
-
-      chart.draw(data, options);
-    }
-
-    function drawChartAverageTime() {
-      var data = new google.visualization.DataTable();
-      var today = new Date();
-      data.addColumn('date', 'Day');
-      data.addColumn('number', 'Average Time in mins');
-      data.addRows([
-        [ new Date(today - 86400000), averageDeliveryTime13Days[0]],
-        [ new Date(today - 2*86400000), averageDeliveryTime13Days[1]],
-        [ new Date(today - 3*86400000), averageDeliveryTime13Days[2]],
-        [ new Date(today - 4*86400000), averageDeliveryTime13Days[3]],
-        [ new Date(today - 5*86400000), averageDeliveryTime13Days[4]],
-        [ new Date(today - 6*86400000), averageDeliveryTime13Days[5]],
-        [ new Date(today - 86400000*7), averageDeliveryTime13Days[6]],
-        [ new Date(today - 86400000*8), averageDeliveryTime13Days[7]],
-        [ new Date(today - 86400000*9), averageDeliveryTime13Days[8]],
-        [ new Date(today - 86400000*10), averageDeliveryTime13Days[9]],
-        [ new Date(today - 86400000*11), averageDeliveryTime13Days[10]],
-        [ new Date(today - 86400000*12), averageDeliveryTime13Days[11]],
-        [ new Date(today - 86400000*13), averageDeliveryTime13Days[12]]
-      ]);
-
-      var options = {
-        title: 'Average Time in Minutes',
-        curveType: 'function',
-        legend: { position: 'bottom' },
-        width :1000,
-        height:500,
-      };
-
-      var chart = new google.visualization.LineChart(document.getElementById('settings'));
-
-      chart.draw(data, options);
-    }
-
-
-
-    function drawChartAverageKms() {
-      var data = new google.visualization.DataTable();
-      data.addColumn('date', 'Day');
-      data.addColumn('number', 'Average Distance Covered in Kms');
-      data.addRows([
-        [ new Date(2021, 3, 13), 30],
-        [ new Date(2021, 3, 14), 23],
-        [ new Date(2021, 3, 15), 12],
-        [ new Date(2021, 3, 16), 25],
-        [ new Date(2021, 3, 17), 13],
-        [ new Date(2021, 3, 18), 10 ],
-        [ new Date(2021, 3, 19), 20 ],
-        [ new Date(2021, 3, 20), 17 ],
-        [ new Date(2021, 3, 21), 34 ],
-        [ new Date(2021, 3, 22), 28 ],
-        [ new Date(2021, 3, 23), 13 ],
-        [ new Date(2021, 3, 24), 14 ],
-        [ new Date(2021, 3, 25), 17 ]
-      ]);
-
-      var options = {
-        title: 'Average Distance Covered in Kms',
-        curveType: 'function',
-        legend: { position: 'bottom' },
-        width :1000,
-        height:500,
-      };
-
-      var chart = new google.visualization.LineChart(document.getElementById('profile'));
-
-      chart.draw(data, options);
-    }
-  </script>
+  <script type="text/javascript" th:src="@{/js/canvasjs.min.js}"></script>
 </head>
 
 <body class="">
@@ -312,7 +193,8 @@ The above copyright notice and this permission notice shall be included in all c
                         <li class="nav-item">
                           <a class="nav-link" href="#messages" data-toggle="tab">
                             <i class="material-icons">done_all</i> # of Deliveries
-                            <div class="ripple-container"></div>
+                            <div class="ripple-container">
+                            </div>
                           </a>
                         </li>
                         <li class="nav-item">
@@ -412,6 +294,171 @@ The above copyright notice and this permission notice shall be included in all c
   <script th:src="@{/js/material-dashboard.js}" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script th:src="@{/demo/demo.js}"></script>
+  <script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+
+    var nrDeliveries13Days = /*[[${nrDeliveries13Days}]]*/
+    var averageDeliveryTime13Days = /*[[${averageTime13Days}]]*/
+    var kmsCovered13Days = /*[[${kmsCovered13Days}]]*/
+
+            /*]]>*/
+
+            google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChartAverageKms);
+
+    google.charts.setOnLoadCallback(drawChartNumberDeliveries);
+
+    // google.charts.setOnLoadCallback(drawChartAverageTime);
+
+    function drawChartAverageKms() {
+      var data = new google.visualization.DataTable();
+      var today = new Date();
+      data.addColumn('date', 'Day');
+      data.addColumn('number', 'Total Distance Covered in Kms');
+      data.addRows([
+        [ new Date(today - 86400000), kmsCovered13Days[0]],
+        [ new Date(today - 2*86400000), kmsCovered13Days[1]],
+        [ new Date(today - 3*86400000), kmsCovered13Days[2]],
+        [ new Date(today - 4*86400000), kmsCovered13Days[3]],
+        [ new Date(today - 5*86400000), kmsCovered13Days[4]],
+        [ new Date(today - 6*86400000), kmsCovered13Days[5]],
+        [ new Date(today - 86400000*7), kmsCovered13Days[6]],
+        [ new Date(today - 86400000*8), kmsCovered13Days[7]],
+        [ new Date(today - 86400000*9), kmsCovered13Days[8]],
+        [ new Date(today - 86400000*10), kmsCovered13Days[9]],
+        [ new Date(today - 86400000*11), kmsCovered13Days[10]],
+        [ new Date(today - 86400000*12), kmsCovered13Days[11]],
+        [ new Date(today - 86400000*13), kmsCovered13Days[12]]
+      ]);
+
+      var options = {
+        title: 'Total Distance Covered in Kms',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        width :1000,
+        height:500,
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('profile'));
+
+      chart.draw(data, options);
+    }
+
+    function drawChartNumberDeliveries() {
+      var data = new google.visualization.DataTable();
+      var today = new Date();
+      data.addColumn('date', 'Day');
+      data.addColumn('number', 'Number of Deliveries');
+
+      data.addRows([
+        [ new Date(today - 86400000), nrDeliveries13Days[0]],
+        [ new Date(today - 2*86400000), nrDeliveries13Days[1]],
+        [ new Date(today - 3*86400000), nrDeliveries13Days[2]],
+        [ new Date(today - 4*86400000), nrDeliveries13Days[3]],
+        [ new Date(today - 5*86400000), nrDeliveries13Days[4]],
+        [ new Date(today - 6*86400000), nrDeliveries13Days[5]],
+        [ new Date(today - 86400000*7), nrDeliveries13Days[6]],
+        [ new Date(today - 86400000*8), nrDeliveries13Days[7]],
+        [ new Date(today - 86400000*9), nrDeliveries13Days[8]],
+        [ new Date(today - 86400000*10), nrDeliveries13Days[9]],
+        [ new Date(today - 86400000*11), nrDeliveries13Days[10]],
+        [ new Date(today - 86400000*12), nrDeliveries13Days[11]],
+        [ new Date(today - 86400000*13), nrDeliveries13Days[12]]
+      ]);
+
+      var options = {
+        title: 'Number of Deliveries Made By Day',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        width :1000,
+        height:700,
+        hAxis: {title: "Day" , direction:-1, slantedText:true, slantedTextAngle:90 },
+      };
+
+      var chart = new google.visualization.ColumnChart(document.getElementById('messages'));
+
+      chart.draw(data, options);
+    }
+
+    window.onload = drawChartAverageTimeCanvas();
+    function drawChartAverageTimeCanvas() {
+      var dataPoints = []
+
+      for (var i=0; i<averageDeliveryTime13Days; i++) {
+        dataPoints.push({ 'y': averageDeliveryTime13Days[i], 'label': new Date(today - (i+1)*86400000)});
+      }
+
+      var chart = new CanvasJS.Chart("settings", {
+        animationEnabled: true,
+        exportEnabled: true,
+        title:{
+          text: "Average Time in Minutes",
+          fontFamily: "arial",
+          fontStyle: "bold",
+        },
+        axisX:{
+          valueFormatString: "YYYY DD MMM",
+          labelFontSize: 15,
+          labelAutoFit: true,
+          scaleBreaks: {
+            autoCalculate: true
+          }
+        },
+        axisY: {
+          labelFontSize: 15,
+          labelAutoFit: true,
+          scaleBreaks: {
+            autoCalculate: true
+          }
+        },
+        data: [{
+          type: "line",
+          xValueFormatString: "YYYY DD MMM",
+          toolTipContent: "<b>{label}</b>: {y} average time",
+          color: "#0000ff",
+          dataPoints: dataPoints
+          }
+        ]
+      });
+      chart.render();
+    }
+    function drawChartAverageTime() {
+      var data = new google.visualization.DataTable();
+      var today = new Date();
+      data.addColumn('date', 'Day');
+      data.addColumn('number', 'Average Time in mins');
+      data.addRows([
+        [ new Date(today - 86400000), averageDeliveryTime13Days[0]],
+        [ new Date(today - 2*86400000), averageDeliveryTime13Days[1]],
+        [ new Date(today - 3*86400000), averageDeliveryTime13Days[2]],
+        [ new Date(today - 4*86400000), averageDeliveryTime13Days[3]],
+        [ new Date(today - 5*86400000), averageDeliveryTime13Days[4]],
+        [ new Date(today - 6*86400000), averageDeliveryTime13Days[5]],
+        [ new Date(today - 86400000*7), averageDeliveryTime13Days[6]],
+        [ new Date(today - 86400000*8), averageDeliveryTime13Days[7]],
+        [ new Date(today - 86400000*9), averageDeliveryTime13Days[8]],
+        [ new Date(today - 86400000*10), averageDeliveryTime13Days[9]],
+        [ new Date(today - 86400000*11), averageDeliveryTime13Days[10]],
+        [ new Date(today - 86400000*12), averageDeliveryTime13Days[11]],
+        [ new Date(today - 86400000*13), averageDeliveryTime13Days[12]]
+      ]);
+
+      var options = {
+        title: 'Average Time in Minutes',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        width :1000,
+        height:500,
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('settings'));
+
+      chart.draw(data, options);
+    }
+
+
+
+  </script>
   <script>
     $(document).ready(function() {
       $().ready(function() {

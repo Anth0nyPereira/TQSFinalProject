@@ -348,6 +348,30 @@ public class EasyDeliversService {
         return totalDistance;
     }
 
+    public List<Double> sumOfKmCoveredForLast13Days() {
+        List<Double> sumKmsCoveredOfLast13Days = Arrays.asList(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+        long stoptime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);;
+        long starttime = stoptime - TimeUnit.DAYS.toMillis(1);
+
+        for(int i=0; i<13; i++) {
+            List<State> deliveriesOfThatDay = stateRepository.findStatesByDescriptionAndTimestampBetween(
+                    "completed", new Timestamp(starttime), new Timestamp(stoptime));
+
+            double totalDistance = 0;
+            for(State state : deliveriesOfThatDay) {
+                Delivery foundDelivery = deliveryRepository.findDeliveryById(state.getDelivery());
+                String departure = foundDelivery.getStart();
+                String destination = foundDelivery.getDestination();
+                double distance = geocoder.getDistanceInKmsBetweenTwoAddressesWithExternalApi(departure, destination);
+                totalDistance += distance;
+            }
+            sumKmsCoveredOfLast13Days.set(i, totalDistance);
+            starttime -= TimeUnit.DAYS.toMillis(1);
+            stoptime -= TimeUnit.DAYS.toMillis(1);
+        }
+        return sumKmsCoveredOfLast13Days;
+    }
+
 
     public double personalSumOfKmCoveredInLast24Hours(int id) {
         return 0.0;
