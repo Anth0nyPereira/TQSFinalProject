@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.riderapp.LoginSignUpActivity;
-import com.example.riderapp.MainActivity;
 import com.example.riderapp.R;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -73,16 +72,9 @@ public class ProfileFragment extends Fragment {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("UserData",MODE_PRIVATE);
         String firstname = sharedPreferences.getString("FirstName","");
         String lastname = sharedPreferences.getString("LastName","");
-        //Quando se passar o rating
-        //String ratingText = sharedPreferences.getString("rating","");
-        //String salaryText = sharedPreferences.getString("salary","");
         TextView username = view.findViewById(R.id.user_profile_name);
-        TextView rating = view.findViewById(R.id.user_rating);
-        TextView salary = view.findViewById(R.id.textviewsalary);
         username.setText(firstname + " "+ lastname);
         //Quando se passar o salary
-        //rating.setText(ratingText);
-        //salary.setText("Salary: " + salaryText)
 
         Button buttonout = view.findViewById(R.id.logoutIcon);
         buttonout.setOnClickListener(new View.OnClickListener() {

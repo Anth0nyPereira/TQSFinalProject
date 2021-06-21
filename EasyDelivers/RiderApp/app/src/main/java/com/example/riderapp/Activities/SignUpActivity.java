@@ -63,8 +63,6 @@ public class SignUpActivity extends AppCompatActivity {
                     editor.putString("Transportation", logged.getTransportation());
                     editor.putString("FirstName", logged.getFirstname());
                     editor.putString("LastName", logged.getLastname());
-                    //editor.putString("rating", logged.getRating());
-                    //editor.putString("salary", logged.getSalary());
                     editor.putInt("Delivery_radius", logged.getDelivery_radius());
                     editor.putInt("id",logged.getId());
                     editor.apply();
