@@ -241,8 +241,8 @@ public class EasyDeliversService {
     public List<Integer> personalDeliveriesMadeForLast13Days(int id){
         List<Integer> personalDeliveriesOfLast13Days = Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0);
 
-        long stoptime = System.currentTimeMillis();
-        long starttime = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1);
+        long stoptime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);;
+        long starttime = stoptime - TimeUnit.DAYS.toMillis(1);
 
         for(int i=0; i<13; i++){
             List<State> allDeliveriesOfThatDay = stateRepository.findStatesByDescriptionAndTimestampBetween(
@@ -443,7 +443,7 @@ public class EasyDeliversService {
             starttime -= TimeUnit.DAYS.toMillis(1);
             stoptime -= TimeUnit.DAYS.toMillis(1);
         }
-        System.out.println("personalAverageDeliveryTimeForLast13Days: " +  sumTimesOfDeliveriesOfLast13Days);
+        System.out.println("sumOfKmCoveredForLast13Days: " +  sumKmsCoveredOfLast13Days);
         return sumKmsCoveredOfLast13Days;
     }
 

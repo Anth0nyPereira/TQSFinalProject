@@ -333,8 +333,8 @@ The above copyright notice and this permission notice shall be included in all c
       var widthChart = 4*positionInfo.width/25;
       var dataPoints = []
       var today = new Date();
-      for (var i=0; i<nrDeliveries13Days.length; i++) {
-        dataPoints.push({ 'y': nrDeliveries13Days[i], 'label': new Date(today - (i+1)*86400000)});
+      for (var i=0; i<kmsCovered13Days.length; i++) {
+        dataPoints.push({ 'y': kmsCovered13Days[i], 'label': new Date(today - (i+1)*86400000)});
       }
 
       var chart = new CanvasJS.Chart("profile", {
