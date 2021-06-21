@@ -88,6 +88,7 @@ public class EasyDeliversController {
             model.addAttribute("nrDeliveries13Days", service.numberDeliveriesMadeForLast13Days());
             model.addAttribute("averageTime13Days", service.averageDeliveryTimeForLast13Days());
             model.addAttribute("kmsCovered13Days", service.sumOfKmCoveredForLast13Days());
+            model.addAttribute("personal", false);
             return new ModelAndView("dashboard", model);
         }
         else
@@ -142,13 +143,14 @@ public class EasyDeliversController {
     @GetMapping("/employee")
     public ModelAndView singular(@RequestParam(value="id") int id, ModelMap model){
         if(!session.equals("")){
-            model.addAttribute("personalKmsCovered", service.personalSumOfKmCoveredInLast24Hours(id));
+            model.addAttribute("kmsCovered", service.personalSumOfKmCoveredInLast24Hours(id));
             model.addAttribute("numdeliveries", service.personalDeliveriesMadeForLast24Hours(id));
             model.addAttribute("avgtime", service.personalAverageTimeDeliveries(id));
             model.addAttribute("avgScore", service.personalScore(id));
+            //model.addAttribute("employees", "");
             model.addAttribute("nrDeliveries13Days", service.personalDeliveriesMadeForLast13Days(id));
             model.addAttribute("avgTime13Days", service.personalAverageDeliveryTimeForLast13Days(id));
-
+            model.addAttribute("personal", true);
             return new ModelAndView("dashboard", model);
         }
         else{
