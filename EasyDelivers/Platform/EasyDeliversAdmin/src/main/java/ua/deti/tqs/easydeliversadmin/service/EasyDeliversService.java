@@ -12,6 +12,7 @@ import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -154,13 +155,15 @@ public class EasyDeliversService {
 
             if(state.equals("completed")){
                 long now = System.currentTimeMillis();
-                long days_to_go_back = TimeUnit.DAYS.toMillis(Calendar.DAY_OF_MONTH - 1);
+                long days_to_go_back = TimeUnit.DAYS.toMillis(Calendar.DAY_OF_MONTH - 1L);
                 long hours_to_go_back = TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);
 
                 int salary = 0;
                 double score = 0.0;
 
-                x.setScore(ThreadLocalRandom.current().nextInt(0, 6));
+                //x.setScore(ThreadLocalRandom.current().nextInt(0, 6));
+                SecureRandom r = new SecureRandom();
+                x.setScore(r.nextInt(6));
 
                 List<State> thisMonthDeliveries = stateRepository.findStatesByDescriptionAndTimestampBetween(
                         "completed", new Timestamp(now - days_to_go_back - hours_to_go_back), new Timestamp(now));
@@ -177,7 +180,11 @@ public class EasyDeliversService {
                     }
                 }
                 rider.setSalary(Double.valueOf(salary));
-                rider.setScore(score/counter);
+                if (counter == 0) {
+                    rider.setScore(0.0);
+                } else {
+                    rider.setScore(score/counter);
+                }
             }
 
             deliveryRepository.save(x);
@@ -295,12 +302,15 @@ public class EasyDeliversService {
                 "completed", new Timestamp(
                         currentTime - TimeUnit.DAYS.toMillis(1)), new Timestamp(currentTime));
         for(State state : completedDeliveriesLast24Hours){
-            long accepted_time = stateRepository.findStateByDeliveryAndDescription(
-                    state.getDelivery(), "accepted").getTimestamp().getTime();
-            long completed_time = state.getTimestamp().getTime();
-            long iteration_result = completed_time - accepted_time;
-            listOfTimes.add(iteration_result);
-            totalTime += iteration_result;
+            Delivery foundDelivery = deliveryRepository.findDeliveryById(state.getDelivery());
+            if (foundDelivery.getRider() == id) {
+                long accepted_time = stateRepository.findStateByDeliveryAndDescription(
+                        state.getDelivery(), "accepted").getTimestamp().getTime();
+                long completed_time = state.getTimestamp().getTime();
+                long iteration_result = completed_time - accepted_time;
+                listOfTimes.add(iteration_result);
+                totalTime += iteration_result;
+            }
         }
         if(listOfTimes.size() > 0)
             return TimeUnit.MILLISECONDS.toMinutes(totalTime  / listOfTimes.size());

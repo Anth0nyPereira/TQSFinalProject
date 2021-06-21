@@ -53,7 +53,7 @@ public class AdminService_UnitTest {
     }
 
     @Test
-    private void verifyFindByEmailIsCalledOnce(String name) {
+    public void verifyFindByEmailIsCalledOnce(String name) {
         Mockito.verify(adminRepository, VerificationModeFactory.times(1)).findAdminByEmail(name);
     }
 }
