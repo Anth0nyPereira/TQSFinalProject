@@ -126,7 +126,7 @@ public class StatisticService_UnitTest {
     }
 
     @Test
-    public void kmCoveredTest() {
+    public void kmCoveredLast24HoursTest() {
         double kmsCovered = service.sumOfKmCoveredInLast24Hours();
         assertEquals(18.0, kmsCovered);
 
@@ -136,7 +136,7 @@ public class StatisticService_UnitTest {
     }
 
     @Test
-    public void nrDeliveriesTest() {
+    public void nrDeliveriesLast24HoursTest() {
         int numberDeliveriesMadeForLast24Hours = service.numberDeliveriesMadeForLast24Hours();
         assertEquals(4, numberDeliveriesMadeForLast24Hours);
         verify(stateRepository, times(1))
@@ -144,7 +144,7 @@ public class StatisticService_UnitTest {
     }
 
     @Test
-    public void averageTimeTest() {
+    public void averageTimeLast24HoursTest() {
         double averageTime = service.averageTimeDeliveries();
         assertEquals(TimeUnit.MILLISECONDS.toMinutes(6000), averageTime);
         verify(stateRepository, times(1))
@@ -175,6 +175,22 @@ public class StatisticService_UnitTest {
     }
 
     @Test
+    public void kmCoveredInTheLast13DaysTest() {
+        List<Double> kmsCoveredList = service.sumOfKmCoveredForLast13Days();
+        assertEquals(13, kmsCoveredList.size());
+        int counter = 0;
+        for (double d: kmsCoveredList) {
+            assertEquals(18.0, kmsCoveredList.get(counter));
+            counter += 1;
+        }
+
+
+        verify(stateRepository, times(13)).findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
+        verify(deliveryRepository, times(4*13)).findDeliveryById(any(Integer.class));
+        verify(geocoder, times(4*13)).getDistanceInKmsBetweenTwoAddressesWithExternalApi(any(String.class), any(String.class));
+    }
+
+    @Test
     public void getNumberDeliveriesInTheLast13DaysTest(){
         List<Integer> alldeliveriesin13days = service.numberDeliveriesMadeForLast13Days();
         assertThat(alldeliveriesin13days.size()).isEqualTo(13);
@@ -200,6 +216,8 @@ public class StatisticService_UnitTest {
 
     // PERSONALS
 
+
+
     @Test
     public void whenValidId_ReturnKmCoveredTest() {
         int id = 0;
@@ -209,6 +227,21 @@ public class StatisticService_UnitTest {
         verify(stateRepository, times(1)).findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
         verify(deliveryRepository, times(4)).findDeliveryById(any(Integer.class));
         verify(geocoder, times(1)).getDistanceInKmsBetweenTwoAddressesWithExternalApi(any(String.class), any(String.class));
+    }
+
+    @Test
+    public void whenValidId_ReturnKmsCoveredInTheLast13DaysTest() {
+        int id = 0;
+        List<Double> kmsCoveredList = service.personalsumOfKmCoveredForLast13Days(id);
+        int counter = 0;
+        for (double d: kmsCoveredList) {
+            assertEquals(4.2, kmsCoveredList.get(counter));
+            counter += 1;
+        }
+
+        verify(stateRepository, times(13)).findStatesByDescriptionAndTimestampBetween(eq("completed"), any(Timestamp.class), any(Timestamp.class));
+        verify(deliveryRepository, times(4*13)).findDeliveryById(any(Integer.class));
+        verify(geocoder, times(1*13)).getDistanceInKmsBetweenTwoAddressesWithExternalApi(any(String.class), any(String.class));
     }
 
     @Test
