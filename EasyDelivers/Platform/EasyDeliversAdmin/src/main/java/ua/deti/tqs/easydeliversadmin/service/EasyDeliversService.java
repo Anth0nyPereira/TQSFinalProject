@@ -234,7 +234,7 @@ public class EasyDeliversService {
             starttime -= TimeUnit.DAYS.toMillis(1);
             stoptime -= TimeUnit.DAYS.toMillis(1);
         }
-        System.out.println("numberDeliveriesMadeForLast13Days: " +  allDeliveriesOfLast13Days);
+        logger.info("numberDeliveriesMadeForLast13Days: " +  allDeliveriesOfLast13Days);
         return allDeliveriesOfLast13Days;
     }
 
@@ -258,7 +258,7 @@ public class EasyDeliversService {
             starttime -= TimeUnit.DAYS.toMillis(1);
             stoptime -= TimeUnit.DAYS.toMillis(1);
         }
-        System.out.println("personalDeliveriesMadeForLast13Days: " +  personalDeliveriesOfLast13Days);
+        logger.info("personalDeliveriesMadeForLast13Days: " +  personalDeliveriesOfLast13Days);
         return personalDeliveriesOfLast13Days;
     }
 
@@ -332,7 +332,7 @@ public class EasyDeliversService {
                 sumTimesOfDeliveriesOfLast13Days.set(i, (sumTimesOfDeliveriesOfLast13Days.get(i)/numberOfDeliveriesOfLast13Days.get(i))/1000/60);
             }
         }
-        System.out.println("averageDeliveryTimeForLast13Days: " +  sumTimesOfDeliveriesOfLast13Days);
+        logger.info("averageDeliveryTimeForLast13Days: " +  sumTimesOfDeliveriesOfLast13Days);
         return sumTimesOfDeliveriesOfLast13Days;
     }
 
@@ -367,7 +367,7 @@ public class EasyDeliversService {
                 sumTimesOfDeliveriesOfLast13Days.set(i, sumTimesOfDeliveriesOfLast13Days.get(i)/numberOfDeliveriesOfLast13Days.get(i)/1000/60);
             }
         }
-        System.out.println("personalAverageDeliveryTimeForLast13Days: " +  sumTimesOfDeliveriesOfLast13Days);
+        logger.info("personalAverageDeliveryTimeForLast13Days: " +  sumTimesOfDeliveriesOfLast13Days);
         return sumTimesOfDeliveriesOfLast13Days;
     }
 
@@ -412,7 +412,6 @@ public class EasyDeliversService {
         double totalDistance = 0;
         for (int i = 0; i<listOfCompletedStates.size(); i++) {
             State iteratedState = listOfCompletedStates.get(i);
-            System.out.println(iteratedState);
             Delivery foundDelivery = deliveryRepository.findDeliveryById(iteratedState.getDelivery());
             String departure = foundDelivery.getStart();
             String destination = foundDelivery.getDestination();
@@ -443,7 +442,7 @@ public class EasyDeliversService {
             starttime -= TimeUnit.DAYS.toMillis(1);
             stoptime -= TimeUnit.DAYS.toMillis(1);
         }
-        System.out.println("sumOfKmCoveredForLast13Days: " +  sumKmsCoveredOfLast13Days);
+        logger.info("sumOfKmCoveredForLast13Days: " +  sumKmsCoveredOfLast13Days);
         return sumKmsCoveredOfLast13Days;
     }
 
@@ -471,7 +470,7 @@ public class EasyDeliversService {
             starttime -= TimeUnit.DAYS.toMillis(1);
             stoptime -= TimeUnit.DAYS.toMillis(1);
         }
-        System.out.println("personalsumOfKmCoveredForLast13Days: " + sumKmsCoveredOfLast13Days);
+        logger.info("personalsumOfKmCoveredForLast13Days: " + sumKmsCoveredOfLast13Days);
         return sumKmsCoveredOfLast13Days;
     }
 
