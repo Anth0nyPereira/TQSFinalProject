@@ -81,7 +81,7 @@ CREATE TABLE `delivery`  (
   `start` varchar(255) NOT NULL,
   `destination` varchar(255) NOT NULL,
   `rider` int DEFAULT -1,
-  `score` FLOAT NOT NULL,
+  `score` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `rider`(`rider`) USING BTREE,
   INDEX `store`(`store`) USING BTREE,
