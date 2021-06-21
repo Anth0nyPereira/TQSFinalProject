@@ -34,7 +34,7 @@ public class EncomendasAdapter extends RecyclerView.Adapter<EncomendasAdapter.My
     @Override
     public void onBindViewHolder(EncomendasAdapter.MyViewHolder holder, final int position) {
         final Encomenda item = itemsList.get(position);
-        holder.name.setText("Delivery");
+        holder.name.setText("Delivery "+item.getId());
         holder.start.setText(item.getStart());
         holder.destination.setText(item.getDestination());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
