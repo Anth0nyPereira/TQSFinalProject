@@ -62,8 +62,8 @@ class RiderService_UnitTest {
     void setUp() throws Exception {
         enc = new PasswordEncryption();
         rider1 = new Rider("hugo","ferreira","hugo@email.com", enc.encrypt("12345"), "930921312","car");
-        invalid = new Rider("firstname","lastname","email","password","telephone","transportation");
-        newRider = new Rider("firstname","lastname","notfake@email.com","password","telephone","transportation");
+        invalid = new Rider("firstname","lastname","email",PasswordEncryption.encrypt("password"),"telephone","transportation");
+        newRider = new Rider("firstname","lastname","notfake@email.com",PasswordEncryption.encrypt("password"),"telephone","transportation");
 
         del1= new Delivery(1,2,"awaiting_processing","919292112","DETI","Bairro de Santiago");
         del2= new Delivery(2,4,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu");
@@ -145,7 +145,7 @@ class RiderService_UnitTest {
 
     @Test
     @DisplayName("Tests a valid create rider")
-    void whenValidCreateRider(){
+    void whenValidCreateRider() throws Exception {
         Rider x = easyDeliversService.createRider("firstname","lastname","notfake@email.com","password","telephone","transportation");
         assertEquals(newRider.getEmail(),x.getEmail());
         assertEquals(newRider.getFirstname(),x.getFirstname());
