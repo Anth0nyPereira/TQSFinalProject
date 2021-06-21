@@ -53,6 +53,12 @@ public class AdminService_UnitTest {
     @Test
     public void whenInValidEmail_thenAdminShouldNotBeFound() {
         assertThrows(EasyDeliversService.AdminNotFoundException.class, () -> service.getAdminByEmail("wrong_email"));
-        verify(adminRepository, times(1)).findAdminByEmail("wrong_email");
+
+        verifyFindByEmailIsCalledOnce("wrong_email");
+    }
+
+    @Test
+    private void verifyFindByEmailIsCalledOnce(String name) {
+        Mockito.verify(adminRepository, VerificationModeFactory.times(1)).findAdminByEmail(name);
     }
 }

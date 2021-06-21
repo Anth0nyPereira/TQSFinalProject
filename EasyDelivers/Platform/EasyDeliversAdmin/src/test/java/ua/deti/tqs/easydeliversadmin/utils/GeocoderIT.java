@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class GeocoderUnitTest {
+public class GeocoderIT {
 
     @Autowired
     private Geocoder geocoder;
