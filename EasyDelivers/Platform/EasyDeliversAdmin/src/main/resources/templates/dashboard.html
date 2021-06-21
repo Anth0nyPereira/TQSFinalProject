@@ -185,20 +185,20 @@ The above copyright notice and this permission notice shall be included in all c
                       <span class="nav-tabs-title">History:</span>
                       <ul class="nav nav-tabs" data-tabs="tabs">
                         <li class="nav-item">
-                          <a class="nav-link active" href="#profile" data-toggle="tab">
+                          <a onclick="showA()" class="nav-link" href="#profile" data-toggle="tab">
                             <i class="material-icons">directions_run</i> Kms Covered
                             <div class="ripple-container"></div>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#messages" data-toggle="tab">
+                          <a onclick="showB()" class="nav-link" href="#messages" data-toggle="tab">
                             <i class="material-icons">done_all</i> # of Deliveries
                             <div class="ripple-container">
                             </div>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#settings" data-toggle="tab">
+                          <a onclick="showC()" class="nav-link active" href="#settings" data-toggle="tab">
                             <i class="material-icons">watch_later</i> Average Delivery Time
                             <div class="ripple-container"></div>
                           </a>
@@ -209,11 +209,11 @@ The above copyright notice and this permission notice shall be included in all c
                 </div>
                 <div style="height: 40vw;" class="card-body">
                   <div class="tab-content">
-                    <div style="width: 54vw;" class="tab-pane active" id="profile">
+                    <div class="tab-pane active" id="profile">
                     </div>
-                    <div style="width: 54vw;" class="tab-pane" id="messages">
+                    <div class="tab-pane active" id="messages">
                     </div>
-                    <div style="width: 54vw;" class="tab-pane" id="settings">
+                    <div class="tab-pane active" id="settings">
                     </div>
                   </div>
                 </div>
@@ -294,6 +294,28 @@ The above copyright notice and this permission notice shall be included in all c
   <script th:src="@{/js/material-dashboard.js}" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script th:src="@{/demo/demo.js}"></script>
+  <script>
+    var kmsCovered = document.getElementById("profile");
+    var nrDeliveries = document.getElementById("messages");
+    var averageTime = document.getElementById("settings");
+    function showA() {
+      kmsCovered.classList.add("active");
+      nrDeliveries.classList.remove("active");
+      averageTime.classList.remove("active");
+    }
+
+    function showB() {
+      kmsCovered.classList.remove("active");
+      nrDeliveries.classList.add("active");
+      averageTime.classList.remove("active");
+    }
+
+    function showC() {
+      kmsCovered.classList.remove("active");
+      nrDeliveries.classList.remove("active");
+      averageTime.classList.add("active");
+    }
+  </script>
   <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
 
@@ -417,7 +439,7 @@ The above copyright notice and this permission notice shall be included in all c
         animationEnabled: true,
         exportEnabled: true,
         title:{
-          text: "Average Time in Minutes",
+          text: "Average Time in Minutes Per Day",
           fontFamily: "arial",
           fontStyle: "bold",
         },
