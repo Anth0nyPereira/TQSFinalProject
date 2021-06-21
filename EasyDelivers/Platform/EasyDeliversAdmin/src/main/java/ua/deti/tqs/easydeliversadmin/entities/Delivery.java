@@ -3,6 +3,7 @@ package ua.deti.tqs.easydeliversadmin.entities;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -50,6 +51,9 @@ public class Delivery {
     private int rider;
 
     @Column(name="score")
+    @ApiModelProperty(value = "Delivery's Score",example = "3")
+    @Min(value = 0, message = "Score should not be less than 0")
+    @Max(value = 5, message = "Score should not be higher than 5")
     private int score;
 
     public Delivery(int store,int rider_fee, String state, String client_telephone, String start, String destination) {

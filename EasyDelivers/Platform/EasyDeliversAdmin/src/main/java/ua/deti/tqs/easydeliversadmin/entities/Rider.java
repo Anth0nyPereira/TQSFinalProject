@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
@@ -43,8 +45,13 @@ public class Rider {
         private String transportation;
         
         @Column(name="salary")
+        @ApiModelProperty(value = "Rider's Gains ",example = "50")
+        @Min(value = 0, message = "Gains should not be less than 0")
         private Double salary;
-        
+
+        @ApiModelProperty(value = "Rider's Average Score ",example = "3")
+        @Min(value = 0, message = "Score should not be less than 0")
+        @Max(value =5, message = "Score should not be higher than 5")
         @Column(name="score")
         private Double score;
 
