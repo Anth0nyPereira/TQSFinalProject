@@ -11,11 +11,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ua.deti.tqs.easydeliversadmin.entities.Admin;
 import ua.deti.tqs.easydeliversadmin.repository.AdminRepository;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class AdminService_UnitTest {
@@ -48,12 +53,6 @@ public class AdminService_UnitTest {
     @Test
     public void whenInValidEmail_thenAdminShouldNotBeFound() {
         assertThrows(EasyDeliversService.AdminNotFoundException.class, () -> service.getAdminByEmail("wrong_email"));
-
-        verifyFindByEmailIsCalledOnce("wrong_email");
-    }
-
-    @Test
-    public void verifyFindByEmailIsCalledOnce(String name) {
-        Mockito.verify(adminRepository, VerificationModeFactory.times(1)).findAdminByEmail(name);
+        verify(adminRepository, times(1)).findAdminByEmail("wrong_email");
     }
 }
