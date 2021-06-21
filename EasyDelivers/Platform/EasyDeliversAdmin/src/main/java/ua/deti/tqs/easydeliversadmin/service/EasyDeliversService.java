@@ -234,6 +234,7 @@ public class EasyDeliversService {
             starttime -= TimeUnit.DAYS.toMillis(1);
             stoptime -= TimeUnit.DAYS.toMillis(1);
         }
+        System.out.println("numberDeliveriesMadeForLast13Days: " +  allDeliveriesOfLast13Days);
         return allDeliveriesOfLast13Days;
     }
 
@@ -257,6 +258,7 @@ public class EasyDeliversService {
             starttime -= TimeUnit.DAYS.toMillis(1);
             stoptime -= TimeUnit.DAYS.toMillis(1);
         }
+        System.out.println("personalDeliveriesMadeForLast13Days: " +  personalDeliveriesOfLast13Days);
         return personalDeliveriesOfLast13Days;
     }
 
@@ -305,7 +307,7 @@ public class EasyDeliversService {
     public List<Double> averageDeliveryTimeForLast13Days(){
         List<Integer> numberOfDeliveriesOfLast13Days = Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0);
         List<Double> sumTimesOfDeliveriesOfLast13Days = Arrays.asList(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
-        long stoptime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);;
+        long stoptime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);
         long starttime = stoptime - TimeUnit.DAYS.toMillis(1);
 
         for(int i=0; i<13; i++){
@@ -324,21 +326,21 @@ public class EasyDeliversService {
         }
         // 1 millisecond = 1.66666667 × 10-5 minutes
         for(int i=0; i<13; i++){
-            if (sumTimesOfDeliveriesOfLast13Days.get(i) == 0.0) {
+            if (numberOfDeliveriesOfLast13Days.get(i) == 0.0) {
                 sumTimesOfDeliveriesOfLast13Days.set(i, 0.0);
             } else {
                 sumTimesOfDeliveriesOfLast13Days.set(i, (sumTimesOfDeliveriesOfLast13Days.get(i)/numberOfDeliveriesOfLast13Days.get(i))/1000/60);
             }
         }
-
+        System.out.println("averageDeliveryTimeForLast13Days: " +  sumTimesOfDeliveriesOfLast13Days);
         return sumTimesOfDeliveriesOfLast13Days;
     }
 
     public List<Double> personalAverageDeliveryTimeForLast13Days(int id){
         List<Integer> numberOfDeliveriesOfLast13Days = Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0);
         List<Double> sumTimesOfDeliveriesOfLast13Days = Arrays.asList(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
-        long stoptime = System.currentTimeMillis();
-        long starttime = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1);
+        long stoptime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);;
+        long starttime = stoptime - TimeUnit.DAYS.toMillis(1);
 
         for(int i=0; i<13; i++){
             List<State> deliveriesOfThatDay = stateRepository.findStatesByDescriptionAndTimestampBetween(
@@ -359,8 +361,13 @@ public class EasyDeliversService {
         }
 
         for(int i=0; i<13; i++){
-            sumTimesOfDeliveriesOfLast13Days.set(i, sumTimesOfDeliveriesOfLast13Days.get(i)/numberOfDeliveriesOfLast13Days.get(i));
+            if (numberOfDeliveriesOfLast13Days.get(i) == 0) {
+                sumTimesOfDeliveriesOfLast13Days.set(i, 0.0);
+            } else {
+                sumTimesOfDeliveriesOfLast13Days.set(i, sumTimesOfDeliveriesOfLast13Days.get(i)/numberOfDeliveriesOfLast13Days.get(i)/1000/60);
+            }
         }
+        System.out.println("personalAverageDeliveryTimeForLast13Days: " +  sumTimesOfDeliveriesOfLast13Days);
         return sumTimesOfDeliveriesOfLast13Days;
     }
 
@@ -436,9 +443,37 @@ public class EasyDeliversService {
             starttime -= TimeUnit.DAYS.toMillis(1);
             stoptime -= TimeUnit.DAYS.toMillis(1);
         }
+        System.out.println("personalAverageDeliveryTimeForLast13Days: " +  sumTimesOfDeliveriesOfLast13Days);
         return sumKmsCoveredOfLast13Days;
     }
 
+    public List<Double> personalsumOfKmCoveredForLast13Days(int id) {
+        List<Double> sumKmsCoveredOfLast13Days = Arrays.asList(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+        long stoptime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);;
+        long starttime = stoptime - TimeUnit.DAYS.toMillis(1);
+
+        for(int i=0; i<13; i++) {
+            List<State> deliveriesOfThatDay = stateRepository.findStatesByDescriptionAndTimestampBetween(
+                    "completed", new Timestamp(starttime), new Timestamp(stoptime));
+
+            double totalDistance = 0;
+            for(State state : deliveriesOfThatDay) {
+                Delivery foundDelivery = deliveryRepository.findDeliveryById(state.getDelivery());
+                if (foundDelivery.getRider() == id) {
+                    String departure = foundDelivery.getStart();
+                    String destination = foundDelivery.getDestination();
+                    double distance = geocoder.getDistanceInKmsBetweenTwoAddressesWithExternalApi(departure, destination);
+                    totalDistance += distance;
+                }
+
+            }
+            sumKmsCoveredOfLast13Days.set(i, totalDistance);
+            starttime -= TimeUnit.DAYS.toMillis(1);
+            stoptime -= TimeUnit.DAYS.toMillis(1);
+        }
+        System.out.println("personalsumOfKmCoveredForLast13Days: " + sumKmsCoveredOfLast13Days);
+        return sumKmsCoveredOfLast13Days;
+    }
 
     public double personalSumOfKmCoveredInLast24Hours(int id) {
         long currentTime = System.currentTimeMillis();

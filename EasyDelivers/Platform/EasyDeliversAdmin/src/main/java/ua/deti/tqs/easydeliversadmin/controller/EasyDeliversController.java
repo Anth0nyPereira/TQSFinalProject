@@ -147,9 +147,9 @@ public class EasyDeliversController {
             model.addAttribute("numdeliveries", service.personalDeliveriesMadeForLast24Hours(id));
             model.addAttribute("avgtime", service.personalAverageTimeDeliveries(id));
             model.addAttribute("avgScore", service.personalScore(id));
-            //model.addAttribute("employees", "");
             model.addAttribute("nrDeliveries13Days", service.personalDeliveriesMadeForLast13Days(id));
-            model.addAttribute("avgTime13Days", service.personalAverageDeliveryTimeForLast13Days(id));
+            model.addAttribute("averageTime13Days", service.personalAverageDeliveryTimeForLast13Days(id));
+            model.addAttribute("kmsCovered13Days", service.personalsumOfKmCoveredForLast13Days(id));
             model.addAttribute("personal", true);
             return new ModelAndView("dashboard", model);
         }
