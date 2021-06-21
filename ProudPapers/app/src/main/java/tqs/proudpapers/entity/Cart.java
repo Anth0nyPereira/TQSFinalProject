@@ -3,7 +3,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Setter;
 
 import javax.persistence.*;
-
 /**
  * @author wy
  * @date 2021/6/13 11:50
@@ -24,4 +23,5 @@ public class Cart {
     public Integer getId() {
         return this.id;
     }
+
 }

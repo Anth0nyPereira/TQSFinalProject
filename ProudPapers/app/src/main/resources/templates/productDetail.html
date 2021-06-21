@@ -169,9 +169,10 @@
                     localStorage.setItem('cartQuantity', parseInt(localStorage.getItem('cartQuantity')) + 1)
                     localStorage.setItem('totalPrice', newTotalPrice)
                     reLoadLocalStorage();
+                    alert("You added this product into your cart!")
                 },
                 error: function (result) {
-                    alert("You already have this book in your cart!")
+                    alert("You already have this product in your cart!")
                 }
             });
         }
