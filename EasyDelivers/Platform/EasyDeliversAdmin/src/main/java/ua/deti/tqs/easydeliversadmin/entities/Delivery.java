@@ -50,7 +50,6 @@ public class Delivery {
     private int rider;
 
     @Column(name="score")
-    @NotBlank
     private int score;
 
     public Delivery(int store,int rider_fee, String state, String client_telephone, String start, String destination) {
