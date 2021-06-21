@@ -1,4 +1,4 @@
-/* package ua.deti.tqs.easydeliversadmin.selenium;
+/*package ua.deti.tqs.easydeliversadmin.selenium;
 
 import io.github.bonigarcia.seljup.SeleniumJupiter;
 import static org.hamcrest.CoreMatchers.is;
@@ -41,6 +41,5 @@ public class LoginUnsuccessfullTest {
     assertThat(driver.findElement(By.cssSelector("h2")).getText(), is("Internal Server Error"));
   }
 }
-
 
  */

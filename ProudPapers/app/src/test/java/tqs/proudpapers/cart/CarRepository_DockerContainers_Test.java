@@ -34,8 +34,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CarRepository_DockerContainers_Test {
     @Container
     public static MySQLContainer container = new MySQLContainer(DockerImageName.parse("mysql:5.7"))
-            .withUsername("root")
-            .withPassword("12345")
+            .withUsername("proudpapers")
+            .withPassword("abcABC123!!!")
             .withDatabaseName("proudpapers");
 
     @DynamicPropertySource
