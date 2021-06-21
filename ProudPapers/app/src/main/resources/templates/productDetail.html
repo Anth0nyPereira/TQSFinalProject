@@ -42,22 +42,6 @@
                                     </a>
                                 </div>
                             </div>
-                            
-                            <div class="details-tab">
-                                <div class="tabs">
-                                    <ul class="breadcrumb-content">
-                                        <li><span class="active descr"  onclick="descr()"><span>Description</span></span></li>
-                                        <li><span class="rev" onclick="reviews()"><span>Reviews</span></span></li>
-                                     </ul>     
-                                </div>
-                                <div class="tabs-content">
-                                    <div id="descr" th:text="${product.description}"></div>
-                                    <div id="rev" hidden="hidden">
-                                        my review
-                                    </div>
-                                </div>
-                            </div>
-                            
                         </div>
                     </div>
 
@@ -66,7 +50,6 @@
                             <div class="product-info">
                                 <input type="hidden" id="product-id" th:value="${product.id}"/>
                                 <h2 id="product-name" th:text="${product.name}"></h2>
-                                <span class="product-details-ref">Reference: demo_15</span>
                                 <div class="rating-box rr">
                                     <ul class="rating rating-with-review-item">
                                         <li><i class="far fa-star"></i></li>
@@ -74,13 +57,13 @@
                                         <li><i class="far fa-star"></i></li>
                                         <li class="no-star"><i class="far fa-star"></i></li>
                                         <li class="no-star"><i class="far fa-star"></i></li>
-                                        <li class="review-item"><i class="fas fa-pen"> Read Review</i></li>
-                                        <li class="review-item"><i class="fas fa-pen"> Write Review</i></li>
                                     </ul>
                                 </div>
                                 <div class="price-box pt-20">
                                     <span id="product-price" class="new-price new-price-2" th:text="${product.getPrice()}"></span>
                                 </div>
+                                <p>Description: </p>
+                                <div id="descr" th:text="${product.description}"></div>
                                 <div class="single-add-to-cart">
                                     <div class="cart-quantity">
                                         <div class="quantity">
@@ -95,45 +78,6 @@
                                         <a class="add-to-cart add-to-cart-btn">Add to cart</a>
                                         <button hidden="hidden" class="add-to-cart" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy now</button>
                                     </div>
-                                </div>
-                                <div class="product-additional-info pt-25">
-                                    <a class="wishlist-btn" href="#"><i class="far fa-heart"></i>Add to wishlist</a>
-                                    <div class="product-social-sharing pt-25">
-                                        <ul>
-                                            <li class="facebook"><a href="#"><i class="fab fa-facebook-f"></i>Facebook</a></li>
-                                            <li class="twitter"><a href="#"><i class="fab fa-twitter"></i>Twitter</a></li>
-                                            <li class="google-plus"><a href="#"><i class="fab fa-google-plus-g"></i>Google +</a></li>
-                                            <li class="instagram"><a href="#"><i class="fab fa-instagram"></i>Instagram</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="block-reassurance">
-                                    <ul>
-                                        <li>
-                                            <div class="reassurance-item">
-                                                <div class="reassurance-icon">
-                                                    <i class="fas fa-check-square"></i>
-                                                </div>
-                                                <p>Security policy (edit with Customer reassurance module)</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="reassurance-item">
-                                                <div class="reassurance-icon">
-                                                    <i class="fa fa-truck"></i>
-                                                </div>
-                                                <p>Delivery policy (edit with Customer reassurance module)</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="reassurance-item">
-                                                <div class="reassurance-icon">
-                                                    <i class="fas fa-exchange-alt"></i>
-                                                </div>
-                                                <p> Return policy (edit with Customer reassurance module)</p>
-                                            </div>
-                                        </li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
