@@ -78,7 +78,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textviewDetails"
+            android:id="@+id/textviewsalary"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -86,29 +86,9 @@
             android:clickable="true"
             android:elevation="4dp"
             android:padding="20dp"
-            android:text="Deliveries this Month:" />
-
-        <TextView
-            android:id="@+id/textviewDetails2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="#fff"
-            android:clickable="true"
-            android:elevation="4dp"
-            android:padding="20dp"
-            android:text="Previous Delivers:" />
+            android:text="Salary: " />
 
 
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical">
-
-        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
 

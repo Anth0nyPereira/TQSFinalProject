@@ -1,0 +1,225 @@
+<!DOCTYPE>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Proud Papers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="/css/main.css" rel="stylesheet"/>
+    <script type="text/javascript" src="/js/main.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navbar">
+        <div class="container-fluid">
+            <a class="app-name" href="/">ProudPapers</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                </div>
+                <input id="user-id" type="hidden" th:value="${#session != null ? #session.getAttribute('client').id : -1}"/>
+                <div class="nav" th:if="${#session != null && #session.getAttribute('client') != null}">
+                    <span class="hello">Hello! </span>
+                    <div class="username btn btn-primary"><a th:href="'/account/' + ${#session.getAttribute('client').id} + '/myinfo'">[[${#session.getAttribute('client').name}]]</a></div>
+                </div>
+                <div class="nav cartDiv" th:if="${#session != null && #session.getAttribute('client') != null}">
+                    <span class="notification" id="product-cart-quantity" th:text="${#session.getAttribute('client').cartDTO.productOfCarts.size()}"></span>
+                    <a type="button" class="cart_btn btn sub_btn" title="cart" th:href="'/account/' + ${#session.getAttribute('client').id} + '/cart'">
+                        <i class="fas fa-cart-plus"></i>
+                        <span>| € </span><span id="product-total-price" th:text="${#session.getAttribute('client').cartDTO.totalPrice}"></span>
+                    </a>
+                </div>
+                <div class="nav" th:if="${#session == null}">
+                    <a type="button" class="btn btn-primary" href="/login">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container header" th:fragment="header">
+        <div class="row">
+            <div class="col-lg-2 col-md-8">
+                <div class="logo pb-sm-30 pb-xs-30">
+                    <a href="/">
+                        <img src="/img/logo.png" alt=""/>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-8">
+                <div class="search_div" >
+                    <form class="search_box" action="/search/">
+                        <input type="text" placeholder="Enter your search key..." class="search-input input"/>
+                        <button type="submit" class="search-btn btn sub_btn" title="search"><i class="fas fa-search"></i></button>
+                    </form>
+                    <div class="popular-searches">
+                        <span>Most searched :</span>
+                        <a href="#">Java effective</a>
+                        <a href="#">Python effective</a>
+                        <a href="#">C++ effective</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer" th:fragment="footer">
+        <div class="footer-static-middle">
+            <div class="container">
+                <div class="footer-logo-wrap pt-50 pb-35">
+                    <div class="row">
+                        <!-- Begin Footer Logo Area -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="footer-logo">
+                                <img src="/img/logo.png" alt="Footer Logo"/>
+                                <p class="info">
+                                    Tqs final project
+                                </p>
+                            </div>
+                            <ul class="des">
+                                <li>
+                                    <span>Address: </span>
+                                    6688Princess Road, London, Greater London BAS 23JK, UK
+                                </li>
+                                <li>
+                                    <span>Phone: </span>
+                                    <a href="#">(+123) 123 321 345</a>
+                                </li>
+                                <li>
+                                    <span>Email: </span>
+                                    <a href="#">info@yourdomain.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Footer Logo Area End Here -->
+                        <!-- Begin Footer Block Area -->
+                        <div class="col-lg-2 col-md-3 col-sm-6">
+                            <div class="footer-block">
+                                <h3 class="footer-block-title">Product</h3>
+                                <ul>
+                                    <li><a href="#">Prices drop</a></li>
+                                    <li><a href="#">New products</a></li>
+                                    <li><a href="#">Best sales</a></li>
+                                    <li><a href="#">Contact us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Footer Block Area End Here -->
+                        <!-- Begin Footer Block Area -->
+                        <div class="col-lg-2 col-md-3 col-sm-6">
+                            <div class="footer-block">
+                                <h3 class="footer-block-title">Our company</h3>
+                                <ul>
+                                    <li><a href="#">Delivery</a></li>
+                                    <li><a href="#">Legal Notice</a></li>
+                                    <li><a href="#">About us</a></li>
+                                    <li><a href="#">Contact us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Footer Block Area End Here -->
+                        <!-- Begin Footer Block Area -->
+                        <div class="col-lg-4">
+                            <div class="footer-block">
+                                <h3 class="footer-block-title">Follow Us</h3>
+                                <ul class="social-link">
+                                    <li class="twitter">
+                                        <a href="https://twitter.com/" data-toggle="tooltip" target="_blank" title="Twitter">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li class="rss">
+                                        <a href="https://rss.com/" data-toggle="tooltip" target="_blank" title="RSS">
+                                            <i class="fa fa-rss"></i>
+                                        </a>
+                                    </li>
+                                    <li class="google-plus">
+                                        <a href="https://www.plus.google.com/discover" data-toggle="tooltip" target="_blank" title="Google Plus">
+                                            <i class="fab fa-google-plus-g"></i>
+                                        </a>
+                                    </li>
+                                    <li class="facebook">
+                                        <a href="https://www.facebook.com/" data-toggle="tooltip" target="_blank" title="Facebook">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                    </li>
+                                    <li class="youtube">
+                                        <a href="https://www.youtube.com/" data-toggle="tooltip" target="_blank" title="Youtube">
+                                            <i class="fab fa-youtube"></i>
+                                        </a>
+                                    </li>
+                                    <li class="instagram">
+                                        <a href="https://www.instagram.com/" data-toggle="tooltip" target="_blank" title="Instagram">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Begin Footer Newsletter Area -->
+                            <div class="footer-newsletter">
+                                <h4>Sign up to newsletter</h4>
+                                <form action="#" method="post" id="mc-embedded-subscribe-form" class="footer-subscribe-form validate">
+                                    <div id="mc_embed_signup_scroll">
+                                        <div id="mc-form" class="mc-form subscribe-form form-group" >
+                                            <input id="mc-email" type="email" autocomplete="off" placeholder="Enter your email" />
+                                            <button  class="btn" id="mc-submit">Subscribe</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Footer Newsletter Area End Here -->
+                        </div>
+                        <!-- Footer Block Area End Here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" th:fragment="menu">
+        <div class="position-sticky pt-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <span>Welcome! </span>
+                    <div class="username btn btn-primary">Username</div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="'/account/' + ${#session.getAttribute('client').id} + '/myinfo'">
+                        <span data-feather="home"></span>
+                        My Info
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="'/account/' + ${#session.getAttribute('client').id} + '/address'">
+                        Address
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="'/account/' + ${#session.getAttribute('client').id} + '/contact'">
+                        Contact
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="'/account/' + ${#session.getAttribute('client').id} + '/payment'">
+                        Payment Method
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="'/account/' + ${#session.getAttribute('client').id} + '/cart'">
+                        Cart
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="'/account/' + ${#session.getAttribute('client').id} + '/deliveries'">
+                        <span data-feather="users"></span>
+                        Deliveries
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+</html>

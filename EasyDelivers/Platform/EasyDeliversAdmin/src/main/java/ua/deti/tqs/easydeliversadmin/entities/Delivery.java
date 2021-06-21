@@ -1,6 +1,9 @@
 package ua.deti.tqs.easydeliversadmin.entities;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
@@ -10,31 +13,40 @@ public class Delivery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(value = "Delivery's id",example = "1")
     private int id;
 
     @Column(name="store")
+    @ApiModelProperty(value = "Store's id",example = "1")
     private int store;
 
     @Column(name="rider_fee")
+    @ApiModelProperty(value = "Rider's Fee",example = "5")
+    @Min(value = 0, message = "Fee should not be less than 0")
     private int rider_fee;
 
     @Column(name="state")
     @NotBlank
+    @ApiModelProperty(value = "Delivery's Current State",example = "awaiting_processing")
     private String state;
 
     @Column(name="client_telephone")
     @NotBlank
+    @ApiModelProperty(value = "Client's Telephone",example = "912931231")
     private String client_telephone;
 
     @Column(name="start")
     @NotBlank
+    @ApiModelProperty(value = "Delivery's Start",example = "Loc1")
     private String start;
 
     @Column(name="destination")
     @NotBlank
+    @ApiModelProperty(value = "Delivery's Destination",example = "Loc2")
     private String destination;
 
     @Column(name="rider")
+    @ApiModelProperty(value = "Rider's ID",example = "1")
     private int rider;
 
     public Delivery(int store,int rider_fee, String state, String client_telephone, String start, String destination) {

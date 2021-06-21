@@ -72,7 +72,6 @@ public class EasyDeliversService {
         try {
             return riderRepository.save(new Rider(firstname,lastname,email,PasswordEncryption.encrypt(password),telephone,transportation));
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }

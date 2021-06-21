@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Easy Deliveries - Login</title>
+    <link th:href="@{/css/entering.css}" rel="stylesheet" />
+</head>
+<body>
+<div id="login-box" style="display: flex">
+    <div style="margin:auto; align-content: center">
+        <h1>Login</h1>
+
+        <form th:action="@{/login}" method="post" style="margin: auto">
+            <input type="text" name="email" placeholder="E-mail" />
+            <input type="password" name="password" placeholder="Password" />
+
+            <input type="submit" name="signup_submit" value="Login" />
+            <br/>
+        </form>
+    </div>
+</div>
+</body>
+</html>
