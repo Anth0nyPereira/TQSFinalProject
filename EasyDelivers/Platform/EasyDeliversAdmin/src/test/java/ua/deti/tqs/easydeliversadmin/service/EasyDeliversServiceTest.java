@@ -63,10 +63,9 @@ class EasyDeliversServiceTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        enc = new PasswordEncryption();
-        rider1 = new Rider("hugo","ferreira","hugo@email.com", enc.encrypt("12345"), "930921312","car");
-        invalid = new Rider("firstname","lastname","email","password","telephone","transportation");
-        newRider = new Rider("firstname","lastname","notfake@email.com","password","telephone","transportation");
+        rider1 = new Rider("hugo","ferreira","hugo@email.com", PasswordEncryption.encrypt("12345"), "930921312","car");
+        invalid = new Rider("firstname","lastname","email",PasswordEncryption.encrypt("password"),"telephone","transportation");
+        newRider = new Rider("firstname","lastname","notfake@email.com",PasswordEncryption.encrypt("password"),"telephone","transportation");
 
         del1= new Delivery(1,2,"awaiting_processing","919292112","DETI","Bairro de Santiago");
         del2= new Delivery(2,2,"awaiting_processing","919292941","Staples Aveiro","Bairro do Liceu");
