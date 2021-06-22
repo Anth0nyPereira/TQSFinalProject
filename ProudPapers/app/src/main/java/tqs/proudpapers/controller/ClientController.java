@@ -136,7 +136,7 @@ public class ClientController {
         if (saved != null)
             return new ResponseEntity<>(saved, HttpStatus.OK);
         else
-            return new ResponseEntity<>(new Object(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
 
@@ -168,7 +168,7 @@ public class ClientController {
                                               @PathVariable("state") String state){
 
         deliveryService.changeStateOfDelivery(id, state);
-        return new ResponseEntity<>(new Object(), HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     private void sendDeliveryToEasyDelivery(Integer deliveryId, ClientDTO clientDTO){
