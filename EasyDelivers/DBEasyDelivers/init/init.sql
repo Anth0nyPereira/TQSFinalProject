@@ -104,3 +104,8 @@ CREATE TABLE `state`  (
 );
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO `admin`(`first_name`, `last_name`, `email`, `password`, `position`, `description`) VALUES("Paulo", "Coelho", "paulocoelho@email.com", SHA2("admin",256), "CEO", "I wish to make the world a better place!");
+
+INSERT INTO `store`(`name`, `address`) VALUES("ProudPapers", "http://deti-tqs-06.ua.pt:9000");
+

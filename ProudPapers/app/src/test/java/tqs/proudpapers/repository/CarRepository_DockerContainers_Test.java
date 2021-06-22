@@ -13,9 +13,6 @@ import tqs.proudpapers.entity.Cart;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.entity.Product;
 import tqs.proudpapers.entity.ProductOfCart;
-import tqs.proudpapers.repository.CartRepository;
-import tqs.proudpapers.repository.ClientRepository;
-import tqs.proudpapers.repository.ProductRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
