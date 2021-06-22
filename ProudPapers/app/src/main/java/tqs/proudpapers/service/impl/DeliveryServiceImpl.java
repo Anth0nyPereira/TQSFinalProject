@@ -37,6 +37,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     public Integer addProductToDelivery(Integer clientId, List<ProductOfCartDTO> product) {
         var delivery = new Delivery();
         delivery.setClient(clientId);
+        delivery.setState("awaiting_processing");
         double totalPrice = product.stream().map(p->p.getProduct().getPrice()).reduce(Double::sum).orElse(0.0);
         delivery.setTotalPrice(totalPrice);
 

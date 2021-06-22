@@ -175,14 +175,14 @@
                         </div>
                     </div>
 
-                    <div class="deliveries" th:if="${deliveries}" th:each="delivery:${deliveriesDTO}">
+                    <div class="deliveries" th:each="delivery:${deliveriesDTO}">
                         <div class="row mb-3">
                             <div class="col-md-10">
                                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                                     <div class="col p-4 d-flex flex-column position-static">
                                         <h5 class="mb-0" th:text="${'You have ' + delivery.getProductsOfDelivery().size() + ' books in this Delivery'}"></h5>
                                         <div class="mb-1 text-muted" th:text="${'State: ' + delivery.getState()}"></div>
-                                        <p class="card-text mb-auto" th:text="${'Total price ' + delivery.getTotal_price()}"></p>
+                                        <p class="card-text mb-auto" th:text="${'Total price ' + delivery.getTotalPrice()}"></p>
                                     </div>
                                 </div>
                             </div>
@@ -202,6 +202,12 @@
         localStorage.setItem('totalPrice', 0)
         localStorage.setItem('cartQuantity', 0)
     }else{
+        if (localStorage.getItem('totalPrice') === '0'){
+            if($('#product-cart-quantity').text() !== '0'){
+                localStorage.setItem('totalPrice', $('#product-total-price').text())
+                localStorage.setItem('cartQuantity', $('#product-cart-quantity').text())
+            }
+         }
         reLoadLocalStorage();
     }
 

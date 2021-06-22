@@ -1,4 +1,4 @@
-name: CD ProudPapers
+name: CD Easy Delivers & ProudPapers
 on:
   push:
     branches:
@@ -18,3 +18,9 @@ jobs:
           docker-compose down
           docker-compose pull
           docker-compose up -d --build
+      - name: Run Easy Delivers Deployment
+        run: |
+          cd EasyDelivers/Platform/EasyDeliversAdmin
+          docker-compose down
+          docker-compose pull
+          docker-compose up -d --build    

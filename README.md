@@ -56,8 +56,42 @@
 
 **Shared Workspace** - [Google Drive](https://drive.google.com/drive/folders/13LAXi8iNRRf4JjN1jrxj1cBFgtOl0J1J)
 
-**API Documentation** - 
+**API Documentation** 
+
+- [EasyDelivers](http://deti-tqs-06.ua.pt:8080/swagger-ui.html#/)
+- [ProudPapers](http://deti-tqs-06.ua.pt:9000/swagger-ui.html#/)
 
 **Static Analysis** - [SonarCloud](https://sonarcloud.io/organizations/tqsproject/projects)
 
 **CI/CD Environment** - [Git Actions](https://github.com/Wei93442/TQSFinalProject/actions)
+
+**Project Modules** 
+
+- [EasyDelivers Platform](https://github.com/Wei93442/TQSFinalProject/tree/main/EasyDelivers/Platform)
+- [EasyDelivers App](https://github.com/Wei93442/TQSFinalProject/tree/main/EasyDelivers/RiderApp)
+- [ProudPapers](https://github.com/Wei93442/TQSFinalProject/tree/main/ProudPapers)
+
+**Reports** 
+
+- [Product Specification Report](https://github.com/Wei93442/TQSFinalProject/tree/main/documentation/ProductSpecificationReport.pdf)
+- [QA Manual](https://github.com/Wei93442/TQSFinalProject/tree/main/documentation/QAManual.pdf)
+
+
+
+## Tester Accounts
+
+**EasyDelivers Platform:**
+
+* **email:** paulocoelho@email.com
+* **password:** admin
+
+**EasyDelivers App:**
+
+* rui@email.com
+* **password:** rider
+
+**ProudPapers:**
+
+* **email:** filipebarbosa@email.com
+* **password:** client
+

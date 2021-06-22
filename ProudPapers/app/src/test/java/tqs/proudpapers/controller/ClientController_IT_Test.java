@@ -217,7 +217,7 @@ class ClientController_IT_Test {
         delivery.setTotalPrice(10.0);
         deliveryRepository.save(delivery);
 
-        mvc.perform(post("/update/{id}/state/{state}",
+        mvc.perform(post("/delivery/{id}/state/{state}",
                 delivery.getId(),
                         "testState"))
                 .andExpect(status().isOk());

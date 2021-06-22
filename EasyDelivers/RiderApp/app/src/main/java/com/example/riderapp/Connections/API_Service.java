@@ -9,7 +9,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class API_Service {
 
     private static API_Connection api_connection = null;
-    private static String BaseUrl ="";//https://192.168.1.70:8080
+    private static String BaseUrl ="http://deti-tqs-06.ua.pt:8080";//https://192.168.1.70:8080
 
    public static API_Connection getClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

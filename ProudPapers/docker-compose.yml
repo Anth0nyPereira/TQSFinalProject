@@ -4,7 +4,7 @@ services:
   db:
     image: mysql:5.7
     volumes:
-      - ./DBproudpapers/data:/var/lib/mysql
+      - ../../DBproudpapers/data:/var/lib/mysql
       - ./DBproudpapers/init:/docker-entrypoint-initdb.d/:ro
       - ./DBproudpapers/init.sql:/tmp/init.sql
     command: --init-file /tmp/init.sql
@@ -25,3 +25,4 @@ services:
     - "9000:8080"
     environment: 
         spring.datasource.url: jdbc:mysql://proudpapers_db_1/proudpapers
+    restart: always
