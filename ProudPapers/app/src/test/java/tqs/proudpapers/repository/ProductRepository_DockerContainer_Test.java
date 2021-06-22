@@ -10,7 +10,6 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import tqs.proudpapers.entity.Product;
-import tqs.proudpapers.repository.ProductRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
