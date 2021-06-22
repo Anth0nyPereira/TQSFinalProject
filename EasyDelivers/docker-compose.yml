@@ -4,7 +4,7 @@ services:
   db:
     image: mysql:5.7
     volumes:
-      - ./DBEasyDelivers/data:/var/lib/mysql
+      - ../../DBEasyDelivers/data:/var/lib/mysql
       - ./DBEasyDelivers/init:/docker-entrypoint-initdb.d/:ro
     environment:
       MYSQL_ROOT_PASSWORD: abcABC123!!!
@@ -20,4 +20,4 @@ services:
     build: Platform/EasyDeliversAdmin
     ports:
     - "8080:8080"
-
+    restart: always

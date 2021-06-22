@@ -162,7 +162,7 @@ public class ClientController {
     }
 
     @ApiOperation("Update the indicated delivery's state")
-    @PostMapping("/update/{id}/state/{state}")
+    @PostMapping("/delivery/{id}/state/{state}")
     @Transactional
     public ResponseEntity<Object> updateState(@PathVariable("id") Integer id,
                                               @PathVariable("state") String state){

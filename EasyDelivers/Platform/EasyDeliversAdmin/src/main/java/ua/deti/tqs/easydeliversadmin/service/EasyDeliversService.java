@@ -136,7 +136,7 @@ public class EasyDeliversService {
             x.setState("accepted");
             State s = stateRepository.save(new State("accepted", x.getId(), new Timestamp(System.currentTimeMillis())));
             deliveryRepository.save(x);
-            postToApi("accepted",x.getId(),Integer.parseInt(deliverID));
+            postToApi("accepted",x.getStore(),Integer.parseInt(deliverID));
             return "Delivery Assigned";
         }
         catch(Exception e){
@@ -190,7 +190,7 @@ public class EasyDeliversService {
 
             deliveryRepository.save(x);
             State s = stateRepository.save(new State(state, x.getId(), new Timestamp(System.currentTimeMillis())));
-            postToApi(state,x.getId(),Integer.parseInt(deliverID));
+            postToApi(state,x.getStore(),Integer.parseInt(deliverID));
             return "Delivery State Changed";
         }
         catch (Exception e){
@@ -207,6 +207,7 @@ public class EasyDeliversService {
         URL my_final_url = new URL(address + "/delivery/" + delivery_id + "/state/" + state);
         HttpURLConnection con = (HttpURLConnection) my_final_url.openConnection(); // open HTTP connection
         con.setRequestMethod("POST");
+        con.getInputStream().close();
 
         /*if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
             logger.info(state);
