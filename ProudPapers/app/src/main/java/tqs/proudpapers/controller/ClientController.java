@@ -1,6 +1,6 @@
 package tqs.proudpapers.controller;
 
-import org.dom4j.rule.Mode;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,8 @@ import tqs.proudpapers.service.ClientService;
 import tqs.proudpapers.service.DeliveryService;
 import tqs.proudpapers.service.ProductService;
 
-import javax.persistence.Column;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,17 +39,20 @@ public class ClientController {
     @Autowired
     RestTemplate restTemplate;
 
-    @GetMapping("/")
+    @ApiOperation("Get the index page.")
+    @GetMapping(value = {"/", "/index"})
     public String index(Model model){
         model.addAttribute("products", productService.getAll());
         return "index";
     }
 
+    @ApiOperation("Get the signUp page")
     @GetMapping("/signup")
     public String signUp(){
         return "signUp";
     }
 
+    @ApiOperation("Try to create a new account with given infos")
     @PostMapping("/signup")
     public String signUp(ClientDTO clientDTO,
                          String cardNumber,
@@ -60,28 +60,30 @@ public class ClientController {
                          String cvc,
                          Model model){
 
-        PaymentMethod paymentMethod = new PaymentMethod();
+        var paymentMethod = new PaymentMethod();
         paymentMethod.setCardNumber(cardNumber);
         paymentMethod.setCvc(cvc);
         paymentMethod.setCardExpirationMonth(cardExpirationMonth);
 
         clientDTO.setPaymentMethod(paymentMethod);
-        Client client = clientService.saveClient(clientDTO);
+        var client = clientService.saveClient(clientDTO);
 
         if(client != null){
             model.addAttribute("email", client.getEmail());
-            return "login";
+            return "redirect:login";
         }
 
         model.addAttribute("emailDuplicated", true);
         return "signUp";
     }
 
+    @ApiOperation("Get the login page")
     @GetMapping("/login")
     public String login(){
         return "login";
     }
 
+    @ApiOperation("Try to login with given email and password")
     @PostMapping("/login")
     public String login(String email, String password,
                         Model model,
@@ -97,16 +99,16 @@ public class ClientController {
         session.setAttribute("client", client);
 
         model.addAttribute("products", productService.getAll());
-        return "index";
+        return "redirect:/index";
     }
 
-
+    @ApiOperation("Get indicated info of the user with the given id")
     @GetMapping("/account/{id}/{page}")
     public String accountInfo(@PathVariable("id") Integer id,
                               @PathVariable("page") String page,
                               Model model){
 
-        String[] pages = {"myinfo", "address", "contact", "payment", "cart", "deliveries"};
+        var pages = new String[]{"myinfo", "address", "contact", "payment", "cart", "deliveries"};
         ClientDTO client = clientService.getClientById(id);
         CartDTO cart= cartService.getCartByClientID(id);
         client.setCartDTO(cart);
@@ -124,9 +126,10 @@ public class ClientController {
         return "account";
     }
 
+    @ApiOperation("Add a product to the cart of the user with the given id")
     @ResponseBody
     @PostMapping("/account/{clientId}/add_to_cart/{productId}")
-    public ResponseEntity<ProductOfCart> addProductToCart(@PathVariable("clientId") Integer clientId,
+    public ResponseEntity<Object> addProductToCart(@PathVariable("clientId") Integer clientId,
                                            @PathVariable("productId") Integer productId,
                                            @RequestParam(value = "quantity", defaultValue = "1") Integer quantity){
         ProductOfCart saved = cartService.save(clientId, productId, quantity);
@@ -136,14 +139,17 @@ public class ClientController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
+
+    @ApiOperation("Buy all products in the cart of the user with the given id")
     @PostMapping("/account/{clientId}/purchase")
     @Transactional
-    public ResponseEntity<ProductOfCart> purchase(@PathVariable("clientId") Integer clientId, ClientDTO clientDTO,
+    public String purchase(@PathVariable("clientId") Integer clientId,
+                                                  ClientDTO clientDTO,
                                                   String cardNumber,
                                                   String cardExpirationMonth,
                                                   String cvc){
 
-        PaymentMethod paymentMethod = new PaymentMethod();
+        var paymentMethod = new PaymentMethod();
         paymentMethod.setCardExpirationMonth(cardExpirationMonth);
         paymentMethod.setCvc(cvc);
         paymentMethod.setCardNumber(cardNumber);
@@ -152,12 +158,13 @@ public class ClientController {
         clientDTO.setId(clientId);
         Integer deliveryId = cartService.buyAllProductsInTheCart(clientDTO);
         sendDeliveryToEasyDelivery(deliveryId, clientDTO);
-
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return "redirect:/account/" + clientId + "/deliveries";
     }
 
+    @ApiOperation("Update the indicated delivery's state")
     @PostMapping("/update/{id}/state/{state}")
-    public ResponseEntity<Object> changeState(@PathVariable("id") Integer id,
+    @Transactional
+    public ResponseEntity<Object> updateState(@PathVariable("id") Integer id,
                                               @PathVariable("state") String state){
 
         deliveryService.changeStateOfDelivery(id, state);
@@ -167,12 +174,12 @@ public class ClientController {
     private void sendDeliveryToEasyDelivery(Integer deliveryId, ClientDTO clientDTO){
         Map<String, String> request = Map.of("store", "1",
                                     "client_telephone", clientDTO.getTelephone(),
-                                    "start", "UA",
+                                    "start", "Universidade de Aveiro",
                                     "destination", clientDTO.getZip() + " " + clientDTO.getCity());
 
-        ResponseEntity<Integer> response = restTemplate.postForEntity("localhost:8080/delivery", request, Integer.class);
-        Integer id_delivery_store = response.getBody();
-        deliveryService.setDeliveryIdInStore(deliveryId, id_delivery_store);
+        ResponseEntity<Integer> response = restTemplate.postForEntity("deti-tqs-06.ua.pt:8080/delivery", request, Integer.class);
+        Integer idDeliveryStore = response.getBody();
+        deliveryService.setDeliveryIdInStore(deliveryId, idDeliveryStore);
     }
 }
 

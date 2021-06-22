@@ -1,5 +1,7 @@
 package com.example.riderapp.Fragments;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +9,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.riderapp.LoginSignUpActivity;
 import com.example.riderapp.R;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +70,27 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view= inflater.inflate(R.layout.fragment_profile, container, false);
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("UserData",MODE_PRIVATE);
+        String firstname = sharedPreferences.getString("FirstName","");
+        String lastname = sharedPreferences.getString("LastName","");
+        TextView username = view.findViewById(R.id.user_profile_name);
+        username.setText(firstname + " "+ lastname);
+        //Quando se passar o salary
+
+        ImageView buttonout = view.findViewById(R.id.logoutIcon);
+        buttonout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), LoginSignUpActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
+
+
+        return view;
+
     }
 }

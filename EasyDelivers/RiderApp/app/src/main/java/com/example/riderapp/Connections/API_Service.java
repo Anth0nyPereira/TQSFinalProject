@@ -9,10 +9,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class API_Service {
 
     private static API_Connection api_connection = null;
-    private static String BaseUrl =""; //http://192.168.68.113:8080
+    private static String BaseUrl ="";//https://192.168.1.70:8080
 
    public static API_Connection getClient() {
-
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
@@ -24,5 +23,9 @@ public class API_Service {
                 .build()
                 .create(API_Connection.class);
         return api_connection;
+    }
+
+    public static void setBaseUrl(String url){
+       BaseUrl = url;
     }
 }
