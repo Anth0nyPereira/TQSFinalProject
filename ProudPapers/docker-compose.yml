@@ -4,9 +4,9 @@ services:
   db:
     image: mysql:5.7
     volumes:
-      - ./DBproudpapers/data:/var/lib/mysql
+      - ../../DBproudpapers/data:/var/lib/mysql
       - ./DBproudpapers/init:/docker-entrypoint-initdb.d/:ro
-      - ../../DBproudpapers/init.sql:/tmp/init.sql
+      - ./DBproudpapers/init.sql:/tmp/init.sql
     command: --init-file /tmp/init.sql
     environment:
       MYSQL_ROOT_PASSWORD: abcABC123!!!
