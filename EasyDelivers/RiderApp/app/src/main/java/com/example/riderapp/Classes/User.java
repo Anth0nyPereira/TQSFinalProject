@@ -23,6 +23,9 @@ public class User {
     @SerializedName("salary")
     private Double salary;
 
+    @SerializedName("score")
+    private Double score;
+
     public User(String firstname, String lastname, String email, String password, String telephone, String transportation) {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -117,5 +120,13 @@ public class User {
                 ", delivery_radius=" + delivery_radius +
                 ", transportation='" + transportation + '\'' +
                 '}';
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
     }
 }

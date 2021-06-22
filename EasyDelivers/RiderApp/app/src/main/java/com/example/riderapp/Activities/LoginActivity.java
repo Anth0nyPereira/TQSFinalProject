@@ -59,6 +59,8 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("Telephone", logged.getTelephone());
                     editor.putString("Transportation", logged.getTransportation());
                     editor.putInt("Delivery_radius", logged.getDelivery_radius());
+                    editor.putLong("salary", Double.valueOf(logged.getSalary()).longValue());
+                    editor.putInt("score", (int)Math.round(logged.getSalary()));
                     editor.apply();
                     Log.w("LoginProcess", "Sucess:"+ logged.toString());
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
