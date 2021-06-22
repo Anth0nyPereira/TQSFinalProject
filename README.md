@@ -56,7 +56,9 @@
 
 **Shared Workspace** - [Google Drive](https://drive.google.com/drive/folders/13LAXi8iNRRf4JjN1jrxj1cBFgtOl0J1J)
 
-**API Documentation** - 
+**API Documentation** 
+- [EasyDelivers](http://deti-tqs-06.ua.pt:8080/swagger-ui.html#/)
+- [ProudPapers](http://deti-tqs-06.ua.pt:9000/swagger-ui.html#/)
 
 **Static Analysis** - [SonarCloud](https://sonarcloud.io/organizations/tqsproject/projects)
 
