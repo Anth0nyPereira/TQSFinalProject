@@ -60,13 +60,13 @@ public class ClientController {
                          String cvc,
                          Model model){
 
-        PaymentMethod paymentMethod = new PaymentMethod();
+        var paymentMethod = new PaymentMethod();
         paymentMethod.setCardNumber(cardNumber);
         paymentMethod.setCvc(cvc);
         paymentMethod.setCardExpirationMonth(cardExpirationMonth);
 
         clientDTO.setPaymentMethod(paymentMethod);
-        Client client = clientService.saveClient(clientDTO);
+        var client = clientService.saveClient(clientDTO);
 
         if(client != null){
             model.addAttribute("email", client.getEmail());
@@ -108,7 +108,7 @@ public class ClientController {
                               @PathVariable("page") String page,
                               Model model){
 
-        String[] pages = {"myinfo", "address", "contact", "payment", "cart", "deliveries"};
+        var pages = new String[]{"myinfo", "address", "contact", "payment", "cart", "deliveries"};
         ClientDTO client = clientService.getClientById(id);
         CartDTO cart= cartService.getCartByClientID(id);
         client.setCartDTO(cart);
@@ -136,7 +136,7 @@ public class ClientController {
         if (saved != null)
             return new ResponseEntity<>(saved, HttpStatus.OK);
         else
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Object(), HttpStatus.BAD_REQUEST);
     }
 
 
@@ -149,7 +149,7 @@ public class ClientController {
                                                   String cardExpirationMonth,
                                                   String cvc){
 
-        PaymentMethod paymentMethod = new PaymentMethod();
+        var paymentMethod = new PaymentMethod();
         paymentMethod.setCardExpirationMonth(cardExpirationMonth);
         paymentMethod.setCvc(cvc);
         paymentMethod.setCardNumber(cardNumber);
@@ -168,7 +168,7 @@ public class ClientController {
                                               @PathVariable("state") String state){
 
         deliveryService.changeStateOfDelivery(id, state);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(new Object(), HttpStatus.OK);
     }
 
     private void sendDeliveryToEasyDelivery(Integer deliveryId, ClientDTO clientDTO){
@@ -177,9 +177,9 @@ public class ClientController {
                                     "start", "Universidade de Aveiro",
                                     "destination", clientDTO.getZip() + " " + clientDTO.getCity());
 
-        ResponseEntity<Integer> response = restTemplate.postForEntity("localhost:8080/delivery", request, Integer.class);
-        Integer id_delivery_store = response.getBody();
-        deliveryService.setDeliveryIdInStore(deliveryId, id_delivery_store);
+        ResponseEntity<Integer> response = restTemplate.postForEntity("deti-tqs-06.ua.pt:8080/delivery", request, Integer.class);
+        Integer idDeliveryStore = response.getBody();
+        deliveryService.setDeliveryIdInStore(deliveryId, idDeliveryStore);
     }
 }
 
