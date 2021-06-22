@@ -172,12 +172,12 @@ public class ClientController {
     }
 
     private void sendDeliveryToEasyDelivery(Integer deliveryId, ClientDTO clientDTO){
-        Map<String, String> request = Map.of("store", "1",
+        Map<String, Object> request = Map.of("store", 1,
                                     "client_telephone", clientDTO.getTelephone(),
                                     "start", "Universidade de Aveiro",
                                     "destination", clientDTO.getZip() + " " + clientDTO.getCity());
 
-        ResponseEntity<Integer> response = restTemplate.postForEntity("deti-tqs-06.ua.pt:8080/delivery", request, Integer.class);
+        ResponseEntity<Integer> response = restTemplate.postForEntity("http://deti-tqs-06.ua.pt:8080/api/delivery", request, Integer.class);
         Integer idDeliveryStore = response.getBody();
         deliveryService.setDeliveryIdInStore(deliveryId, idDeliveryStore);
     }
