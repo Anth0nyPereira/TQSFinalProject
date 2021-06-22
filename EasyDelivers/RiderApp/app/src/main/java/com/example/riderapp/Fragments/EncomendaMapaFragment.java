@@ -219,7 +219,7 @@ public class EncomendaMapaFragment extends Fragment {
                         });
                         break;
                     case 1:
-                        Call<String> call2 = api_connection.api_rider_update_Deliver_State(String.valueOf(mdeliveryID),String.valueOf(riderID),"done");
+                        Call<String> call2 = api_connection.api_rider_update_Deliver_State(String.valueOf(mdeliveryID),String.valueOf(riderID),"completed");
                         call2.enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
