@@ -61,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
                     editor.putString("Email", logged.getEmail());
                     editor.putString("Telephone", logged.getTelephone());
                     editor.putString("Transportation", logged.getTransportation());
-                    editor.putLong("salary", Double.valueOf(logged.getSalary()).longValue());
+                    editor.putLong("salary", logged.getSalary().longValue());
                     editor.putString("FirstName", logged.getFirstname());
                     editor.putString("LastName", logged.getLastname());
                     editor.putInt("score", (int)Math.round(logged.getSalary()));
