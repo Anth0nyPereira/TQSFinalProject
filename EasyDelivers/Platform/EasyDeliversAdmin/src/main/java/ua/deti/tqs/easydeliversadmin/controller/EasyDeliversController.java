@@ -12,10 +12,7 @@ import ua.deti.tqs.easydeliversadmin.entities.Admin;
 import ua.deti.tqs.easydeliversadmin.entities.Delivery;
 import ua.deti.tqs.easydeliversadmin.service.EasyDeliversService;
 import ua.deti.tqs.easydeliversadmin.utils.PasswordEncryption;
-
-import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Logger;
 
 @Controller

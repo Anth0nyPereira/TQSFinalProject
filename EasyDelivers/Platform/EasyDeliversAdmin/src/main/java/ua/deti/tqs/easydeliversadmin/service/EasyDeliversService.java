@@ -138,7 +138,7 @@ public class EasyDeliversService {
             x.setState("accepted");
             State s = stateRepository.save(new State("accepted", x.getId(), new Timestamp(System.currentTimeMillis())));
             deliveryRepository.save(x);
-            postToApi("accepted",x.getId(),Integer.parseInt(deliverID));
+            //postToApi("accepted",x.getId(),Integer.parseInt(deliverID));
             return "Delivery Assigned";
         }
         catch(Exception e){
@@ -159,11 +159,12 @@ public class EasyDeliversService {
                 long hours_to_go_back = TimeUnit.HOURS.toMillis(Calendar.HOUR_OF_DAY);
 
                 int salary = 0;
-                double score = 0.0;
+                int score = 0;
 
                 //x.setScore(ThreadLocalRandom.current().nextInt(0, 6));
                 SecureRandom r = new SecureRandom();
-                x.setScore(r.nextInt(6));
+                score = (r.nextInt(6));
+                x.setScore(score);
 
                 List<State> thisMonthDeliveries = stateRepository.findStatesByDescriptionAndTimestampBetween(
                         "completed", new Timestamp(now - days_to_go_back - hours_to_go_back), new Timestamp(now));
@@ -179,17 +180,19 @@ public class EasyDeliversService {
                         score += delivery_score;
                     }
                 }
-                rider.setSalary(Double.valueOf(salary));
+
                 if (counter == 0) {
-                    rider.setScore(0.0);
+                    rider.setScore(Double.valueOf(score));
+                    rider.setSalary(Double.valueOf(x.getRider_fee()));
                 } else {
-                    rider.setScore(score/counter);
+                    rider.setScore(Double.valueOf(score)/Double.valueOf(counter));
+                    rider.setSalary(Double.valueOf(salary));
                 }
             }
 
             deliveryRepository.save(x);
             State s = stateRepository.save(new State(state, x.getId(), new Timestamp(System.currentTimeMillis())));
-            postToApi(state,x.getId(),Integer.parseInt(deliverID));
+            //postToApi(state,x.getId(),Integer.parseInt(deliverID));
             return "Delivery State Changed";
         }
         catch (Exception e){
@@ -526,7 +529,7 @@ public class EasyDeliversService {
             long acceptedTime = stateRepository.findStateByDeliveryAndDescription(
                     delivery.getId(), "accepted").getTimestamp().getTime();
 
-            waitingTimes.put(delivery.getId(), new SimpleDateFormat("HH:mm:ss").format(new Timestamp(completedTime - acceptedTime)));
+            waitingTimes.put(delivery.getId(), new SimpleDateFormat("HH:mm:ss").format(new Timestamp(completedTime - acceptedTime - TimeUnit.HOURS.toMillis(1))));
         }
         return waitingTimes;
     }
