@@ -199,10 +199,10 @@ public class ClientController_WithMock_Test {
 
         Map<String, String> request = Map.of("store", "1",
                 "client_telephone", alexDTO.getTelephone(),
-                "start", "UA",
+                "start", "Universidade de Aveiro",
                 "destination", alexDTO.getZip() + " " + alexDTO.getCity());
 
-        Mockito.when(restTemplate.postForEntity("localhost:8080/delivery", request, Integer.class)).thenReturn(response);
+        Mockito.when(restTemplate.postForEntity("deti-tqs-06.ua.pt:8080/delivery", request, Integer.class)).thenReturn(response);
 
         MockHttpSession session = new MockHttpSession();
         session.setAttribute("client", alexDTO);

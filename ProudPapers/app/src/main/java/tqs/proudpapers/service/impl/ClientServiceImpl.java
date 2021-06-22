@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import tqs.proudpapers.component.PasswordEncryption;
 import tqs.proudpapers.entity.Client;
 import tqs.proudpapers.entity.ClientDTO;
-import tqs.proudpapers.entity.PaymentMethod;
 import tqs.proudpapers.repository.CartRepository;
 import tqs.proudpapers.repository.ClientRepository;
 import tqs.proudpapers.repository.PaymentMethodRepository;
@@ -35,11 +34,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public Client saveClient(ClientDTO clientDTO) {
-        Client client = new Client();
+        var client = new Client();
         BeanUtils.copyProperties(clientDTO, client);
 
         if (clientDTO.getPaymentMethod() != null){
-            PaymentMethod saved = paymentMethodRepository.save(clientDTO.getPaymentMethod());
+            var saved = paymentMethodRepository.save(clientDTO.getPaymentMethod());
             client.setPaymentMethodId(saved.getId());
         }
 
@@ -48,11 +47,11 @@ public class ClientServiceImpl implements ClientService {
 
         try {
             client.setPassword(encryption.encrypt(client.getPassword()));
-            Client clientByEmail = clientRepository.getClientByEmail(client.getEmail());
+            var clientByEmail = clientRepository.getClientByEmail(client.getEmail());
             if (clientByEmail != null)
                  return null;
 
-            Client saved = clientRepository.save(client);
+            var saved = clientRepository.save(client);
             cartRepository.createCart(saved.getId());
             return saved;
         } catch (Exception e) {
@@ -63,7 +62,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDTO getClientByEmailAndPass(String email, String password) {
         try {
-            Client client = clientRepository.getClientByEmailAndPassword(email, encryption.encrypt(password));
+            var client = clientRepository.getClientByEmailAndPassword(email, encryption.encrypt(password));
             return getClientDTO(client);
         } catch (Exception e) {
             return null;
@@ -84,11 +83,11 @@ public class ClientServiceImpl implements ClientService {
     private ClientDTO getClientDTO(Client client) {
         if (client == null) return null;
 
-        ClientDTO dto = new ClientDTO();
+        var dto = new ClientDTO();
         BeanUtils.copyProperties(client, dto);
 
         if (client.getPaymentMethodId() != null){
-            PaymentMethod paymentMethod = paymentMethodRepository.getById(client.getPaymentMethodId());
+            var paymentMethod = paymentMethodRepository.getById(client.getPaymentMethodId());
             System.out.println(paymentMethod); //load paymentMethod
             dto.setPaymentMethod(paymentMethod);
         }

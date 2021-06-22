@@ -28,19 +28,19 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public Delivery getDeliveryById(Integer id) {
-        Delivery delivery = deliveryRepository.findAllById(id);
+        var delivery = deliveryRepository.findAllById(id);
         fillDelivery(new DeliveryDTO(delivery));
         return delivery;
     }
 
     @Override
     public Integer addProductToDelivery(Integer clientId, List<ProductOfCartDTO> product) {
-        Delivery delivery = new Delivery();
+        var delivery = new Delivery();
         delivery.setClient(clientId);
         double totalPrice = product.stream().map(p->p.getProduct().getPrice()).reduce(Double::sum).orElse(0.0);
         delivery.setTotalPrice(totalPrice);
 
-        Delivery saved = deliveryRepository.save(delivery);
+        var saved = deliveryRepository.save(delivery);
         createState(saved.getId(), saved.getState());
 
         product.forEach(p -> deliveryRepository.addProductToDelivery(saved.getId(), p.getProduct().getId(), p.getQuantity()));
@@ -74,7 +74,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         List<Map<String, Integer>> productsOfDeliveryArray = deliveryRepository.getProductsOfDeliveryById(delivery.getId());
         for (Map<String, Integer> m : productsOfDeliveryArray){
-            ProductOfDeliveryDTO p = new ProductOfDeliveryDTO();
+            var p = new ProductOfDeliveryDTO();
             p.setDelivery(delivery.getId());
             p.setQuantity(m.get("QUANTITY"));
             p.setProduct(productRepository.getProductById(m.get("PRODUCT")));
@@ -84,7 +84,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     private void createState(Integer id, String description) {
-        State state = new State();
+        var state = new State();
         state.setDelivery(id);
         state.setTimestamp(new Date());
         state.setDescription(description);
