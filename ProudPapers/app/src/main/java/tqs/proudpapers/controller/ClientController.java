@@ -1,6 +1,5 @@
 package tqs.proudpapers.controller;
 
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,20 +38,17 @@ public class ClientController {
     @Autowired
     RestTemplate restTemplate;
 
-    @ApiOperation("Get the index page.")
-    @GetMapping(value = {"/", "/index"})
+    @GetMapping("/")
     public String index(Model model){
         model.addAttribute("products", productService.getAll());
         return "index";
     }
 
-    @ApiOperation("Get the signUp page")
     @GetMapping("/signup")
     public String signUp(){
         return "signUp";
     }
 
-    @ApiOperation("Try to create a new account with given infos")
     @PostMapping("/signup")
     public String signUp(ClientDTO clientDTO,
                          String cardNumber,
@@ -70,20 +66,18 @@ public class ClientController {
 
         if(client != null){
             model.addAttribute("email", client.getEmail());
-            return "redirect:login";
+            return "login";
         }
 
         model.addAttribute("emailDuplicated", true);
         return "signUp";
     }
 
-    @ApiOperation("Get the login page")
     @GetMapping("/login")
     public String login(){
         return "login";
     }
 
-    @ApiOperation("Try to login with given email and password")
     @PostMapping("/login")
     public String login(String email, String password,
                         Model model,
@@ -99,10 +93,10 @@ public class ClientController {
         session.setAttribute("client", client);
 
         model.addAttribute("products", productService.getAll());
-        return "redirect:/index";
+        return "index";
     }
 
-    @ApiOperation("Get indicated info of the user with the given id")
+
     @GetMapping("/account/{id}/{page}")
     public String accountInfo(@PathVariable("id") Integer id,
                               @PathVariable("page") String page,
@@ -126,10 +120,9 @@ public class ClientController {
         return "account";
     }
 
-    @ApiOperation("Add a product to the cart of the user with the given id")
     @ResponseBody
     @PostMapping("/account/{clientId}/add_to_cart/{productId}")
-    public ResponseEntity<Object> addProductToCart(@PathVariable("clientId") Integer clientId,
+    public ResponseEntity<ProductOfCart> addProductToCart(@PathVariable("clientId") Integer clientId,
                                            @PathVariable("productId") Integer productId,
                                            @RequestParam(value = "quantity", defaultValue = "1") Integer quantity){
         ProductOfCart saved = cartService.save(clientId, productId, quantity);
@@ -139,11 +132,9 @@ public class ClientController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
-
-    @ApiOperation("Buy all products in the cart of the user with the given id")
     @PostMapping("/account/{clientId}/purchase")
     @Transactional
-    public String purchase(@PathVariable("clientId") Integer clientId,
+    public ResponseEntity<Integer> purchase(@PathVariable("clientId") Integer clientId,
                                                   ClientDTO clientDTO,
                                                   String cardNumber,
                                                   String cardExpirationMonth,
@@ -158,10 +149,9 @@ public class ClientController {
         clientDTO.setId(clientId);
         Integer deliveryId = cartService.buyAllProductsInTheCart(clientDTO);
         sendDeliveryToEasyDelivery(deliveryId, clientDTO);
-        return "redirect:/account/" + clientId + "/deliveries";
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @ApiOperation("Update the indicated delivery's state")
     @PostMapping("/update/{id}/state/{state}")
     @Transactional
     public ResponseEntity<Object> updateState(@PathVariable("id") Integer id,

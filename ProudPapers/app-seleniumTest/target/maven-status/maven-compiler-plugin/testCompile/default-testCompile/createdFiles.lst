@@ -1,0 +1,13 @@
+tqs\proudpapers\product\ProductRepository_DockerContainer_Test.class
+tqs\proudpapers\delivery\DeliveryService_WithMock_Test.class
+tqs\proudpapers\JsonUtil.class
+tqs\proudpapers\client\ClientController_IT_Test.class
+tqs\proudpapers\product\ProductController_IT_Test.class
+tqs\proudpapers\cart\CarRepository_DockerContainers_Test.class
+tqs\proudpapers\client\ClientService_WithMock_Test.class
+tqs\proudpapers\product\ProductService_WithMock_Test.class
+tqs\proudpapers\client\ClientRepository_DockerContainers_Test.class
+tqs\proudpapers\cart\CartService_WithMock_Test.class
+tqs\proudpapers\product\ProductController_WithMock_Test.class
+tqs\proudpapers\delivery\DeliveryRepository_DockerContainer_Test.class
+tqs\proudpapers\client\ClientController_WithMock_Test.class

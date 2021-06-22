@@ -1,0 +1,16 @@
+
+`	java:S112("FDefine and throw a dedicated exception instead of using a generic one.(Ïã¡Ýþÿÿÿÿ
+`	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(×¦º¤ÿÿÿÿÿ
+k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×¦º¤ÿÿÿÿÿ
+v
+java:S1488 "`Immediately return this expression instead of assigning it to the temporary variable "hashText".(·¸Üß
+D
+java:S6212"/Declare this local variable with "var" instead.(¶ê¼^
+E
+java:S6212"/Declare this local variable with "var" instead.( ¿òã
+J
+java:S6212"/Declare this local variable with "var" instead.(ë½ƒÕûÿÿÿÿ
+E
+java:S6212"/Declare this local variable with "var" instead.(¹©†Ù
+E
+java:S6212 "/Declare this local variable with "var" instead.(·¸Üß

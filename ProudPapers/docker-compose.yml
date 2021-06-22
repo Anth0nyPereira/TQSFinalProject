@@ -14,7 +14,7 @@ services:
       MYSQL_USER: proudpapers
       MYSQL_PASSWORD: abcABC123!!!
     ports:
-    - "3309:3306"
+    - "3307:3306"
 
   proudpapers:
     depends_on:
@@ -22,6 +22,6 @@ services:
     image: proud-papers:latest
     build: ./app/
     ports:
-    - "9000:8080"
+    - "8085:8080"
     environment: 
         spring.datasource.url: jdbc:mysql://proudpapers_db_1/proudpapers
