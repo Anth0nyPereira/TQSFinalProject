@@ -23,7 +23,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
     void addProductToDelivery(Integer delivery, Integer product, Integer quantity);
 
     @Modifying(clearAutomatically = true)
-    @Query(nativeQuery = true, value = "UPDATE delivery SET state=:state WHERE id=:delivery")
+    @Query(nativeQuery = true, value = "UPDATE delivery SET state=:state WHERE id_delivery_store=:delivery")
     void changeStateOfDelivery(Integer delivery, String state);
 
     @Modifying(clearAutomatically = true)
