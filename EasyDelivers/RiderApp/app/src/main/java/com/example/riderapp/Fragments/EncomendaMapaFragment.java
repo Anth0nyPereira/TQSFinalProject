@@ -198,14 +198,7 @@ public class EncomendaMapaFragment extends Fragment {
                                          public void onResponse(Call<String> call, Response<String> response) {
                                              String s = response.body().toString();
                                              Log.w("EncomendaInfo",s);
-
-                                             if (s.equals("Delivery State Changed")){
-                                                 Toast.makeText(getContext(), "Status Updated to: In Distribution", Toast.LENGTH_LONG).show();
-                                             }
-                                             else{
-                                                 Toast.makeText(getContext(),"Error Starting Delivery",Toast.LENGTH_SHORT).show();
-                                                 Log.w("EncomendaInfo", "Error Starting Delivery");
-                                             }
+                                             Toast.makeText(getContext(), "Status Updated to: In Distribution", Toast.LENGTH_LONG).show();
 
                                          }
 
@@ -225,17 +218,9 @@ public class EncomendaMapaFragment extends Fragment {
                             public void onResponse(Call<String> call, Response<String> response) {
                                 String s = response.body().toString();
                                 Log.w("EncomendaInfo",s);
-
-                                if (s.equals("Delivery State Changed")){
-                                    Toast.makeText(getContext(), "Status Updated to: Done", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                                    getActivity().startActivity(intent);
-                                }
-                                else{
-                                    Toast.makeText(getContext(),"Error Starting Delivery",Toast.LENGTH_SHORT).show();
-                                    Log.w("EncomendaInfo", "Error Starting Delivery");
-                                }
-
+                                Toast.makeText(getContext(), "Status Updated to: Done", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getActivity(), MainActivity.class);
+                                getActivity().startActivity(intent);
                             }
 
                             @Override
