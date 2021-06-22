@@ -181,18 +181,6 @@ class EasyDeliversServiceTest {
         Mockito.verify(deliveryRepository,times(1)).findDeliveriesByState("awaiting_processing");
     }
 
-
-    @Test
-    @DisplayName("Tests a successful Update Delivery")
-    void whenSuccessfulUpdateDeliveryTest(){
-        Mockito.when(storeRepository.findStoreById(any())).thenReturn(newStore);
-        String x = easyDeliversService.updateDeliveryStateByRider("1","1","done");
-        assertEquals("Delivery State Changed",x);
-        verify(deliveryRepository,times(1))
-                .findDeliveryById(1);
-
-    }
-
     @Test
     @DisplayName("Tests a invalid Update Delivery")
     void whenInvalidUpdateDeliveryTest(){
@@ -200,16 +188,6 @@ class EasyDeliversServiceTest {
         assertEquals("error",x);
         verify(deliveryRepository,times(1))
                 .findDeliveryById(20);
-    }
-
-    @Test
-    @DisplayName("Tests a Successful Assign Rider to Deliver")
-    void whenSuccessfulAssignRiderDeliver(){
-        Mockito.when(storeRepository.findStoreById(any())).thenReturn(newStore);
-        String x = easyDeliversService.assignRiderDeliver("1","1");
-        assertEquals("Delivery Assigned",x);
-        verify(deliveryRepository,times(1))
-                .findDeliveryById(1);
     }
 
     @Test
