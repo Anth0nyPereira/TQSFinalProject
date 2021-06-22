@@ -174,7 +174,7 @@ public class ClientController {
     private void sendDeliveryToEasyDelivery(Integer deliveryId, ClientDTO clientDTO){
         Map<String, String> request = Map.of("store", "1",
                                     "client_telephone", clientDTO.getTelephone(),
-                                    "start", "UA",
+                                    "start", "Universidade de Aveiro",
                                     "destination", clientDTO.getZip() + " " + clientDTO.getCity());
 
         ResponseEntity<Integer> response = restTemplate.postForEntity("localhost:8080/delivery", request, Integer.class);
