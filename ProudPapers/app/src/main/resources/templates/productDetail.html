@@ -98,6 +98,10 @@
         localStorage.setItem('totalPrice', 0)
         localStorage.setItem('cartQuantity', 0)
     }else{
+        if (localStorage.getItem('totalPrice') === '0' && $('#product-cart-quantity').text() !== '0'){
+            localStorage.setItem('totalPrice', $('#product-total-price').text())
+            localStorage.setItem('cartQuantity', $('#product-cart-quantity').text())
+        }
         reLoadLocalStorage();
     }
 
