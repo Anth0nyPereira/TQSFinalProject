@@ -52,6 +52,12 @@
         localStorage.setItem('totalPrice', 0)
         localStorage.setItem('cartQuantity', 0)
     }else{
+        if (localStorage.getItem('totalPrice') === '0'){
+            if ($('#product-cart-quantity').text() !== '0') {
+                localStorage.setItem('totalPrice', $('#product-total-price').text())
+                localStorage.setItem('cartQuantity', $('#product-cart-quantity').text())
+            }
+        }
         reLoadLocalStorage();
     }
 

@@ -31,7 +31,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA83_EXa_8_yVq2i_t0OwCmuehtIuq-Yrs" />
         <meta-data android:name="PlatformAccess"
-            android:value="http://192.168.1.32:8080" />
+            android:value="http://deti-tqs-06.ua.pt:8080" />
     </application>
 
 </manifest>

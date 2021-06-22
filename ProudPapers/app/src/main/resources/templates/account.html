@@ -175,7 +175,7 @@
                         </div>
                     </div>
 
-                    <div class="deliveries" th:if="${deliveries}" th:each="delivery:${deliveriesDTO}">
+                    <div class="deliveries" th:each="delivery:${deliveriesDTO}">
                         <div class="row mb-3">
                             <div class="col-md-10">
                                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -202,10 +202,12 @@
         localStorage.setItem('totalPrice', 0)
         localStorage.setItem('cartQuantity', 0)
     }else{
-        if (localStorage.getItem('totalPrice') === '0' && $('#product-cart-quantity').text() !== '0'){
-            localStorage.setItem('totalPrice', $('#product-total-price').text())
-            localStorage.setItem('cartQuantity', $('#product-cart-quantity').text())
-        }
+        if (localStorage.getItem('totalPrice') === '0'){
+            if($('#product-cart-quantity').text() !== '0'){
+                localStorage.setItem('totalPrice', $('#product-total-price').text())
+                localStorage.setItem('cartQuantity', $('#product-cart-quantity').text())
+            }
+         }
         reLoadLocalStorage();
     }
 

@@ -74,7 +74,13 @@ public class ProfileFragment extends Fragment {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("UserData",MODE_PRIVATE);
         String firstname = sharedPreferences.getString("FirstName","");
         String lastname = sharedPreferences.getString("LastName","");
+        Long salary= sharedPreferences.getLong("salary",0);
+        Integer score = sharedPreferences.getInt("score",0);
         TextView username = view.findViewById(R.id.user_profile_name);
+        TextView rating = view.findViewById(R.id.user_rating);
+        TextView msalary = view.findViewById(R.id.textviewsalary);
+        rating.setText(score + " Stars");
+        msalary.setText("Salary: " +salary + " €");
         username.setText(firstname + " "+ lastname);
         //Quando se passar o salary
 

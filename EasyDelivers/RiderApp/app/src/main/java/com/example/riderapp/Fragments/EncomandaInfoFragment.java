@@ -143,16 +143,9 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
                     public void onResponse(Call<String> call, Response<String> response) {
                         String s = response.body().toString();
                         Log.w("EncomendaInfo",s);
-                        if (s.equals("Delivery Assigned")){
                             Toast.makeText(getContext(),"Starting Delivery",Toast.LENGTH_SHORT).show();
                             Log.w("EncomendaInfo", "Starting Delivery");
                             changeToEncomendaMapaActivity();
-                        }
-                        else{
-                            Toast.makeText(getContext(),"Error Starting Delivery",Toast.LENGTH_SHORT).show();
-                            Log.w("EncomendaInfo", "Error Starting Delivery");
-                        }
-
                     }
 
                     @Override
