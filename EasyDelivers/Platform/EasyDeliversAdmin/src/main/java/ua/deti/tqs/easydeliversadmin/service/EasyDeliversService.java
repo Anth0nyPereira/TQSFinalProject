@@ -1,7 +1,6 @@
 package ua.deti.tqs.easydeliversadmin.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.stereotype.Service;
 import ua.deti.tqs.easydeliversadmin.component.Geocoder;
 import ua.deti.tqs.easydeliversadmin.entities.*;
@@ -16,7 +15,6 @@ import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 

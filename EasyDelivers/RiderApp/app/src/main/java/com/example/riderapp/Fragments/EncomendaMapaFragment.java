@@ -149,12 +149,6 @@ public class EncomendaMapaFragment extends Fragment {
                     public void onMapReady(GoogleMap googleMap) {
                         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                             // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
                             return;
                         }
                         googleMap.setMyLocationEnabled(true);
@@ -185,7 +179,6 @@ public class EncomendaMapaFragment extends Fragment {
                         distance.setText("Remaining Distance: " + Math.round(distanceStartDest*10.0)/10.0 + " km");
                     }
                 });
-        //mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         return view;
     }
     public void CreateAlertDialogWithRadioButtonGroup(){
@@ -235,8 +228,7 @@ public class EncomendaMapaFragment extends Fragment {
 
                                 if (s.equals("Delivery State Changed")){
                                     Toast.makeText(getContext(), "Status Updated to: Done", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent();
-                                    intent.setClass(getActivity(), MainActivity.class);
+                                    Intent intent = new Intent(getActivity(), MainActivity.class);
                                     getActivity().startActivity(intent);
                                 }
                                 else{

@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.riderapp.LoginSignUpActivity;
@@ -76,7 +78,7 @@ public class ProfileFragment extends Fragment {
         username.setText(firstname + " "+ lastname);
         //Quando se passar o salary
 
-        Button buttonout = view.findViewById(R.id.logoutIcon);
+        ImageView buttonout = view.findViewById(R.id.logoutIcon);
         buttonout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
