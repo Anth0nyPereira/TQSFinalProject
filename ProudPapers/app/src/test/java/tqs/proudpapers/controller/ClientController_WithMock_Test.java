@@ -202,7 +202,7 @@ public class ClientController_WithMock_Test {
                 "start", "Universidade de Aveiro",
                 "destination", alexDTO.getZip() + " " + alexDTO.getCity());
 
-        Mockito.when(restTemplate.postForEntity("http://deti-tqs-06.ua.pt:8080/delivery", request, Integer.class)).thenReturn(response);
+        Mockito.when(restTemplate.postForEntity("http://deti-tqs-06.ua.pt:8080/api/delivery", request, Integer.class)).thenReturn(response);
 
         MockHttpSession session = new MockHttpSession();
         session.setAttribute("client", alexDTO);
