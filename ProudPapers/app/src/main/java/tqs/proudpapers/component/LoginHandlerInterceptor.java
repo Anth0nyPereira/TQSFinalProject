@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Object User = request.getSession().getAttribute("client");
-        if (User == null){
+        Object user = request.getSession().getAttribute("client");
+        if (user == null){
             request.setAttribute("Message","Please login");
             request.getRequestDispatcher("/login").forward(request,response);
             return false;
