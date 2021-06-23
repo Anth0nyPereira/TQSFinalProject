@@ -10,7 +10,7 @@
         android:id="@+id/home_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="500dp"
         app:layout_constraintBottom_toTopOf="@id/home_constraint_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,7 +116,7 @@
             android:elevation="4dp"
             android:padding="20dp"
             android:text="Earning:"
-            app:layout_constraintTop_toBottomOf="@+id/textviewStart"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="16dp" />
 
         <Button

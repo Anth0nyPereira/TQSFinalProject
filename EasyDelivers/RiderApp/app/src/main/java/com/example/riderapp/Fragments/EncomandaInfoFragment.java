@@ -190,13 +190,18 @@ public class EncomandaInfoFragment extends Fragment implements OnMapReadyCallbac
                         } catch (IOException e) {
                             Log.e("EncomendaInfo",e.getMessage());
                         }
-                        LatLngBounds latLngBounds = new LatLngBounds.Builder()
-                                .include(startcoords)
-                                .include(destinationcoords)
-                                .build();
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
-                        double distanceStartDest = GeoUtils.distanceBetween2Points(startcoords,destinationcoords);
-                        distance.setText("Distance: " + Math.round(distanceStartDest*10.0)/10.0 + " km");
+                        if(startcoords != null && destinationcoords != null) {
+                            LatLngBounds latLngBounds = new LatLngBounds.Builder()
+                                    .include(startcoords)
+                                    .include(destinationcoords)
+                                    .build();
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
+                            double distanceStartDest = GeoUtils.distanceBetween2Points(startcoords, destinationcoords);
+                            distance.setText("Distance: " + Math.round(distanceStartDest * 10.0) / 10.0 + " km");
+                        }
+                        else{
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.64, -8.65), 11.95f));
+                        }
                     }
                 });
         return view;

@@ -215,10 +215,12 @@ class ClientController_IT_Test {
         delivery.setClient(alex.getId());
         delivery.setState("asd");
         delivery.setTotalPrice(10.0);
+        int idDeliveryStore = 1;
+        delivery.setIdDeliveryStore(idDeliveryStore);
         deliveryRepository.save(delivery);
 
         mvc.perform(post("/delivery/{id}/state/{state}",
-                delivery.getId(),
+                delivery.getIdDeliveryStore(),
                         "testState"))
                 .andExpect(status().isOk());
 

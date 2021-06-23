@@ -76,6 +76,8 @@
 - [Product Specification Report](https://github.com/Wei93442/TQSFinalProject/tree/main/documentation/ProductSpecificationReport.pdf)
 - [QA Manual](https://github.com/Wei93442/TQSFinalProject/tree/main/documentation/QAManual.pdf)
 
+**Presentation**
+- [Presentation](https://github.com/Wei93442/TQSFinalProject/tree/main/documentation/Presentation.pdf)
 
 
 ## Tester Accounts

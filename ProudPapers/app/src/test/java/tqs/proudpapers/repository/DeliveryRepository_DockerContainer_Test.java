@@ -68,6 +68,8 @@ public class DeliveryRepository_DockerContainer_Test {
 
         delivery = new Delivery();
         delivery.setClient(alex.getId());
+        delivery.setState("testState");
+        delivery.setIdDeliveryStore(1);
         delivery = deliveryRepository.save(delivery);
     }
 
@@ -109,7 +111,7 @@ public class DeliveryRepository_DockerContainer_Test {
     @Test
     public void whenChangeState_thenDeliveryStateChanged() {
         String state = "accepted";
-        deliveryRepository.changeStateOfDelivery(delivery.getId(), state);
+        deliveryRepository.changeStateOfDelivery(delivery.getIdDeliveryStore(), state);
         Delivery saved = deliveryRepository.findAllById(delivery.getId());
 
         assertEquals(state, saved.getState());

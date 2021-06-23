@@ -163,20 +163,35 @@ public class EncomendaMapaFragment extends Fragment {
                         } catch (IOException e) {
                             Log.e("EncomendaMapa",e.getMessage());
                         }
+                        catch(Exception e){
+                            Log.e("EncomendaMapa",e.toString());
+                        }
                         try {
                             Address destinationaddress= geocoder.getFromLocationName(mdestination,1).get(0);
                             destinationcoords = new LatLng(destinationaddress.getLatitude(),destinationaddress.getLongitude());
                             googleMap.addMarker(new MarkerOptions().position(destinationcoords).icon(BitmapDescriptorFactory.defaultMarker(138)));
                         } catch (IOException e) {
                             Log.e("EncomendaMapa",e.getMessage());
+                        } catch(Exception e){
+                            Log.e("EncomendaMapa",e.toString());
                         }
-                        LatLngBounds latLngBounds = new LatLngBounds.Builder()
-                                .include(startcoords)
-                                .include(destinationcoords)
-                                .build();
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
-                        double distanceStartDest = GeoUtils.distanceBetween2Points(startcoords,destinationcoords);
-                        distance.setText("Remaining Distance: " + Math.round(distanceStartDest*10.0)/10.0 + " km");
+                        if(startcoords != null && destinationcoords != null) {
+                            LatLngBounds latLngBounds = new LatLngBounds.Builder()
+                                    .include(startcoords)
+                                    .include(destinationcoords)
+                                    .build();
+                            try {
+                                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
+                            }
+                            catch (Exception e){
+                                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.64, -8.65), 11.95f));
+                            }
+                            double distanceStartDest = GeoUtils.distanceBetween2Points(startcoords, destinationcoords);
+                            distance.setText("Remaining Distance: " + Math.round(distanceStartDest * 10.0) / 10.0 + " km");
+                        }
+                        else{
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.64, -8.65), 11.95f));
+                        }
                     }
                 });
         return view;
