@@ -116,7 +116,7 @@
             android:elevation="4dp"
             android:padding="20dp"
             android:text="Earning:"
-            app:layout_constraintTop_toBottomOf="@+id/textviewStart"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="16dp" />
 
         <Button
