@@ -27,7 +27,7 @@ public class LoginSignUpActivity extends AppCompatActivity implements View.OnCli
             String url = bundle.getString("PlatformAccess");
             API_Service.setBaseUrl(url);
         } catch (PackageManager.NameNotFoundException e) {
-            Log.e("LoginSignUp",e.getMessage());
+            Log.e(TAG,e.getMessage());
         }
 
         setContentView(R.layout.activity_login_sign_up);
